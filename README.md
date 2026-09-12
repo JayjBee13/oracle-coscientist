@@ -130,11 +130,13 @@ Five models are selectable, two classes, two providers:
 | `gpt-6-astra` — Astra | OpenAI / `codex` | heavy | The heaviest OpenAI option, for the hardest reasoning and complete-solution work. |
 | `fable` — Fable 5.1 | Anthropic / `claude` | heavy | The strongest option, for demanding reasoning and long-running work. |
 
-> `fable` is the only identifier that actually selects Fable. Spelling it as
-> `claude-fable-5` makes the CLI run Opus 5 instead, silently — so that string is refused by
-> name, and every call compares the model the result envelope reports against the one that
-> was asked for. See `backend/app/engine/models.py`, which documents the live probe behind
-> each of these rules.
+> `fable` is the identifier you configure; the runner puts the explicit `claude-fable-5-1`
+> id on the wire. Spelling the *config* value `claude-fable-5` is refused by name, because
+> the CLI accepts that string and silently runs Opus 5 instead — probed live on 2026-08-08
+> against CLI 2.1.220. Anthropic calls additionally compare the model the result envelope
+> reports against the one requested; Codex names no model in its output, so those calls are
+> guarded by the allowlist alone and say so (`model_verified: false`) rather than claiming a
+> check that did not happen. See `backend/app/engine/models.py`.
 
 **A role's class never moves.** Heavy is the judgement that compounds across a run
 (generating, reviewing, ranking, guiding, reporting); light is bounded work the next step
