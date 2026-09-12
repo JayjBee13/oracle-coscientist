@@ -39,39 +39,31 @@ put a spurious third decimal on a number whose real uncertainty is ±2×.
 
 ### Why the allowlist is closed
 
-`--model` accepts identifiers the CLI does not recognise and **silently substitutes
-something else**. Probed live on 2026-08-08 against Claude CLI 2.1.220:
+Model ids are pinned and the allowlist is closed. There is deliberately **no fallback
+model**, because a silent downgrade part-way through a tournament poisons every Elo rating
+after it with verdicts from a different judge — and a run whose config, models control and
+argv log all look correct is the hardest version of that to notice.
 
-| `--model` | What actually ran |
-| --- | --- |
-| `claude-opus-5` | `claude-opus-5` — correct |
-| `fable` | Fable 5 — correct, and the only alias that worked |
-| `claude-fable-5` | **`claude-opus-5`**, with no error and no warning |
-| `fable-5` | hard error |
+The specific rule that looks arbitrary: `claude-fable-5` is refused **by name**, with the
+reason in the error, rather than being passed through. When this was measured — 2026-08-08,
+Claude CLI 2.1.220 — that string was accepted by the CLI and answered by `claude-opus-5`
+with no error and no warning, while `fable` selected Fable and `fable-5` was a hard error.
+That is a dated measurement of a third-party tool, not a standing property of it: it may
+well have been fixed since, and the refusal costs nothing either way. Re-probe before
+treating it as current.
 
-That third row is why `backend/app/engine/models.py` exists. A run configured with
-`claude-fable-5` looks right in the config, right in the models control and right in the
-argv log, and is judged throughout by a different model than the one you chose. So the
-allowlist is closed and `claude-fable-5` is refused **by name**, with the trap spelled out
-in the error.
-
-Two things follow from that probe being a probe, and both are stated in the code rather than
-assumed:
+Two consequences, both stated in the code rather than assumed:
 
 - **`fable` is the application's identifier, not the wire's.** `canonical_family()` maps it
   to `claude-fable-5-1`, and that explicit id is what `--model` receives. The alias exists
-  because the application's stored configs and API use it; the pinned id exists because the
-  CLI's alias handling is the thing under suspicion.
+  because the application's stored configs and API use it; the explicit id is sent because
+  an exact version is the one thing an alias cannot promise.
 - **Only Anthropic calls are verified after the fact.** Claude's result envelope names the
   model that answered, so `check_substitution` compares it with the model requested: a
   downgrade *below* the floor is a hard failure, a sideways move degrades loudly and carries
   on. **Codex's output names no model anywhere**, so that check covers zero Codex calls and
   each is marked `model_verified: false`. What protects those is the closed allowlist
   enforced before the spawn — which is a weaker guarantee, and is reported as one.
-
-The probe above is a dated measurement of a third-party CLI, not a standing property of it.
-Re-probe before relying on a row of that table with a newer CLI; the refusal costs nothing
-if the behaviour has since been fixed.
 
 ## Classes
 
