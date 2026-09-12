@@ -16,15 +16,17 @@ Runs on the **Claude Code** and **Codex** CLIs — subscription harnesses, no AP
 
 ---
 
-Oracle takes a question, turns it into a properly framed research goal, and then runs a
-bounded loop of specialised agents over it: framing, independent exploration, formative
-criticism, evidence verification, portfolio selection, synthesis, and an adversarial
-challenge of the finished answer. You watch every step arrive live, and you can steer,
-pause, extend or stop it.
+A question goes in the way you would say it out loud — *"what most limits the useful
+lifetime of grid-scale lithium-ion storage, and what would extend it?"* — and what comes
+back is a report: the competing explanations, what the evidence says for and against each,
+one integrated answer, and the strongest case anyone could make against that answer. You
+watch every step arrive live, and you can steer it, pause it, extend it or stop it.
 
-It is **not domain-locked**. Oracle is built to take any question a person can state —
-a mechanism in biology, a market's real driver, an engineering trade-off, a strategy
-choice — because nothing in the engine encodes a field. What it encodes is a method.
+In between, a bounded loop of specialised agents does the work: framing the problem several
+ways, exploring each independently, criticising without pruning, verifying the decisive
+claims, keeping a diverse portfolio, integrating, and then attacking what it integrated.
+Nothing in the engine encodes a field, so the same method takes a mechanism in biology, a
+market's real driver or an engineering trade-off.
 
 **One honest caveat, stated up front:** process completion is not proof of correctness.
 Oracle produces well-supported, creative, explicitly-caveated answers. It does not run
@@ -33,22 +35,42 @@ validation. Unknowns stay unknown, on screen and in the report.
 
 ![The research loop, as the app explains it](docs/screenshots/research-loop.png)
 
-## What makes it different: novelty injection
+**In a hurry:** [what to ask it](#what-do-you-actually-ask-it) ·
+[install](#install) · [try it free](#your-first-run-costs-nothing) ·
+[what it costs](#models-depth-and-cost)
 
-A co-scientist loop that only generates, reviews and ranks will converge. Each round is
-conditioned on the last round's winners, so the pool narrows, the surviving ideas start to
-rhyme, and the tournament keeps re-electing the same framing with better prose. Oracle adds
-three mechanisms that deliberately push against that:
+## What do you actually ask it?
 
-| Mechanism | What it does |
+Anything you would take to a sharp colleague and expect an argued answer to, rather than a
+fact you could look up. Oracle is for questions with **more than one defensible answer**,
+where you want the alternatives developed and attacked rather than a single confident
+paragraph.
+
+| Ask | Why it suits Oracle |
 | --- | --- |
-| **Four rotating creative methods** | Every exploration call is assigned one of *first principles*, *assumption inversion* (reverse a pivotal assumption and develop the strongest feasible result), *structural analogy* (transfer a causal structure from a distant field, then test where it breaks), or *recombination*. Exploration calls never see each other's winning narratives, so they cannot converge by imitation. |
-| **The Cartographer graft** | A structural skeleton fetched from an *unrelated domain* and seeded into the next generation. It fires only when the idea space measurably collapses — clusters concentrating, Elo plateauing, new ideas ceasing to be born — under a quorum/window/cooldown rule calibrated against real run history rather than a vibe. |
-| **Enforced breadth recovery** | The scheduler is deterministic code, not model discretion: after any round of targeted work (develop, verify, reframe) the next action is *always* fresh exploration. Early confidence cannot monopolise the search. |
+| *What most limits the useful lifetime of grid-scale lithium-ion storage, and what would extend it?* | Several real mechanisms compete; the interesting output is which one binds first, and what would distinguish them. |
+| *Our B2B trial-to-paid conversion collapses in week three. What are the plausible causes, and which one would we test first?* | Forces rival explanations instead of the first plausible story, and ends with a discriminating test. |
+| *Should this service shard by tenant or by time? Argue both, then say what evidence would settle it.* | An engineering trade-off with no universal answer — exactly what the adversarial challenge is for. |
+| *What mechanisms could link sleep fragmentation to glycaemic control, and which is most testable in a small study?* | Mechanism-hunting across a literature, with the evidence check recording what contradicts each one. |
+| *Why does the office coffee taste worse on Mondays? Propose mechanisms and a test that fits in one week.* | Genuinely silly, and a perfect first real run: small, bounded, and you can check the answer yourself on Monday. |
+| *What is the best path from $100 of starting capital to $50,000,000, and what kills each route?* | Go ahead. This is the honest stress test — see below. |
 
-Criticism is **formative** rather than eliminating — a review that finds a weakness does not
-retire the idea, it tells the next call what to fix — and contradicted candidates stay in
-the record even when they are excluded from the recommendation portfolio.
+**What you get back** is a report, not a chat log: a status line saying whether the answer
+is ready or still provisional, the proposed complete solution, the independent challenge
+with its unresolved blocking issues, the next discriminating tests, and the alternatives
+that were kept rather than pruned — plus the ranked ideas as CSV and a top-five export.
+There is a real one [further down](#your-first-run-costs-nothing).
+
+**On that last row** — this is design intent, not a run I am quoting: an under-specified
+objective, and a route whose expected value hides a ruin probability near one, are exactly
+what the challenge role exists to name. Expect a caveated portfolio with its assumptions
+stated. If Oracle ever hands you a confident plan for that question, that is the bug.
+
+**A good question states the objective and the constraints.** Vague in, vague out: "how do
+I grow revenue" gets you a framework, while "which of our three acquisition channels is
+most likely to be the constraint at 10× volume, given we cannot increase headcount" gets
+you an argument. It is not a search engine, it does not run experiments or execute code,
+and it is at its best where the answer is *contested* rather than merely unknown to you.
 
 ## How a run works
 
@@ -96,7 +118,7 @@ all or web search and nothing else.
 | **generation** | Proposes the hypotheses. Calls run in parallel on deliberately different angles and creative methods, so the ideas do not all rhyme. Can search the web. |
 | **reflection** | Formative critique of each new idea — novelty, correctness, testability, key risk. Rejects only for a fundamental flaw, never for being unfashionable. Can search the web. |
 | **proximity** | Clusters ideas by what they actually claim, so near-duplicates are marked as duplicates instead of quietly winning twice. Mechanical work, deliberately cheap. |
-| **ranking** | Judges the tournament: pairs argued head-to-head with written reasoning, winner takes Elo from loser. Pairings are adjacent-in-standings and never within a cluster. |
+| **ranking** | *Tournament workflow only.* Judges pairs head-to-head with written reasoning; the winner takes Elo from the loser. Pairings are adjacent-in-standings and never within a cluster. The default adaptive loop selects a portfolio instead, and runs no Elo. |
 | **evolution** | Derives new ideas from survivors by grounding, combination, simplification or an out-of-the-box reframe. Parents are never mutated — lineage is preserved. |
 | **meta_review** | Reads every review and debate from the round and writes the guidance the next round is generated against. This is the loop's memory. |
 | **cartographer** | Novelty injection. Fires only on measured collapse, grafts a structural skeleton from an unrelated domain into the next generation. |
@@ -104,6 +126,24 @@ all or web search and nothing else.
 | **synthesis** | Integrates a diverse portfolio into one complete answer: how the parts fit, which dependencies they resolve, what competes, what is still missing. |
 | **challenge** | Attacks the finished answer against the original objective and reopens decisive weaknesses. Blocking findings send the run back to the scheduler. |
 | **overview** | Writes the report a person actually reads. Its calls are reserved up front, so a stopped or budget-capped run still produces one. |
+
+## What makes it different: novelty injection
+
+A co-scientist loop that only generates, reviews and ranks will converge. Each round is
+conditioned on the last round's winners, so the pool narrows, the surviving ideas start to
+rhyme, and the tournament keeps re-electing the same framing with better prose. Oracle adds
+three mechanisms that deliberately push against that:
+
+| Mechanism | What it does |
+| --- | --- |
+| **Four rotating creative methods** | Every exploration call is assigned one of *first principles*, *assumption inversion* (reverse a pivotal assumption and develop the strongest feasible result), *structural analogy* (transfer a causal structure from a distant field, then test where it breaks), or *recombination*. Exploration calls never see each other's winning narratives, so they cannot converge by imitation. |
+| **The Cartographer graft** *(off by default — `graft.enabled`; worth turning on for runs of five rounds or more)* | A structural skeleton taken from an *unrelated domain* and seeded into the next round's ideas. It fires only when the pool measurably collapses: the ideas cluster into fewer and fewer distinct claims, their ratings stop moving, and genuinely new ones stop appearing. How many of those three signals must agree, over how many rounds, and how long before it may fire again, are all settings — their defaults come from replaying earlier runs through the detector. |
+| **Enforced breadth recovery** | The scheduler is deterministic code, not model discretion: after any round of targeted work (develop, verify, reframe) the next action is *always* fresh exploration. Early confidence cannot monopolise the search. |
+
+Criticism is **formative** rather than eliminating: a review that finds a weakness does not
+retire the idea, it tells the next call what to fix. An idea the evidence contradicts stays
+in the record too — it is simply left out of the portfolio the final answer is built from,
+rather than deleted.
 
 ## Models, depth and cost
 
@@ -120,11 +160,13 @@ central cost decision, and it shapes the engine:
   money**. That is why effort and model are separate dials here: a deeper run costs minutes,
   not dollars.
 
-Five models are selectable, two classes, two providers:
+Five models are selectable, two classes, two providers. Anthropic list prices are quoted in
+[`docs/models-and-cost.md`](docs/models-and-cost.md) as of 2026-08-08; the OpenAI pair has no
+per-token price to quote, because Codex runs on a ChatGPT account:
 
 | Model | Provider / CLI | Class | Use it for |
 | --- | --- | --- | --- |
-| `gpt-5.6-luna` — Luna | OpenAI / `codex` | light | **Recommended for low usage cost.** Fast and affordable; the whole `Low` tier pins every role to it. |
+| `gpt-5.6-luna` — Luna | OpenAI / `codex` | light | **The cheapest way to run Oracle.** On a subscription the scarce resource is your rate limit and your afternoon, not dollars — Luna answers fastest and consumes least of both. The whole `Low` tier pins every role to it. |
 | `claude-opus-5` — Opus 5 | Anthropic / `claude` | light | The floor, the workhorse, and the baseline every price is quoted against. |
 | `gpt-5.6-sol` — Sol | OpenAI / `codex` | heavy | The Codex side's judge: the roles whose verdicts compound. |
 | `gpt-6-astra` — Astra | OpenAI / `codex` | heavy | The heaviest OpenAI option, for the hardest reasoning and complete-solution work. |
@@ -136,10 +178,13 @@ Five models are selectable, two classes, two providers:
 > the engine also checks which model actually answered. See
 > [`docs/models-and-cost.md`](docs/models-and-cost.md).
 
-**A role's class never moves.** Heavy is the judgement that compounds across a run
-(generating, reviewing, ranking, guiding, reporting); light is bounded work the next step
-re-derives anyway (clustering, mutating, grafting, shaping a question). A tier can change
-how hard a step thinks, but it cannot hand a heavy step a light model behind your back.
+**A role's class never moves, and no swap is invisible.** Heavy is the judgement that
+compounds across a run (generating, reviewing, ranking, guiding, reporting); light is
+bounded work the next step re-derives anyway (clustering, mutating, grafting, shaping a
+question). What the engine refuses is a *silent* substitution — a heavy step quietly
+answered by its provider's fast model. There is exactly one deliberate exception, and it is
+the opposite of silent: the **Low** tier pins every role to Luna, says so on the tier, and
+prints Luna on every row of the table you confirm before launching.
 
 ### Levels (tiers)
 
@@ -148,7 +193,7 @@ how hard a step thinks, but it cannot hand a heavy step a light model behind you
 | **Max** | `xhigh` | `high` | The strongest run, and the slowest. |
 | **High** | `high` | `medium` | The default shape: strong where judgement compounds, quick elsewhere. |
 | **Med** | `low` | `low` | Thinks less — never thinks with something weaker. |
-| **Low** | `high` | `high` | The speed preset: every role runs **Luna** at high effort, whatever the run's provider. Needs the `codex` CLI signed in. |
+| **Low** | `high` | `high` | Not a rung on this ladder — the **speed** preset. Every role runs **Luna** at high effort, whatever the run's provider, so it thinks hard and answers fast. Needs the `codex` CLI signed in. |
 
 `proximity` is held at `low` in every tier, because thinking buys clustering nothing.
 
@@ -209,13 +254,24 @@ both hard ceilings, before you launch.
 ```bash
 git clone https://github.com/JayjBee13/oracle-coscientist.git
 cd oracle-coscientist
-cp docker/.env.example docker/.env     # edit POSTGRES_PASSWORD, and DATABASE_URL to match
+cp docker/.env.example  docker/.env
+cp docker/db.env.example docker/db.env   # both work as shipped: change nothing for a first run
 docker compose up -d --build
+docker compose run --rm --no-deps app alembic upgrade head
 ```
 
-This brings up PostgreSQL, the API (which also serves the built frontend) and an nginx front
-end. Open **http://localhost:18000**; health is at **http://localhost:18001/api/health**.
-Migrations run on boot.
+That brings up PostgreSQL, the application (which serves both `/api/*` and the built
+frontend) and an nginx front end, then applies the migrations. **The first build is slow** —
+it installs both CLIs and builds the frontend from source; allow several minutes and a few
+GB.
+
+Open **http://localhost:18000** — that is the app. Port **18001** is the application
+directly, bound to loopback for `curl http://localhost:18001/api/health`; you do not browse
+it.
+
+The database is created on first boot only, from `docker/init-db.sh` against an empty
+volume, so passwords in `docker/db.env` are read then and never again. To start over:
+`docker compose down && docker volume rm oracle_db`.
 
 To use real models, sign the CLIs in inside the container's home volume and set
 `REAL_HARNESS_ENABLED=true` in `docker/.env`:
@@ -224,6 +280,9 @@ To use real models, sign the CLIs in inside the container's home volume and set
 docker compose exec app claude login     # and/or: docker compose exec app codex login
 docker compose restart app
 ```
+
+Both are interactive device-code flows: the CLI prints a URL, you approve it in your own
+browser, and the token lands in the container's home volume, where it survives rebuilds.
 
 Full details, including the read-only root filesystem, credential isolation and rollback, are
 in [`docs/docker-deployment.md`](docs/docker-deployment.md).
@@ -362,7 +421,9 @@ Report a vulnerability privately: [`SECURITY.md`](SECURITY.md).
 
 ## Verification
 
-Three gates, in increasing order of commitment:
+Three gates, in increasing order of commitment. **They are PowerShell scripts** — the
+project was developed on Windows, and porting them is an open invitation. CI covers the same
+ground on Linux without them, and the container smokes below are plain Python.
 
 ```powershell
 # 1. Read-only safety check. Never launches a model. 7 checks.
@@ -381,11 +442,13 @@ frontend tests, frontend build, the OpenAPI regeneration no-diff check, and a Pl
 walkthrough that launches a demo run, watches it live, pauses it, notes it, finishes it,
 reads the report, compares two runs and checks the error states with the backend stopped.
 
-`real_tiny_smoke.ps1` proves the product: it drives one bounded real run and asserts that
-hypotheses came back, that matches were judged with written debates and real Elo movement,
-that an overview was written, that the ledger reconciles, that at least one grounded call
-really searched the web, that nothing was written outside the run's workdir, and that
-`permission_denials` was empty on **every** call.
+`real_tiny_smoke.ps1` is the one that spends money, and the only gate that exercises a real
+model end to end. It drives one bounded real run and checks what actually matters: that
+hypotheses came back, that the ledger reconciles, that a grounded call really searched the
+web, that nothing was written outside the run's workdir, and that no call was denied a tool
+it had been granted. It refuses to run without `ALLOW_REAL_HARNESS_SMOKE=YES` in the
+environment — an environment variable rather than a flag, so a stray command line cannot
+trigger it.
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs ruff, the backend suite
 against a real PostgreSQL service, and the frontend lint/typecheck/test/build plus the

@@ -115,7 +115,7 @@ Two mechanisms, on top of the four rotating creative methods:
   of those signals across a window of rounds, with a cooldown after firing. When it fires,
   the cartographer fetches a structural skeleton from an unrelated domain and seeds the next
   generation with it. Off by default; the parameter grid was calibrated by replaying real
-  run history rather than chosen by feel.
+  run history.
 
 ## Budgets and failure
 

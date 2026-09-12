@@ -18,6 +18,7 @@ coverage/
 .env.*
 !.env.example
 docker/.env
+docker/db.env
 
 # Local state and output
 *.log

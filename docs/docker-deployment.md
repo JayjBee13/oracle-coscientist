@@ -6,9 +6,14 @@ frontend, the backend, and pinned versions of both CLIs — Claude Code 2.1.263 
 0.153.4. The Node, Python and nginx base images are pinned by digest.
 
 ```bash
-cp docker/.env.example docker/.env      # then edit it
+cp docker/.env.example   docker/.env    # the application
+cp docker/db.env.example docker/db.env  # the bundled database
 docker compose up -d --build
+docker compose run --rm --no-deps app alembic upgrade head
 ```
+
+Both files work as shipped, so a first run needs no edits. The first build installs both
+CLIs and builds the frontend, so allow several minutes.
 
 Open **http://localhost:18000**. Health, including a real database query and the installed
 CLI versions, is at **http://localhost:18001/api/health**.
@@ -21,9 +26,17 @@ an authenticating reverse proxy in front of it first, and read
 
 `docker/.env` holds credentials and is ignored by both Git and the Docker build.
 
+- Two files, both working as shipped: `docker/.env` for the application and `docker/db.env`
+  for the bundled database. They are separate so the application's secrets are never
+  injected into the database container.
 - `DATABASE_URL` must name database `ai_coscientist_gui` and role `ai_coscientist_gui_app`;
   the application's own checks reject anything else. The bundled `db` service creates both
-  from `docker/init-db.sql` on an empty volume — change the password in **both** places.
+  from `docker/init-db.sh`, **once, on an empty volume** — so `APP_DB_PASSWORD` in
+  `docker/db.env` and the password in `DATABASE_URL` must agree, and must be set before the
+  first `up`. To start over: `docker compose down && docker volume rm oracle_db`.
+- Note what does *not* work: Compose `${...}` interpolation reads the invoking shell, never a
+  service's `env_file`. A variable the compose file interpolates cannot be supplied from
+  `docker/.env` alone — use `docker compose --env-file docker/.env ...` for those.
 - To use an existing PostgreSQL instead, point `DATABASE_URL` at it and start only the two
   services that need it: `docker compose up -d app proxy`.
 - Set `REAL_HARNESS_ENABLED=true` only when real subscription-backed model calls are
@@ -77,7 +90,7 @@ tree as build context. At runtime:
 | Mount | Mode | Why |
 | --- | --- | --- |
 | `./engines` → `/app/engines` | read-write | Run artifacts stay on the host and survive the container. |
-| `oracle_db` → `/var/lib/postgresql/data` | volume | Database storage. |
+| `oracle_db` → `/var/lib/postgresql/data` | volume | Database storage. Survives `down`; removing it destroys the runs. |
 | `oracle_home` → `/home/oracle` | volume | The two CLI credential stores and their token refreshes. |
 | `oracle_runtime` → `/app/.dev` | volume | Workshop and demo scratch state. |
 | `./docker/nginx.conf` | read-only | Proxy configuration. |

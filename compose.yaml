@@ -14,8 +14,13 @@ name: oracle
 services:
   db:
     image: postgres:17-alpine
+    # Its own file, so the application's secrets are not injected into the database
+    # container. Read as an env_file rather than through ${...} interpolation, because
+    # interpolation reads the invoking shell and never a service's env_file — which is the
+    # trap that makes a password set in a file appear to work and then fail at boot.
+    env_file:
+      - ./docker/db.env
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
       - type: volume
@@ -24,8 +29,8 @@ services:
       # Runs once, on an empty data volume: creates the role and the one database the
       # application is allowed to own.
       - type: bind
-        source: ./docker/init-db.sql
-        target: /docker-entrypoint-initdb.d/10-init.sql
+        source: ./docker/init-db.sh
+        target: /docker-entrypoint-initdb.d/10-init.sh
         read_only: true
     init: true
     restart: unless-stopped

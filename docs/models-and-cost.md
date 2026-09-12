@@ -71,9 +71,11 @@ Two consequences, both stated in the code rather than assumed:
 guiding the next round, writing the report. `light` is bounded work the next step re-derives
 anyway — clustering, mutating, grafting, shaping a question.
 
-**A role's class never moves.** A tier can change how hard a step thinks; it cannot hand a
-heavy step the light model of the provider it is already on. That is the substitution this
-module exists to refuse, because it is the one nobody can see.
+**A role's class never moves, and no swap is invisible.** What the engine refuses is a
+*silent* substitution: a heavy step quietly answered by its provider's fast model. It does
+not refuse a declared one — the `Low` tier pins every role, heavy included, to Luna, and
+that is a decision rather than a substitution precisely because it is published on the
+tier, on every row of the resolved table, and in the run's own record.
 
 ## Tiers
 

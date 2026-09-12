@@ -131,14 +131,14 @@ run that is stopped or that exhausts its budget still produces one.
 
 ## Timeouts
 
-Ceilings are per role class, derived from measured run data rather than guessed, and scaled
+Ceilings are per role class, taken from the latencies earlier runs actually recorded, and scaled
 by effort and grounding depth:
 
 | Class | Ceiling | Why |
 | --- | --- | --- |
 | Tool-less roles | 180 s | The maximum ever observed across the corpus is 95 s. |
 | Grounded, single-item (reflection) | 420 s | One hypothesis, one critique, search on. |
-| Grounded, batch (generation, evolution, workshop) | 1200 s | These search and then compose several complete hypotheses; a censored sample proved the old 420 s ceiling was killing real work. |
+| Grounded, batch (generation, evolution, workshop) | 1200 s | These search and then compose several complete hypotheses. One run made ten calls of this class at the old 420 s ceiling: two finished, at 388 s and 407 s, and eight were killed by the ceiling itself — so the old number was a measurement of the limit, not of the work. |
 
 A call past 80% of its ceiling is reported as `near_timeout` on `call_finished`, so a run
 that is quietly getting slower says so before it starts failing.
