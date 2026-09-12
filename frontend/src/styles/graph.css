@@ -1,0 +1,540 @@
+/* ===========================================================================
+   The idea genealogy canvas — owned by components/graph/IdeaGraph.tsx.
+
+   Like diagram.css, this is a stylesheet imported by a component rather than a
+   page, because one drawing serves several places (the Ideas tab in both of its
+   graph views, and the legend swatches that reuse the very same node classes so
+   a mark in the legend cannot drift from the mark on the canvas).
+
+   Every value is a token. The one thing added to the system here is a set of
+   six cluster hues: the design system has five semantic colours and they all
+   mean something else already, so a cluster painted `--info` would read as a
+   notice. They are deliberately desaturated washes over the node's own surface
+   — territory is the third priority of this view, behind survival and descent,
+   and it must not shout over either. Cluster identity really lives in the
+   legend's names; the hue is only there to let a clump be seen as a clump.
+   ========================================================================= */
+
+/* The six hues deliberately avoid the greens and reds of `--go` and `--danger`:
+   on this canvas green means *leading* and red means *rejected*, and a cluster
+   that borrowed either would be read as a fate. What is left — indigo, violet,
+   teal, rose, sand, slate — carries no status meaning anywhere in the app. */
+:root,
+:root[data-theme="dark"] {
+  --cluster-1: #7fa7f5;
+  --cluster-2: #b48ef0;
+  --cluster-3: #4fc7c0;
+  --cluster-4: #e79ec2;
+  --cluster-5: #d9b46a;
+  --cluster-6: #8fb0c9;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --cluster-1: #3d5fc4;
+    --cluster-2: #7644bd;
+    --cluster-3: #157f78;
+    --cluster-4: #b3548a;
+    --cluster-5: #8d6a1c;
+    --cluster-6: #4a6c88;
+  }
+}
+
+:root[data-theme="light"] {
+  --cluster-1: #3d5fc4;
+  --cluster-2: #7644bd;
+  --cluster-3: #157f78;
+  --cluster-4: #b3548a;
+  --cluster-5: #8d6a1c;
+  --cluster-6: #4a6c88;
+}
+
+/* --- The surface ---------------------------------------------------------- */
+
+.ig {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Wide content scrolls inside its own box; the page body never scrolls
+   sideways. The canvas is drawn at 1:1 so a 10px label stays a 10px label.
+
+   Height is a floor and a ceiling rather than a fixed value: a two-round run
+   should not sit in a half-empty well, and a six-round one should not be cut
+   off mid-band with nothing to say it continues. Between those it grows to fit;
+   past the ceiling it scrolls. */
+.ig__canvas {
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  min-height: clamp(280px, 44vh, 480px);
+  max-height: min(74vh, 760px);
+  background-color: var(--surface-inset);
+  background-image:
+    linear-gradient(var(--grid-line) var(--hairline), transparent var(--hairline)),
+    linear-gradient(90deg, var(--grid-line) var(--hairline), transparent var(--hairline));
+  background-size: 32px 32px;
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 1px 0 var(--shine);
+}
+
+.ig[data-scale="tiny"] .ig__canvas {
+  /* Wide enough for the smallest canvas the organic view solves into (804px,
+     up from 647px when the label became a phrase and `AREA_PER_NODE` grew with
+     it) plus its border, so a one-idea run is centred rather than scrolled. */
+  max-width: 860px;
+  min-height: 240px;
+  margin: 0 auto;
+}
+
+/* When the filter has hidden everything there is nothing to scroll and nothing
+   to centre — only a sentence saying what happened, inside the same frame so
+   the graph does not appear to have vanished along with its ideas. */
+.ig__canvas--empty {
+  display: grid;
+  place-items: center;
+  /* Its own height, not the graph's: a sentence centred in four hundred pixels
+     of empty grid reads as the failure it is explaining. */
+  min-height: 0;
+  padding: var(--space-7) var(--space-6);
+  text-align: center;
+}
+
+/* Never smaller than the viewport, never smaller than the graph — so a small
+   graph is centred in the canvas and a large one scrolls from its top-left with
+   every part of it reachable. */
+.ig__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  height: max-content;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.ig__svg {
+  display: block;
+  flex: none;
+  font-family: var(--font-display);
+}
+
+/* --- Descent -------------------------------------------------------------- */
+
+.ig-edge {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  opacity: 0.75;
+  transition:
+    stroke var(--dur-2) var(--ease-out),
+    opacity var(--dur-2) var(--ease-out);
+}
+
+/* Combination is the visual signature of evolution, so its arrows are the ones
+   allowed to be a shade more insistent than the rest. */
+.ig-edge[data-operator="combination"] {
+  stroke-width: 1.6;
+  opacity: 0.9;
+}
+
+.ig-edge[data-hot="true"] {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 1;
+}
+
+.ig-arrow {
+  fill: var(--border-strong);
+}
+
+.ig-arrow--hot {
+  fill: var(--accent);
+}
+
+/* --- One idea -------------------------------------------------------------
+   The encoding table, in CSS. Read it top to bottom and it is the same list the
+   design spec gives: size is Elo (set in the markup, from `radiusFor`), green
+   and double-ringed is the leader, faded and struck through is a rejection,
+   hollow and dashed is a duplicate merged away, solid is in play.
+   ------------------------------------------------------------------------- */
+
+.ig-node {
+  cursor: pointer;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+.ig-node__disc {
+  /* Not a plain surface token: on the light theme `--surface-raised-2` is a
+     hair away from the canvas, and an idea still in play would then read as
+     hollow — which is the mark this component gives a retired one. */
+  fill: color-mix(in srgb, var(--text) 8%, var(--surface-raised));
+  /* Hit-testing defaults to `visiblePainted`, so a `fill: none` disc — every
+     archived and every merged idea — is a ring with a hole in it: the pointer
+     falls through the middle to the canvas and the click does nothing, while
+     the node looks identical to a clickable one. The target is set to the
+     circle itself and no larger, so a node's click area is exactly what it
+     draws and cannot reach over a neighbour. */
+  pointer-events: all;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  transition:
+    fill var(--dur-2) var(--ease-out),
+    stroke var(--dur-2) var(--ease-out),
+    stroke-width var(--dur-2) var(--ease-out);
+}
+
+/* The words under a circle: two to four of them, cut from the title by
+   `shortLabel` and wrapped onto at most two lines.
+
+   10px rather than the 11px the hid used, and that is the floor — a label is
+   two-and-a-half times as wide as the hid it replaced, and the choice was
+   between one step down in size or a canvas so spread out that the descent
+   between two ideas is no longer a shape the eye can follow. Below 10px the
+   trade stops being worth making and the answer would be fewer words, not
+   smaller ones. The condensed cut of the display face is what makes 10px still
+   measure ~5.6px per character. That measurement is a constant in the code —
+   `LABEL_CHAR_PX` in `components/graph/shortLabel` — and `FORCE.labelReach`,
+   `BAND_SLOT` and `LABEL_SIDE` are all computed from it rather than from copies
+   of the number, so re-measuring it after a change to the size or the stretch
+   here re-derives all three. This declaration is the thing being measured. */
+.ig-node__label {
+  fill: var(--muted);
+  font-size: 0.625rem; /* 10px — see above; not a token, and deliberately so */
+  font-stretch: 87.5%;
+  font-weight: var(--weight-semibold);
+  /* Words, not a code: the extra tracking that made `h001` legible only makes a
+     phrase wider, and width is the thing this label has too much of. */
+  letter-spacing: 0.01em;
+  text-anchor: middle;
+  /* A halo in the canvas colour, so a label crossing an arrow stays readable. */
+  paint-order: stroke fill;
+  stroke: var(--surface-inset);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Every label, drawn as one layer above every disc. The group carries the
+   node's status so the encoding table above applies to a label exactly as it
+   did when the label lived inside its node; it carries no pointer events, so
+   the circle underneath is still what the reader clicks. */
+.ig__labels,
+.ig-label {
+  pointer-events: none;
+}
+
+.ig-node__ring {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.25;
+  opacity: 0.5;
+}
+
+/* --- Rounds, in the layered view ------------------------------------------
+   A hairline under each band and its name in the left gutter. Position alone
+   was carrying the one thing this view exists to encode. */
+
+.ig-band__rule {
+  stroke: var(--grid-line);
+  stroke-width: var(--hairline);
+}
+
+.ig-band__label {
+  fill: var(--faint);
+  font-size: var(--text-2xs);
+  font-stretch: 87.5%;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.ig-node__strike {
+  stroke: var(--danger);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+
+/* Focus is always visible: the browser's own outline does not follow a circle,
+   so this ring is the replacement rather than an addition. */
+.ig-node__focus {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+}
+
+.ig-node:focus {
+  outline: none;
+}
+
+.ig-node:focus-visible .ig-node__focus {
+  opacity: 1;
+}
+
+.ig-node:hover .ig-node__disc {
+  stroke: var(--text);
+}
+
+/* Cluster: a wash over the node's own surface, never a fill in its own right.
+   The hue tints; the stroke still carries the status. */
+.ig-node[data-cluster="0"] {
+  --cluster: var(--cluster-1);
+}
+.ig-node[data-cluster="1"] {
+  --cluster: var(--cluster-2);
+}
+.ig-node[data-cluster="2"] {
+  --cluster: var(--cluster-3);
+}
+.ig-node[data-cluster="3"] {
+  --cluster: var(--cluster-4);
+}
+.ig-node[data-cluster="4"] {
+  --cluster: var(--cluster-5);
+}
+.ig-node[data-cluster="5"] {
+  --cluster: var(--cluster-6);
+}
+
+.ig-node[data-cluster] .ig-node__disc {
+  fill: color-mix(in srgb, var(--cluster) 22%, var(--surface-raised));
+  stroke: color-mix(in srgb, var(--cluster) 55%, var(--border-strong));
+}
+
+/* Leading: green fill, a heavier ring, and a second ring outside it. Two
+   channels, so greyscale still finds it. */
+.ig-node[data-leader="true"] .ig-node__disc {
+  fill: color-mix(in srgb, var(--go) 26%, var(--surface-raised));
+  stroke: var(--go);
+  stroke-width: 2.75;
+}
+
+.ig-node[data-leader="true"] .ig-node__ring {
+  stroke: var(--go);
+  opacity: 0.45;
+}
+
+:is(.ig-node, .ig-label)[data-leader="true"] .ig-node__label {
+  fill: var(--go);
+  font-weight: var(--weight-bold);
+}
+
+/* Rejected: faded and struck through — the strike is the signal that survives
+   a greyscale print, a bad monitor and a colour-blind reader.
+
+   The fade is on the *disc*, never on the group. Fading the group took the
+   label down with it: semibold micro type at 62% opacity measured 3.63:1 on the
+   dark theme and 2.64:1 on the light one, against the 4.5:1 AA needs — and most
+   real runs draw more rejected ideas than surviving ones, so the majority of
+   the labels on the canvas failed. The label is the only thing a node says
+   without being asked, and the strike and the hollow ring already say the fate
+   twice over. */
+.ig-node[data-status="rejected"] .ig-node__disc,
+.ig-node[data-status="rejected"] .ig-node__ring {
+  opacity: 0.62;
+}
+
+.ig-node[data-status="rejected"] .ig-node__disc {
+  fill: none;
+  stroke: var(--danger);
+  stroke-width: 1.25;
+}
+
+.ig-node[data-status="rejected"] .ig-node__strike {
+  opacity: 0.85;
+}
+
+/* The strike belongs on the disc, not on the label: a ten-pixel phrase with a
+   line through it and half the contrast of its neighbours is not a struck-out
+   idea, it is a smudge. The circle carries the mark; the label stays readable. */
+:is(.ig-node, .ig-label)[data-status="rejected"] .ig-node__label {
+  fill: var(--muted);
+}
+
+.ig-node[data-status="rejected"]:hover .ig-node__disc,
+.ig-node[data-status="rejected"]:focus-visible .ig-node__disc {
+  opacity: 1;
+}
+
+/* Set aside: hollow. Merged away as a duplicate: hollow and dashed. Quieter
+   than an idea still in play — a retired one must not be the loudest thing on
+   the canvas, which a `--muted` ring on a dark surface would be. The same rule
+   as above holds: the disc is quiet, the label is not. */
+.ig-node[data-status="archived"] .ig-node__disc,
+.ig-node[data-status="archived"] .ig-node__ring {
+  opacity: 0.78;
+}
+
+.ig-node[data-status="archived"] .ig-node__disc {
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 1.5;
+}
+
+.ig-node[data-duplicate="true"] .ig-node__disc {
+  stroke-dasharray: 4 3;
+}
+
+:is(.ig-node, .ig-label)[data-status="archived"] .ig-node__label {
+  fill: var(--muted);
+}
+
+/* Selected: the accent ring, and the accent is used for nothing else on this
+   canvas except the descent that touches the selection. */
+.ig-node[data-selected="true"] .ig-node__ring {
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 1;
+}
+
+:is(.ig-node, .ig-label)[data-selected="true"] .ig-node__label {
+  fill: var(--accent);
+  font-weight: var(--weight-bold);
+}
+
+/* --- Legend, filter, hint -------------------------------------------------- */
+
+.ig__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* `hidden` has to win over the layout: a legend for an empty canvas describes
+   nothing, and `display: flex` would otherwise override the attribute. */
+.ig-legend[hidden] {
+  display: none;
+}
+
+.ig-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ig-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-stretch: 87.5%;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* A cluster label is a name the model wrote, not a piece of chrome — so it is
+   set in the UI face at its own case, and the eyebrow treatment stops at the
+   channels this component itself defines. */
+.ig-legend__item--cluster,
+.ig-legend__item--aside {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-stretch: normal;
+  letter-spacing: 0;
+  text-transform: none;
+  min-width: 0;
+}
+
+/* A model-written cluster name can run to a whole clause. It gets a generous
+   measure and then an ellipsis — with the full name on the node's own tooltip,
+   which is where a reader who wants it is already looking. */
+.ig-legend__item--cluster > span {
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ig-legend__item--aside {
+  color: var(--faint);
+  font-style: italic;
+}
+
+.ig-legend__mark {
+  display: block;
+  flex: none;
+  overflow: visible;
+}
+
+.ig-legend__edge {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.ig-legend .ig-node {
+  cursor: default;
+}
+
+/* `--muted`, not `--faint`: this is the sentence that tells a keyboard user the
+   arrow keys exist, and at `--faint` it measured 3.45:1 on the light theme. */
+.ig__hint {
+  margin: 0;
+  font-size: var(--text-2xs);
+  color: var(--muted);
+}
+
+/* --- Live growth ----------------------------------------------------------
+   The simulation itself never animates — it is solved synchronously and frozen.
+   The only motion here is an arriving idea fading up, and settled ideas easing
+   to a new position when one does have to move. Both are information: something
+   was born, or the graph re-solved.
+   ------------------------------------------------------------------------- */
+
+@keyframes ig-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ig-node__disc,
+.ig-node__label {
+  animation: ig-arrive var(--dur-3) var(--ease-out);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-node,
+  .ig-node__disc,
+  .ig-edge {
+    transition: none;
+  }
+
+  .ig-node__disc,
+  .ig-node__label {
+    animation: none;
+  }
+}
+
+/* --- Narrow --------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .ig__canvas {
+    min-height: clamp(260px, 40vh, 420px);
+  }
+
+  .ig-legend {
+    gap: var(--space-1) var(--space-3);
+  }
+}

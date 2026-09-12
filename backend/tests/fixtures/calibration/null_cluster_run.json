@@ -1,0 +1,57 @@
+{
+  "run_id": "fixture-null-clusters",
+  "goal": "A fixture run whose proximity step never ran, so no hypothesis carries a cluster.",
+  "created": "2026-06-03T00:00:00Z",
+  "updated": "2026-06-03T05:00:00Z",
+  "iteration": 5,
+  "calls_used": 41,
+  "next_id": 7,
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 120,
+    "matches_per_round": 6,
+    "evolve_top_k": 3,
+    "graft": {
+      "enabled": true,
+      "quorum_k": 1,
+      "window": 3,
+      "thresholds": {"hhi": 0.5, "birth_rate": 0, "plateau_slack": 0},
+      "cooldown": 2
+    }
+  },
+  "hypotheses": {
+    "h001": {"id": "h001", "title": "One", "file": "hypotheses/h001.md", "cluster": null,
+             "created_iter": 1, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h002": {"id": "h002", "title": "Two", "file": "hypotheses/h002.md", "cluster": null,
+             "created_iter": 2, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h003": {"id": "h003", "title": "Three", "file": "hypotheses/h003.md", "cluster": null,
+             "created_iter": 3, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h004": {"id": "h004", "title": "Four", "file": "hypotheses/h004.md", "cluster": null,
+             "created_iter": 4, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h005": {"id": "h005", "title": "Five", "file": "hypotheses/h005.md", "cluster": null,
+             "created_iter": 5, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h006": {"id": "h006", "title": "Rejected", "file": "hypotheses/h006.md", "cluster": null,
+             "created_iter": 2, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "rejected", "review": {"verdict": "reject"}}
+  },
+  "matches": [],
+  "feedback": [],
+  "collapse": {
+    "history": [
+      {"iter": 1, "n_active": 1, "n_clusters": 0, "hhi": 0.0, "clusters": []},
+      {"iter": 2, "n_active": 2, "n_clusters": 0, "hhi": 0.0, "clusters": []},
+      {"iter": 3, "n_active": 3, "n_clusters": 0, "hhi": 0.0, "clusters": []},
+      {"iter": 4, "n_active": 4, "n_clusters": 0, "hhi": 0.0, "clusters": []},
+      {"iter": 5, "n_active": 5, "n_clusters": 0, "hhi": 0.0, "clusters": []}
+    ],
+    "last_fired_iter": 4,
+    "fired_count": 1
+  },
+  "pending_injection": ""
+}

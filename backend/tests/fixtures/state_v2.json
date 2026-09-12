@@ -1,0 +1,119 @@
+{
+  "run_id": "run-fixture-v2",
+  "goal": "Find underserved software niches for faith communities.",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 150,
+    "matches_per_round": 8,
+    "evolve_top_k": 3,
+    "graft": {
+      "enabled": true,
+      "quorum_k": 1,
+      "window": 3,
+      "thresholds": {"hhi": 0.5, "birth_rate": 0, "plateau_slack": 0},
+      "cooldown": 2
+    }
+  },
+  "calls_used": 129,
+  "iteration": 8,
+  "next_id": 7,
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "PastoralMind — member-care logistics for clergy",
+      "file": "runs\\run-fixture-v2\\hypotheses\\h001.md",
+      "elo": 1300.0,
+      "matches": 7,
+      "wins": 5,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Unoccupied niche; incumbent self-handicapped."},
+      "cluster": "c-clergy-notes",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h006": {
+      "id": "h006",
+      "title": "TeshuvaDraft — responsa drafting with cited sources",
+      "file": "runs\\run-fixture-v2\\hypotheses\\h006.md",
+      "elo": 1300.0,
+      "matches": 6,
+      "wins": 4,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Datable why-now via Sefaria MCP."},
+      "cluster": "c-responsa",
+      "created_iter": 3,
+      "parent": "h002"
+    },
+    "h002": {
+      "id": "h002",
+      "title": "ZakatLedger — audit trail for charitable distribution",
+      "file": "runs\\run-fixture-v2\\hypotheses\\h002.md",
+      "elo": 1250.0,
+      "matches": 5,
+      "wins": 3,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Regulatory tailwind is real."},
+      "cluster": "c-responsa",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h003": {
+      "id": "h003",
+      "title": "FormationOS — catechesis scheduling",
+      "file": "runs\\run-fixture-v2\\hypotheses\\h003.md",
+      "elo": 1180.0,
+      "matches": 4,
+      "wins": 1,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Crowded but fragmented."},
+      "cluster": "c-clergy-notes",
+      "created_iter": 2,
+      "parent": null
+    },
+    "h004": {
+      "id": "h004",
+      "title": "HajjFiqh — pilgrimage rulings lookup",
+      "file": "runs\\run-fixture-v2\\hypotheses\\h004.md",
+      "elo": 1150.0,
+      "matches": 3,
+      "wins": 0,
+      "status": "rejected",
+      "review": {"verdict": "reject", "note": "Fundamental flaw: no payer."},
+      "cluster": "c-hajj-fiqh",
+      "created_iter": 2,
+      "parent": null
+    },
+    "h005": {
+      "id": "h005",
+      "title": "BeitDinOS — rabbinical court case management",
+      "file": "runs\\run-fixture-v2\\hypotheses\\h005.md",
+      "elo": 1100.0,
+      "matches": 2,
+      "wins": 0,
+      "status": "archived",
+      "review": {"verdict": "pass", "note": "Duplicate of h002 cluster."},
+      "cluster": "c-beitdin-os",
+      "created_iter": 3,
+      "parent": null
+    }
+  },
+  "matches": [
+    {"a": "h001", "b": "h002", "winner": "a", "iter": 1, "note": "Clearer wedge."},
+    {"a": "h002", "b": "h003", "winner": "a", "iter": 2, "note": "Stronger payer story."},
+    {"a": "h006", "b": "h004", "winner": "a", "iter": 3, "note": "Citations decide it."}
+  ],
+  "feedback": [
+    {"iter": 1, "text": "Push for datable why-now evidence."}
+  ],
+  "collapse": {
+    "fired_count": 2,
+    "history": [
+      {"iter": 1, "n_active": 5, "n_clusters": 5, "hhi": 0.2, "clusters": ["c-clergy-notes", "c-responsa"]},
+      {"iter": 2, "n_active": 6, "n_clusters": 4, "hhi": 0.31, "clusters": ["c-clergy-notes", "c-responsa"]}
+    ]
+  },
+  "pending_injection": "",
+  "created": "2026-06-01T14:58:35Z",
+  "updated": "2026-06-01T21:12:04Z"
+}

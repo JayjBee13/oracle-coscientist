@@ -1,0 +1,31 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+coverage/
+
+# Local configuration and secrets
+.env
+.env.local
+.env.*
+!.env.example
+docker/.env
+
+# Local state and output
+*.log
+*.bak-*
+.dev/
+.playwright-cli/
+output/
+
+# Run workdirs: one directory per run, created at runtime. Execution output, never source.
+engines/runs/*
+!engines/runs/.gitkeep

@@ -1,0 +1,33 @@
+{
+  "run_id": "real-v1-fixture-gui",
+  "goal": "what is the primary driver of aging? Answer as a biomedical research analyst. First define what would count as a \"primary driver\" of aging. Then evaluate candidate mechanisms using three filters: causal priority, cross-species explanatory power, and intervention evidence showing slowed, reversed, or accelerated aging. Give the best-supported answer, the strongest objection to it, and a brief uncertainty map separating established evidence from live scientific debate.",
+  "created": "2026-06-04T12:35:31.390222+00:00",
+  "updated": "2026-06-04T12:35:31.778145+00:00",
+  "iteration": 1,
+  "calls_used": 1,
+  "next_id": 2,
+  "feedback": "",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 20,
+    "matches_per_round": 3,
+    "evolve_top_k": 3
+  },
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "### Hypothesis",
+      "file": "runs\\real-v1-fixture-gui\\hypotheses\\h001.md",
+      "elo": 1200.0,
+      "matches": 0,
+      "wins": 0,
+      "status": "active",
+      "review": null,
+      "cluster": null,
+      "created_iter": 0,
+      "parent": null
+    }
+  },
+  "matches": []
+}

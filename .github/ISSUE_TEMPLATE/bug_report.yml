@@ -1,0 +1,95 @@
+name: Bug report
+description: Something in Oracle behaves incorrectly.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Never paste credentials, the contents of your `.env`, or a `GATEWAY_SECRET`.
+        For a security issue, use private reporting instead — see `SECURITY.md`.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Launch a run with ...
+        2. At round 2 ...
+        3. The event stream shows ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Research engine (orchestrator, roles, scheduler)
+        - Models, tiers or per-role overrides
+        - Run lifecycle (pause, resume, extend, stop)
+        - Live events / SSE
+        - API
+        - Frontend
+        - Docker / deployment
+        - Docs
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: runner
+    attributes:
+      label: Runner
+      options:
+        - Demo (scripted, free)
+        - Claude CLI (real)
+        - Codex CLI (real)
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Run configuration
+      description: >
+        For a run-related bug: workflow, rounds, generation batch, matches, grounding depth,
+        tier, provider, any per-role overrides, and what the resolved model table showed.
+      render: text
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant events or logs
+      description: Backend log lines or `run_events` rows. Redact anything sensitive.
+      render: text
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0, or the commit SHA
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: "Docker on Ubuntu 24.04 / local on Windows 11, Python 3.12, Node 24"
+    validations:
+      required: true
+
+  - type: input
+    id: cli
+    attributes:
+      label: CLI versions
+      description: Output of `claude --version` and/or `codex --version`, if a real run was involved.

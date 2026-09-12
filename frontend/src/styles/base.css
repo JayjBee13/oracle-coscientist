@@ -1,0 +1,1497 @@
+/* ===========================================================================
+   Oracle base layer — reset, element defaults and the shared primitives
+   every screen is built from. Anything visual that more than one screen needs
+   lives here so the app stays one coherent instrument.
+   Values come from tokens.css; nothing below hard-codes a colour or a size.
+   =========================================================================== */
+
+/* --- Reset ---------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 2;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text);
+  background-color: var(--surface);
+  /* Plotting paper under a console glow — the room the instrument sits in. */
+  background-image:
+    var(--glow),
+    linear-gradient(var(--grid-line) var(--hairline), transparent var(--hairline)),
+    linear-gradient(90deg, var(--grid-line) var(--hairline), transparent var(--hairline));
+  background-size:
+    100% 100%,
+    100% 32px,
+    32px 100%;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: currentColor;
+}
+
+hr {
+  border: 0;
+  border-top: var(--hairline) solid var(--border);
+}
+
+/* --- Typography ----------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-2xl);
+}
+h2 {
+  font-size: var(--text-xl);
+}
+h3 {
+  font-size: var(--text-lg);
+}
+h4 {
+  font-size: var(--text-md);
+}
+
+/* Small all-caps DIN labels — the instrument voice. Used for section eyebrows,
+   column headers and stat captions. */
+.label {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--faint);
+  font-stretch: 87.5%;
+}
+
+.display {
+  font-family: var(--font-display);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  font-variant-ligatures: none;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.numeral {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.faint {
+  color: var(--faint);
+}
+
+/* A secondary aside under a screen's real content: an estimate, a caveat, a
+   figure that is telemetry rather than a limit. Deliberately the quietest text
+   in the system and deliberately toneless — a footnote that takes a warning
+   colour has stopped being a footnote. Cost lives here and nowhere louder,
+   because these runs are billed to a subscription rather than per token, and it
+   is here rather than in screens.css because the launch wizard needs the same
+   register for the same reason. */
+.footnote {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--faint);
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Research text. Hypotheses, reviews and the final report read as a document,
+   not as UI. */
+.prose {
+  font-family: var(--font-prose);
+  font-size: var(--text-md);
+  line-height: var(--leading-prose);
+  color: var(--text);
+  max-width: 74ch;
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-family: var(--font-display);
+  margin-top: var(--space-7);
+}
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child {
+  margin-top: 0;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border-faint);
+  border-radius: var(--radius-xs);
+  padding: 0.08em 0.32em;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  overflow-x: auto;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--accent-quiet);
+  padding-left: var(--space-4);
+  color: var(--muted);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: var(--space-6);
+}
+
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+/* --- Focus ---------------------------------------------------------------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Focus inside dark inset areas where an offset ring would be clipped. */
+.focus-inset:focus-visible {
+  outline-offset: -2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
+  color: var(--text-strong);
+}
+
+/* --- Scrollbars ----------------------------------------------------------- */
+* {
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--faint);
+  background-clip: content-box;
+}
+
+/* --- Layout helpers ------------------------------------------------------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.row-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Wide content (tables, timelines, diagrams) scrolls inside its own box —
+   the page body must never scroll horizontally. */
+.scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.scroll-y {
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Surfaces ------------------------------------------------------------- */
+.card,
+.panel {
+  background: var(--surface-raised);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-1);
+}
+
+.card {
+  padding: var(--space-5);
+}
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--hairline) solid var(--border);
+  background: linear-gradient(var(--shine), transparent);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.panel__body {
+  padding: var(--space-4);
+}
+
+.inset {
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border-faint);
+  border-radius: var(--radius-md);
+}
+
+/* --- Buttons -------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  padding: 0 var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.01em;
+  color: var(--text);
+  background: var(--surface-raised-2);
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  transition:
+    background var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out),
+    color var(--dur-1) var(--ease-out),
+    transform var(--dur-1) var(--ease-out);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--surface-overlay);
+  border-color: var(--faint);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn--danger {
+  color: var(--danger);
+  background: var(--danger-wash);
+  border-color: color-mix(in srgb, var(--danger) 45%, transparent);
+}
+
+.btn--danger:hover:not(:disabled) {
+  color: var(--on-solid);
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--neutral-wash);
+  border-color: transparent;
+}
+
+.btn--sm {
+  min-height: 26px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.btn--lg {
+  min-height: 38px;
+  padding: 0 var(--space-5);
+  font-size: var(--text-base);
+}
+
+.btn--icon {
+  padding: 0;
+  width: 32px;
+  min-height: 32px;
+}
+
+/* --- Chips ---------------------------------------------------------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 24px;
+  padding: 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.015em;
+  color: var(--tone, var(--muted));
+  background: var(--tone-wash, var(--neutral-wash));
+  border: var(--hairline) solid
+    color-mix(in srgb, var(--tone, var(--muted)) 28%, transparent);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.chip--quiet {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+.chip--button {
+  cursor: pointer;
+  transition:
+    background var(--dur-1) var(--ease-out),
+    border-color var(--dur-1) var(--ease-out);
+}
+
+.chip--button:hover {
+  border-color: color-mix(in srgb, var(--tone, var(--muted)) 60%, transparent);
+}
+
+.chip--button[aria-pressed="true"] {
+  color: var(--on-accent);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* --- Status: colour + shape + motion, never colour alone ------------------ */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--tone, var(--muted));
+  white-space: nowrap;
+}
+
+.status-mark {
+  position: relative;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.status-mark::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: var(--radius-pill);
+  background: var(--tone, var(--muted));
+}
+
+/* queued — hollow, nothing has happened yet */
+.status-mark[data-mark="queued"]::before {
+  background: transparent;
+  border: 1.5px solid var(--tone, var(--muted));
+}
+
+/* running — the one animated mark in the system */
+.status-mark[data-mark="running"]::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--tone, var(--go));
+  opacity: 0.7;
+  animation: status-pulse 1.9s var(--ease-in-out) infinite;
+}
+
+@keyframes status-pulse {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.85;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* transitional (pausing / stopping / finishing) — a dashed ring, mid-move */
+.status-mark[data-mark="transitional"]::before {
+  inset: 0;
+  background: transparent;
+  border: 1.5px dashed var(--tone, var(--caution));
+  animation: status-spin 3.2s linear infinite;
+}
+
+@keyframes status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* paused — the pause glyph */
+.status-mark[data-mark="paused"]::before {
+  inset: 1px;
+  border-radius: 0;
+  background:
+    linear-gradient(var(--tone), var(--tone)) 0 0 / 3px 8px no-repeat,
+    linear-gradient(var(--tone), var(--tone)) 5px 0 / 3px 8px no-repeat;
+}
+
+/* completed — target reached: solid centre inside a thin ring */
+.status-mark[data-mark="completed"]::before {
+  inset: 2.5px;
+}
+
+.status-mark[data-mark="completed"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+}
+
+/* stopped — a hard square */
+.status-mark[data-mark="stopped"]::before {
+  border-radius: 1px;
+  inset: 1.5px;
+}
+
+/* failed — a cross */
+.status-mark[data-mark="failed"]::before,
+.status-mark[data-mark="failed"]::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 10px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--tone, var(--danger));
+}
+
+.status-mark[data-mark="failed"]::before {
+  transform: rotate(45deg);
+}
+
+.status-mark[data-mark="failed"]::after {
+  transform: rotate(-45deg);
+}
+
+/* lost — hollow and dashed, contact broken */
+.status-mark[data-mark="lost"]::before {
+  inset: 0;
+  background: transparent;
+  border: 1.5px dashed var(--tone, var(--muted));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-mark[data-mark="running"]::after {
+    animation: none;
+    inset: -2px;
+    opacity: 0.6;
+  }
+
+  .status-mark[data-mark="transitional"]::before {
+    animation: none;
+  }
+}
+
+/* --- Forms ---------------------------------------------------------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field__hint {
+  font-size: var(--text-xs);
+  color: var(--faint);
+}
+
+.field__error {
+  font-size: var(--text-xs);
+  color: var(--danger);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: 32px;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-base);
+  color: var(--text);
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--dur-1) var(--ease-out),
+    background var(--dur-1) var(--ease-out);
+}
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+  border-color: var(--faint);
+}
+
+.input:focus-visible,
+.select:focus-visible,
+.textarea:focus-visible {
+  border-color: var(--accent);
+  outline-offset: 1px;
+}
+
+.textarea {
+  min-height: 88px;
+  resize: vertical;
+  line-height: var(--leading-snug);
+}
+
+.textarea--mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  white-space: pre-wrap;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--faint);
+}
+
+/* --- Tables --------------------------------------------------------------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--faint);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--hairline) solid var(--border);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--space-3);
+  border-bottom: var(--hairline) solid var(--border-faint);
+  vertical-align: top;
+}
+
+.table tbody tr:hover td {
+  background: var(--neutral-wash);
+}
+
+/* --- Skeletons ------------------------------------------------------------ */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-raised-2);
+  border-radius: var(--radius-sm);
+  min-height: 12px;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--shine) 45%, transparent);
+  transform: translateX(-100%);
+  animation: skeleton-sweep 1.6s var(--ease-in-out) infinite;
+}
+
+@keyframes skeleton-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+    opacity: 0.35;
+    transform: none;
+  }
+}
+
+.skeleton--text {
+  height: 12px;
+  margin-block: 4px;
+}
+
+.skeleton--title {
+  height: 20px;
+  width: 40%;
+}
+
+.skeleton--block {
+  height: 72px;
+  border-radius: var(--radius-lg);
+}
+
+/* --- Empty / error states -------------------------------------------------
+   Never render zeros beside an error: these states replace content entirely.
+   ------------------------------------------------------------------------- */
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+  color: var(--muted);
+}
+
+.state__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+.state__body {
+  max-width: 56ch;
+  font-size: var(--text-base);
+}
+
+.state__detail {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--faint);
+  max-width: 72ch;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.state--error .state__title {
+  color: var(--danger);
+}
+
+/* --- Dialog --------------------------------------------------------------- */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  background: var(--scrim);
+  backdrop-filter: blur(2px);
+  animation: fade-in var(--dur-2) var(--ease-out);
+}
+
+.dialog {
+  width: min(520px, 100%);
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--surface-overlay);
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elev-3);
+  animation: dialog-in var(--dur-3) var(--ease-out);
+}
+
+.dialog__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+.dialog__body {
+  margin-top: var(--space-3);
+  color: var(--muted);
+  font-size: var(--text-base);
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+}
+
+/* --- Toasts --------------------------------------------------------------- */
+.toaster {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(380px, calc(100vw - var(--space-8)));
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-overlay);
+  border: var(--hairline) solid var(--border-strong);
+  border-left: 3px solid var(--tone, var(--accent));
+  border-radius: var(--radius-md);
+  box-shadow: var(--elev-3);
+  animation: toast-in var(--dur-3) var(--ease-out);
+}
+
+.toast__title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+.toast__message {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* --- App shell ------------------------------------------------------------ */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Above the page's own sticky chrome (`.runs-toolbar`), not level with it: the
+   top bar is a layer, and anything it hangs — the model panel — has to clear a
+   screen that has stuck a toolbar to the same edge. Dialogs and toasts still
+   cover it, which is the order those two want. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: var(--topbar-h);
+  padding-inline: var(--gutter);
+  background: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+  backdrop-filter: blur(10px) saturate(1.2);
+  border-bottom: var(--hairline) solid var(--border);
+}
+
+/* The rule under the top bar is the instrument's master indicator: it takes
+   the tone of whatever the app is currently doing. */
+.topbar__hairline {
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: var(--z-overlay);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--tone, var(--border-strong)) 12%,
+    var(--tone, var(--border-strong)) 88%,
+    transparent
+  );
+  opacity: 0.75;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.topbar__hairline[data-live="true"] {
+  opacity: 1;
+  box-shadow: 0 0 12px -2px var(--tone, var(--accent));
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-strong);
+  text-decoration: none;
+}
+
+.wordmark:hover {
+  color: var(--text-strong);
+}
+
+.wordmark__mark {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--accent);
+  box-shadow: inset 0 0 0 2px var(--surface-raised);
+  align-self: center;
+}
+
+.wordmark__sub {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.workspace-identity {
+  display: flex;
+  min-width: 0;
+  max-width: 180px;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: var(--leading-tight);
+}
+
+.workspace-identity__scope {
+  color: var(--faint);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.workspace-identity__name {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--text-strong);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.state__actions {
+  justify-content: center;
+  margin-top: var(--space-4);
+}
+
+/* Lane rail: one channel per harness, always visible, always honest.
+
+   `min-width: 0` lets the rail shrink; without `overflow: hidden` on it and
+   `min-width: 0` on each lane, the lanes kept their content width, spilled out
+   of the shrunken rail and were painted *under* the Models chip — measured at
+   900px, a 22px overlap that made both unreadable. Clipped, the lane title
+   ellipsises instead, which is the least load-bearing thing in the bar. */
+.lanes {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.lane {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  max-width: 260px;
+  height: 26px;
+  padding: 0 var(--space-3);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface-inset);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  text-decoration: none;
+  transition: border-color var(--dur-1) var(--ease-out);
+}
+
+.lane:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.lane[data-active="true"] {
+  border-color: color-mix(in srgb, var(--tone, var(--go)) 45%, transparent);
+  background: var(--tone-wash, var(--go-wash));
+  color: var(--text);
+}
+
+.lane__name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--faint);
+  font-stretch: 87.5%;
+}
+
+.lane__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Model indicator: a lane-sized chip that opens the per-step table beneath it.
+   Anchored to the chip rather than centred on the screen — it annotates the top
+   bar, it does not interrupt you, so it is a disclosure and not a dialog. */
+.models {
+  position: relative;
+  flex: none;
+}
+
+.models__trigger {
+  height: 26px;
+  gap: var(--space-2);
+}
+
+/* Full strength, not the 0.75 this used to carry: measured against the chip's
+   real background — the tone wash over the translucent top bar — `--muted` at
+   0.75 is 3.96:1 on dark and 3.37:1 on light, and this is 11px text. At
+   opacity 1 the same colour measures 5.84 and 5.74. The eyebrow still recedes
+   from the value, by weight, tracking and case rather than by fading text that
+   now carries a fact. */
+.models__scope {
+  color: inherit;
+}
+
+/* The eyebrow's second word, and the only place the chip can say that nothing
+   was read: the value beside it names the models a new run would use, and reads
+   exactly the same whether somebody chose them or the engine defaulted to them.
+   Outlined rather than merely coloured, because the chip's caution tone is
+   already carrying the same message and colour must never be the only channel.
+   `--tone` at full strength on the tone's own wash: 6.69:1 dark, 5.13:1 light. */
+.models__fallback {
+  color: inherit;
+  padding-inline: var(--space-1);
+  border: var(--hairline) solid
+    color-mix(in srgb, var(--tone, var(--caution)) 45%, transparent);
+  border-radius: var(--radius-xs);
+}
+
+.models__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.models__pending {
+  width: 92px;
+  margin-block: 0;
+}
+
+.models__panel {
+  position: absolute;
+  top: calc(100% + var(--space-3));
+  right: 0;
+  z-index: var(--z-overlay);
+  width: min(440px, calc(100vw - var(--space-6)));
+  /* Fill 90% of the available space below the trigger, including on tall displays.
+     The popover updates this measurement on resize, zoom and viewport scrolling. */
+  max-height: var(--models-panel-max-height, calc(90dvh - var(--topbar-h)));
+  overflow-y: auto;
+  padding: var(--space-4);
+  background: var(--surface-overlay);
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-2);
+  /* Collapsed to 1ms by the reduced-motion opt-out at the foot of this file. */
+  animation: dialog-in var(--dur-2) var(--ease-out);
+}
+
+.models__title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+.models__sub {
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* A model id is one token to read, never `claude-haiku-4-` / `5` on two lines. */
+.models__model {
+  white-space: nowrap;
+}
+
+/* `--muted`, not the `--faint` this had: 12px on a wash-free overlay measures
+   3.19:1 dark and 3.75:1 light on `--faint` and 6.15 / 6.57 on `--muted` — the
+   correction `.models__detail` below documents at length, applied to the other
+   text in this panel that was making it. */
+.models__notes {
+  margin: var(--space-3) 0 0;
+  padding-left: var(--space-4);
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.models__error {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--danger);
+}
+
+/* The server's own words, under the sentence that has already said what
+   happened in English. Mono and a size down so they read as the evidence and
+   not as a second message — `.state__detail` makes the same distinction for the
+   same reason. `--muted` rather than that rule's `--faint`, because this one is
+   12px on a wash-free surface and `--faint` measures 3.5:1 on the light theme;
+   the correction `.ig__hint` documents.
+   `anywhere` and not `break-word`: only `anywhere` narrows the *min-content*
+   width, and this box is a `justify-items: start` grid item sized to its
+   content — a bare opaque token from a proxy is one unbreakable word, and with
+   `break-word` it would still lay the item out 120px wider than the panel and
+   put a horizontal scrollbar on a popover. */
+.models__detail {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* A stored default that could not be read is not a failed panel: the table above
+   is the engine's own, and Save still works. So it takes the shape the app
+   already uses for "what you are looking at is real, something merely failed to
+   refresh" — the wash and hairline of `.notice` at the caution its one other
+   stale-data user, the runs list, sets — rather than the red of `.models__error`,
+   and it stacks its message over its retry on that rule's grid so the pair reads
+   as one block at every width the panel has. */
+.models__notice {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--text);
+  background: var(--caution-wash);
+  border: var(--hairline) solid color-mix(in srgb, var(--caution) 32%, transparent);
+  border-radius: var(--radius-md);
+}
+
+/* --- The editor ------------------------------------------------------------
+   Off a run the panel is not a read-out, it is the control surface for what
+   every new run uses: two quick-sets that fill the table, a table any cell of
+   which can then be moved, and a Save. It needs three columns of controls where
+   the run-page panel needs three columns of text, so it is a modifier rather
+   than a second panel — the chip, the anchoring, the focus handling and the
+   dismissal are one implementation for both.
+   -------------------------------------------------------------------------- */
+.models__panel--wide {
+  width: min(620px, calc(100vw - var(--space-6)));
+}
+
+.models__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-3);
+  border-bottom: var(--hairline) solid var(--border-faint);
+}
+
+.models__seg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.models__seg-label {
+  /* 11px: `--faint` measures 3.19:1 dark / 3.75:1 light on this surface. */
+  color: var(--muted);
+}
+
+/* The tier control has to hold four segments — Max, High, Med, Low — inside a
+   620px panel that narrows to `100vw - 24px`, so the buttons are trimmed to the
+   tightest padding on the scale rather than the button default. Measured in the
+   browser at the narrowest supported viewport (480px, so 422px of content):
+   Max/High/Med/Low comes to 177px on one line, with the provider pair on its own
+   line above. `wrap` is the backstop, not the plan — a provider whose name the
+   payload grows must fold rather than push a scrollbar across the popover. */
+.models__seg-buttons {
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.models__seg-buttons .btn {
+  padding-inline: var(--space-2);
+}
+
+/* What the selected tier does, and — for the one tier that pins a model — which
+   model that is. Both are served per tier, so this is the engine's sentence and
+   not ours; it sits directly under the segment that changes it and above the
+   table it explains. `--muted` and not `--faint` for the reason
+   `.models__notes` documents: this is 12px text on a wash-free overlay, and
+   `--faint` fails AA there in both themes. */
+.models__tier-note {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--muted);
+}
+
+.models__dirty {
+  gap: var(--space-2);
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+/* The step column is a row header, so base.css sets it in the uppercase micro
+   label used for column heads. Here it is the name of a thing, not a heading —
+   the same correction `.role-matrix__step` makes, for the same table. */
+.models__table th.models__step {
+  width: 38%;
+  min-width: 140px;
+  white-space: normal;
+  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--text);
+  border-bottom: var(--hairline) solid var(--border-faint);
+  padding: var(--space-1) var(--space-2);
+  vertical-align: top;
+}
+
+/* Nine rows of two selects each is the panel's whole height, so the row is as
+   short as the controls in it allow: 4px of padding around a 26px select. */
+.models__table thead th {
+  padding: var(--space-1) var(--space-2);
+}
+
+.models__table td {
+  vertical-align: top;
+  padding: var(--space-1) var(--space-2);
+}
+
+.models__role {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+/* Clamped, with the full sentence on hover and the whole of it still in the
+   accessibility tree — it is what both selects are `aria-describedby`, so it can
+   never be removed, only shortened. The wizard's matrix is where these are read;
+   here nine of them at four lines each pushed seven steps and the Save button
+   below the fold of a popover. */
+.models__note {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin-top: var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-snug);
+  color: var(--muted);
+}
+
+/* `--muted`: 11px is the smallest text in the panel and `--faint` is the token
+   that already fails AA app-wide. */
+.models__pinned {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-snug);
+  color: var(--muted);
+}
+
+/* Eighteen of these are most of the panel, so they take the app's dense control
+   height — the 26px `.btn--sm` sets, at the size it sets — rather than the 32px
+   full-page form default. A model id still fits on one line at 96px. */
+.models__select {
+  width: 100%;
+  min-width: 96px;
+  min-height: 26px;
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+}
+
+/* A caution that sits under the control it is about, never instead of it: the
+   value stays on screen and readable, and the chip says what is wrong with it.
+   `height: auto` with a floor rather than the pill's fixed 24px, because this is
+   the one chip in the app that wraps and a second line in a fixed-height box
+   leaves the cell. The floor keeps a one-line flag pill-shaped. */
+.models__flag {
+  height: auto;
+  min-height: 20px;
+  margin-top: var(--space-1);
+  white-space: normal;
+}
+
+.models__reset {
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* A moved row says so three ways at once — accent spine, accent select border,
+   and a Reset button that appears — because colour alone cannot carry it. */
+.models__table tr[data-changed="true"] th.models__step {
+  box-shadow: inset 3px 0 0 var(--accent);
+  padding-left: calc(var(--space-2) + 3px);
+}
+
+.models__table tr[data-changed="true"] .models__select {
+  border-color: var(--accent);
+}
+
+/* Stuck to the foot of the panel, because the panel scrolls and the button that
+   makes any of this take effect must not be the thing you have to scroll to
+   find. Pulled out to the panel's edges so the rule spans it. */
+.models__foot {
+  position: sticky;
+  bottom: calc(-1 * var(--space-4));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) calc(-1 * var(--space-4)) calc(-1 * var(--space-4));
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-overlay);
+  border-top: var(--hairline) solid var(--border);
+}
+
+/* `--muted`, for the reason `.models__notes` above gives. This one is also the
+   sentence that says whether what you are looking at is what would launch, so
+   it is the last text in the panel that should be hard to read. */
+.models__saved-state {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--space-10);
+  min-width: 0;
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+@media (max-width: 900px) {
+  :root {
+    --gutter: var(--space-4);
+  }
+
+  .topbar {
+    gap: var(--space-3);
+  }
+
+  .lane {
+    max-width: 150px;
+  }
+
+  /* The bar runs out of room here, not at 620: measured, the lanes and the
+     Models chip collide at 900. The two things that go are the least
+     load-bearing in the bar — the run's title in its lane (the lane's status
+     mark and harness still say everything the rail is for) and the wordmark's
+     subtitle. Which model is running keeps its pixels. */
+  .lane__title,
+  .wordmark__sub,
+  .workspace-identity__scope {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  /* The value stays: which model is running is the part worth the pixels — and
+     so does `.models__fallback`, which is not decoration but the only thing on
+     the chip that says nobody chose them. */
+  .models__scope {
+    display: none;
+  }
+}
+
+/* --- Motion opt-out ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

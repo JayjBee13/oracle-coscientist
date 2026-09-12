@@ -1,0 +1,10 @@
+# This archive is the ONLY copy of the historical run data — the git snapshot taken
+# before the overhaul does not contain it (runs/ is ignored inside each engine root).
+# The blanket un-ignore below means no ancestor .gitignore rule can ever exclude an
+# archived file. Rules further down still win, hence the dump exception.
+!*
+!*/
+
+# Local-only database snapshots (pg_dump, custom format): sha256s are recorded in
+# MANIFEST.sha256 and verified when present, but the dumps themselves are not committed.
+db-*.dump

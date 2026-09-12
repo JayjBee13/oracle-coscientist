@@ -1,0 +1,83 @@
+{
+  "run_id": "run-fixture-legacy",
+  "goal": "Find net-new, AI-core mobile app ideas for high-frequency everyday activities that large numbers of women regularly do, ranked by NOVELTY (white space; no strong AI-native incumbent) x USERBASE (how many women, how often) multiplied together. Prefer low-friction app-store distribution, viral/organic growth, bounded per-use cost, short path to first revenue, credible path to 1-5M+/yr.",
+  "created": "2026-06-03T15:43:23.431779+00:00",
+  "updated": "2026-06-03T20:36:50.975326+00:00",
+  "iteration": 2,
+  "calls_used": 14,
+  "next_id": 4,
+  "feedback": "ROUND 2 META-REVIEW FEEDBACK (steers round 3):\n\n1. UPGRADED COMPETITOR CHECK (mandatory, every idea before submitting): search (a) App Store NEW RELEASES 2025-2026, (b) Product Hunt last 18 months, (c) the EXACT concept phrasing \u00e2\u20ac\u201d not just the category leader. Round 2 killed 3 ideas (PaperPile, ThankNote, FitScout) because searches missed 2025-2026 launches that had already shipped the precise c",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 60,
+    "matches_per_round": 6,
+    "evolve_top_k": 3
+  },
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "TITLE: BraidPilot",
+      "file": "runs\\run-fixture-legacy\\hypotheses\\h001.md",
+      "elo": 1199.9,
+      "matches": 2,
+      "wins": 1,
+      "status": "archived",
+      "review": {
+        "verdict": "pass",
+        "note": "Novelty genuinely high (no AI-native live braid coach; only try-on filters + static tutorials; TressTechnique/ReelMind weak). BUT headline mechanism overclaims VLMs (Gemini Live <=1FPS/2min, resolution curse blocks strand-level, QEVD-FIT-COACH unsolved). Passes only rescoped to COARSE step/progress/pacing coaching. Testable via Wizard-of-Oz."
+      },
+      "cluster": "braids-coach",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h002": {
+      "id": "h002",
+      "title": "TITLE: Mirror Coach",
+      "file": "runs\\run-fixture-legacy\\hypotheses\\h002.md",
+      "elo": 1182.7,
+      "matches": 3,
+      "wins": 1,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "No shipping incumbent does true live closed-loop corrective makeup coaching (YouCam/Vella/FaceFlow are try-on or after-the-fact critique; Stylingmate is prescriptive not corrective). Wedge open. USERBASE very high (90M, daily). Feasibility is the risk: VLMs weakest on faces/small objects/fine spatial + 3-4s latency; degrade to single-error-class MVP. Novelty moderate x userbase very high clears bar."
+      },
+      "cluster": null,
+      "created_iter": 1,
+      "parent": null
+    },
+    "h003": {
+      "id": "h003",
+      "title": "TITLE: FormFix Postpartum",
+      "file": "runs\\run-fixture-legacy\\hypotheses\\h003.md",
+      "elo": 1154.1,
+      "matches": 3,
+      "wins": 0,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "Camera-CV doming/breath-hold for postpartum core is largely unoccupied (DiastaFix=scripted chatbot; general form apps=skeletal pose only), BUT contested by well-funded Hinge Health (camera-CV MSK + pelvic program) & Sword Bloom (sensor) who own distribution. Feasibility: breath-hold + pelvic-tilt feasible; soft-tissue doming is the weak sub-claim (occlusion, VLM hallucination). Wellness-disclaimer regulatory path proven by incumbents. Rescope: lead with breath+tilt."
+      },
+      "cluster": null,
+      "created_iter": 1,
+      "parent": null
+    }
+  },
+  "matches": [
+    {
+      "a": "h001",
+      "b": "h002",
+      "winner": "a",
+      "iter": 1,
+      "note": "Sharper why-now."
+    },
+    {
+      "a": "h002",
+      "b": "h003",
+      "winner": "b",
+      "iter": 2,
+      "note": "Wider wedge."
+    }
+  ]
+}

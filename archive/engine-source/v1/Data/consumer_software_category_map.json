@@ -1,0 +1,1385 @@
+{
+  "title": "Category Map: Consumer Computer Programs by Market and Use Case",
+  "source_workbook": "consumer_software_category_tables.xlsx",
+  "worksheet": "1_Category_Map",
+  "columns": [
+    "super_category",
+    "main_category",
+    "sub_category",
+    "user_problem_solved",
+    "standalone_app_examples",
+    "addon_template_extension_examples",
+    "actual_application_examples",
+    "source_website_links"
+  ],
+  "categories": [
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Productivity & Office",
+      "sub_category": "Documents & PDFs",
+      "user_problem_solved": "Create, edit, sign, scan, and organize office documents.",
+      "standalone_app_examples": [
+        "Word processor",
+        "PDF editor",
+        "scanner app"
+      ],
+      "addon_template_extension_examples": [
+        "Document templates",
+        "Google Docs add-ons",
+        "e-signature add-ons"
+      ],
+      "actual_application_examples": [
+        "Microsoft 365",
+        "Google Workspace",
+        "Adobe Acrobat"
+      ],
+      "source_website_links": [
+        "https://www.microsoft.com/microsoft-365",
+        "https://workspace.google.com",
+        "https://www.adobe.com/acrobat.html"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Productivity & Office",
+      "sub_category": "Spreadsheets & Data",
+      "user_problem_solved": "Organize, calculate, and analyze personal or small-business data.",
+      "standalone_app_examples": [
+        "Spreadsheet app",
+        "personal data tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Excel templates",
+        "Google Sheets add-ons",
+        "formula templates"
+      ],
+      "actual_application_examples": [
+        "Microsoft Excel",
+        "Google Sheets",
+        "Airtable"
+      ],
+      "source_website_links": [
+        "https://www.microsoft.com/microsoft-365/excel",
+        "https://www.google.com/sheets/about/",
+        "https://www.airtable.com"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Productivity & Office",
+      "sub_category": "Presentations & Notes",
+      "user_problem_solved": "Prepare presentations, notes, and knowledge collections faster.",
+      "standalone_app_examples": [
+        "Presentation maker",
+        "notes app"
+      ],
+      "addon_template_extension_examples": [
+        "Slide templates",
+        "Notion knowledge-base templates"
+      ],
+      "actual_application_examples": [
+        "PowerPoint",
+        "Google Slides",
+        "Notion"
+      ],
+      "source_website_links": [
+        "https://www.microsoft.com/microsoft-365/powerpoint",
+        "https://www.google.com/slides/about/",
+        "https://www.notion.com"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Personal Organization",
+      "sub_category": "Tasks & To-Dos",
+      "user_problem_solved": "Remember, prioritize, and finish tasks.",
+      "standalone_app_examples": [
+        "To-do app",
+        "checklist app",
+        "reminder app"
+      ],
+      "addon_template_extension_examples": [
+        "Notion task template",
+        "planner template",
+        "calendar widget"
+      ],
+      "actual_application_examples": [
+        "Todoist",
+        "TickTick",
+        "Things"
+      ],
+      "source_website_links": [
+        "https://todoist.com",
+        "https://ticktick.com",
+        "https://culturedcode.com/things/"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Personal Organization",
+      "sub_category": "Calendars & Scheduling",
+      "user_problem_solved": "Manage appointments, routines, and deadlines.",
+      "standalone_app_examples": [
+        "Calendar app",
+        "scheduling assistant"
+      ],
+      "addon_template_extension_examples": [
+        "Calendar templates",
+        "booking-page templates"
+      ],
+      "actual_application_examples": [
+        "Google Calendar",
+        "Calendly",
+        "Fantastical"
+      ],
+      "source_website_links": [
+        "https://calendar.google.com",
+        "https://calendly.com",
+        "https://flexibits.com/fantastical"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Personal Organization",
+      "sub_category": "Habits & Goals",
+      "user_problem_solved": "Build repeatable habits and track progress.",
+      "standalone_app_examples": [
+        "Habit tracker",
+        "goal tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Habit dashboard template",
+        "goal spreadsheet"
+      ],
+      "actual_application_examples": [
+        "Streaks",
+        "Habitica",
+        "Productive"
+      ],
+      "source_website_links": [
+        "https://streaksapp.com",
+        "https://habitica.com",
+        "https://productiveapp.io"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "File Storage & Cloud Services",
+      "sub_category": "Cloud Storage & Backup",
+      "user_problem_solved": "Save, sync, and protect files across devices.",
+      "standalone_app_examples": [
+        "Cloud drive",
+        "backup app"
+      ],
+      "addon_template_extension_examples": [
+        "Cloud-sync extensions",
+        "backup automation templates"
+      ],
+      "actual_application_examples": [
+        "Dropbox",
+        "Google Drive",
+        "OneDrive"
+      ],
+      "source_website_links": [
+        "https://www.dropbox.com",
+        "https://drive.google.com",
+        "https://www.microsoft.com/microsoft-365/onedrive/online-cloud-storage"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "File Storage & Cloud Services",
+      "sub_category": "File Sharing & Organization",
+      "user_problem_solved": "Send, rename, clean, and organize files.",
+      "standalone_app_examples": [
+        "File manager",
+        "duplicate finder"
+      ],
+      "addon_template_extension_examples": [
+        "File-renaming scripts",
+        "folder organization templates"
+      ],
+      "actual_application_examples": [
+        "WeTransfer",
+        "CleanMyMac",
+        "Readdle Documents"
+      ],
+      "source_website_links": [
+        "https://wetransfer.com",
+        "https://macpaw.com/cleanmymac",
+        "https://readdle.com/documents"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "AI Assistants & Automation",
+      "sub_category": "AI Writing & Research",
+      "user_problem_solved": "Draft, summarize, search, and understand information faster.",
+      "standalone_app_examples": [
+        "AI assistant",
+        "AI writer",
+        "research assistant"
+      ],
+      "addon_template_extension_examples": [
+        "Prompt packs",
+        "GPT templates",
+        "browser AI extension"
+      ],
+      "actual_application_examples": [
+        "ChatGPT",
+        "Claude",
+        "Perplexity"
+      ],
+      "source_website_links": [
+        "https://chatgpt.com",
+        "https://claude.ai",
+        "https://www.perplexity.ai"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "AI Assistants & Automation",
+      "sub_category": "Personal Automation",
+      "user_problem_solved": "Automate repeated personal workflows.",
+      "standalone_app_examples": [
+        "Automation app",
+        "shortcut builder"
+      ],
+      "addon_template_extension_examples": [
+        "Zapier templates",
+        "Make scenarios",
+        "iOS shortcuts"
+      ],
+      "actual_application_examples": [
+        "Zapier",
+        "Make",
+        "IFTTT"
+      ],
+      "source_website_links": [
+        "https://zapier.com",
+        "https://www.make.com",
+        "https://ifttt.com"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Developer & Technical Tools",
+      "sub_category": "Code & APIs",
+      "user_problem_solved": "Build, test, and debug technical projects.",
+      "standalone_app_examples": [
+        "Code editor",
+        "API tester",
+        "database viewer"
+      ],
+      "addon_template_extension_examples": [
+        "VS Code extensions",
+        "API collections",
+        "code snippets"
+      ],
+      "actual_application_examples": [
+        "Visual Studio Code",
+        "Postman",
+        "GitHub"
+      ],
+      "source_website_links": [
+        "https://code.visualstudio.com",
+        "https://www.postman.com",
+        "https://github.com"
+      ]
+    },
+    {
+      "super_category": "Work & Productivity",
+      "main_category": "Developer & Technical Tools",
+      "sub_category": "No-Code & Website Builders",
+      "user_problem_solved": "Build websites or simple apps without heavy coding.",
+      "standalone_app_examples": [
+        "Website builder",
+        "no-code app builder"
+      ],
+      "addon_template_extension_examples": [
+        "Webflow templates",
+        "Bubble templates",
+        "Framer templates"
+      ],
+      "actual_application_examples": [
+        "Webflow",
+        "Bubble",
+        "Framer"
+      ],
+      "source_website_links": [
+        "https://webflow.com",
+        "https://bubble.io",
+        "https://www.framer.com"
+      ]
+    },
+    {
+      "super_category": "Communication & Social",
+      "main_category": "Communication",
+      "sub_category": "Email & Inbox Management",
+      "user_problem_solved": "Send, organize, schedule, and clean up email.",
+      "standalone_app_examples": [
+        "Email client",
+        "inbox cleaner"
+      ],
+      "addon_template_extension_examples": [
+        "Gmail add-ons",
+        "email templates",
+        "signature templates"
+      ],
+      "actual_application_examples": [
+        "Gmail",
+        "Outlook",
+        "Spark Mail"
+      ],
+      "source_website_links": [
+        "https://mail.google.com",
+        "https://outlook.live.com",
+        "https://sparkmailapp.com"
+      ]
+    },
+    {
+      "super_category": "Communication & Social",
+      "main_category": "Communication",
+      "sub_category": "Messaging & Group Chat",
+      "user_problem_solved": "Communicate privately or in groups.",
+      "standalone_app_examples": [
+        "Messaging app",
+        "group chat app"
+      ],
+      "addon_template_extension_examples": [
+        "Slack apps",
+        "Discord bots",
+        "chat templates"
+      ],
+      "actual_application_examples": [
+        "Discord",
+        "WhatsApp",
+        "Slack"
+      ],
+      "source_website_links": [
+        "https://discord.com",
+        "https://www.whatsapp.com",
+        "https://slack.com"
+      ]
+    },
+    {
+      "super_category": "Communication & Social",
+      "main_category": "Communication",
+      "sub_category": "Voice & Video Calls",
+      "user_problem_solved": "Talk face-to-face remotely.",
+      "standalone_app_examples": [
+        "Video meeting app",
+        "internet calling app"
+      ],
+      "addon_template_extension_examples": [
+        "Meeting agenda templates",
+        "video-call extensions"
+      ],
+      "actual_application_examples": [
+        "Zoom",
+        "Google Meet",
+        "Microsoft Teams"
+      ],
+      "source_website_links": [
+        "https://zoom.us",
+        "https://meet.google.com",
+        "https://www.microsoft.com/microsoft-teams"
+      ]
+    },
+    {
+      "super_category": "Communication & Social",
+      "main_category": "Social Media & Community",
+      "sub_category": "Social Networks & Content Sharing",
+      "user_problem_solved": "Share content and interact with people.",
+      "standalone_app_examples": [
+        "Social app",
+        "content-sharing app"
+      ],
+      "addon_template_extension_examples": [
+        "Post templates",
+        "scheduling tools",
+        "profile templates"
+      ],
+      "actual_application_examples": [
+        "Instagram",
+        "Reddit",
+        "TikTok"
+      ],
+      "source_website_links": [
+        "https://www.instagram.com",
+        "https://www.reddit.com",
+        "https://www.tiktok.com"
+      ]
+    },
+    {
+      "super_category": "Communication & Social",
+      "main_category": "Social Media & Community",
+      "sub_category": "Dating & Niche Communities",
+      "user_problem_solved": "Meet people or gather around shared interests.",
+      "standalone_app_examples": [
+        "Dating app",
+        "forum/community app"
+      ],
+      "addon_template_extension_examples": [
+        "Community templates",
+        "moderation bots"
+      ],
+      "actual_application_examples": [
+        "Bumble",
+        "Meetup",
+        "Discord App Directory"
+      ],
+      "source_website_links": [
+        "https://bumble.com",
+        "https://www.meetup.com",
+        "https://discord.com/app-directory"
+      ]
+    },
+    {
+      "super_category": "Entertainment & Media",
+      "main_category": "Entertainment & Streaming",
+      "sub_category": "Video & Live Streaming",
+      "user_problem_solved": "Watch movies, shows, clips, and live video.",
+      "standalone_app_examples": [
+        "Video streaming app",
+        "live TV app"
+      ],
+      "addon_template_extension_examples": [
+        "Subtitle extensions",
+        "watchlist templates"
+      ],
+      "actual_application_examples": [
+        "Netflix",
+        "YouTube",
+        "Hulu"
+      ],
+      "source_website_links": [
+        "https://www.netflix.com",
+        "https://www.youtube.com",
+        "https://www.hulu.com"
+      ]
+    },
+    {
+      "super_category": "Entertainment & Media",
+      "main_category": "Entertainment & Streaming",
+      "sub_category": "Music, Podcasts & Audiobooks",
+      "user_problem_solved": "Listen to music, spoken audio, and books.",
+      "standalone_app_examples": [
+        "Music app",
+        "podcast player",
+        "audiobook app"
+      ],
+      "addon_template_extension_examples": [
+        "Playlist tools",
+        "audio widgets"
+      ],
+      "actual_application_examples": [
+        "Spotify",
+        "Audible",
+        "Pocket Casts"
+      ],
+      "source_website_links": [
+        "https://www.spotify.com",
+        "https://www.audible.com",
+        "https://pocketcasts.com"
+      ]
+    },
+    {
+      "super_category": "Entertainment & Media",
+      "main_category": "Gaming",
+      "sub_category": "Games & Launchers",
+      "user_problem_solved": "Play, buy, launch, or manage games.",
+      "standalone_app_examples": [
+        "Mobile game",
+        "PC game",
+        "launcher"
+      ],
+      "addon_template_extension_examples": [
+        "Mods",
+        "skins",
+        "overlays",
+        "game launcher plugins"
+      ],
+      "actual_application_examples": [
+        "Steam",
+        "Roblox",
+        "Epic Games Store"
+      ],
+      "source_website_links": [
+        "https://store.steampowered.com",
+        "https://www.roblox.com",
+        "https://store.epicgames.com"
+      ]
+    },
+    {
+      "super_category": "Entertainment & Media",
+      "main_category": "Gaming",
+      "sub_category": "Companion Tools & Mods",
+      "user_problem_solved": "Improve gameplay, manage servers, or add content.",
+      "standalone_app_examples": [
+        "Game tracker app",
+        "build planner",
+        "mod manager"
+      ],
+      "addon_template_extension_examples": [
+        "CurseForge mods",
+        "Nexus mods",
+        "Discord bots"
+      ],
+      "actual_application_examples": [
+        "CurseForge",
+        "Nexus Mods",
+        "Overwolf"
+      ],
+      "source_website_links": [
+        "https://www.curseforge.com",
+        "https://www.nexusmods.com",
+        "https://www.overwolf.com"
+      ]
+    },
+    {
+      "super_category": "Entertainment & Media",
+      "main_category": "News & Information",
+      "sub_category": "News, Weather & Sports",
+      "user_problem_solved": "Stay informed about current events, forecasts, and scores.",
+      "standalone_app_examples": [
+        "News app",
+        "weather app",
+        "sports score app"
+      ],
+      "addon_template_extension_examples": [
+        "News widgets",
+        "weather widgets",
+        "score extensions"
+      ],
+      "actual_application_examples": [
+        "Apple News",
+        "Weather Channel",
+        "ESPN"
+      ],
+      "source_website_links": [
+        "https://www.apple.com/apple-news/",
+        "https://weather.com",
+        "https://www.espn.com"
+      ]
+    },
+    {
+      "super_category": "Entertainment & Media",
+      "main_category": "News & Information",
+      "sub_category": "Reference & Lookup",
+      "user_problem_solved": "Find facts, definitions, and explanations quickly.",
+      "standalone_app_examples": [
+        "Dictionary app",
+        "encyclopedia app",
+        "calculator app"
+      ],
+      "addon_template_extension_examples": [
+        "Browser lookup extensions",
+        "reference widgets"
+      ],
+      "actual_application_examples": [
+        "Wikipedia",
+        "WolframAlpha",
+        "Dictionary.com"
+      ],
+      "source_website_links": [
+        "https://www.wikipedia.org",
+        "https://www.wolframalpha.com",
+        "https://www.dictionary.com"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Health & Fitness",
+      "sub_category": "Workout & Activity",
+      "user_problem_solved": "Exercise, train, run, cycle, or track movement.",
+      "standalone_app_examples": [
+        "Workout planner",
+        "running tracker",
+        "step counter"
+      ],
+      "addon_template_extension_examples": [
+        "Workout templates",
+        "training plan PDFs",
+        "wearable widgets"
+      ],
+      "actual_application_examples": [
+        "Strava",
+        "Fitbod",
+        "Nike Training Club"
+      ],
+      "source_website_links": [
+        "https://www.strava.com",
+        "https://fitbod.me",
+        "https://www.nike.com/ntc-app"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Health & Fitness",
+      "sub_category": "Nutrition & Sleep",
+      "user_problem_solved": "Track food, calories, macros, sleep, and recovery.",
+      "standalone_app_examples": [
+        "Calorie tracker",
+        "sleep tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Meal-plan templates",
+        "macro spreadsheet",
+        "sleep log template"
+      ],
+      "actual_application_examples": [
+        "MyFitnessPal",
+        "Cronometer",
+        "Sleep Cycle"
+      ],
+      "source_website_links": [
+        "https://www.myfitnesspal.com",
+        "https://cronometer.com",
+        "https://www.sleepcycle.com"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Mental Wellness & Lifestyle",
+      "sub_category": "Meditation & Journaling",
+      "user_problem_solved": "Reduce stress, reflect, and track mood.",
+      "standalone_app_examples": [
+        "Meditation app",
+        "journal app",
+        "mood tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Journal templates",
+        "meditation packs",
+        "mood spreadsheets"
+      ],
+      "actual_application_examples": [
+        "Headspace",
+        "Calm",
+        "Day One"
+      ],
+      "source_website_links": [
+        "https://www.headspace.com",
+        "https://www.calm.com",
+        "https://dayoneapp.com"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Food & Cooking",
+      "sub_category": "Recipes, Meal Planning & Groceries",
+      "user_problem_solved": "Cook, plan meals, shop, and order food.",
+      "standalone_app_examples": [
+        "Recipe app",
+        "grocery list",
+        "meal planner"
+      ],
+      "addon_template_extension_examples": [
+        "Recipe templates",
+        "grocery templates",
+        "pantry templates"
+      ],
+      "actual_application_examples": [
+        "Paprika",
+        "Yummly",
+        "Instacart"
+      ],
+      "source_website_links": [
+        "https://www.paprikaapp.com",
+        "https://www.yummly.com",
+        "https://www.instacart.com"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Home & Family Management",
+      "sub_category": "Chores, Family & Home Inventory",
+      "user_problem_solved": "Coordinate chores, family schedules, pets, baby care, and possessions.",
+      "standalone_app_examples": [
+        "Family calendar",
+        "chore app",
+        "home inventory app"
+      ],
+      "addon_template_extension_examples": [
+        "Chore chart templates",
+        "family Notion templates"
+      ],
+      "actual_application_examples": [
+        "Cozi",
+        "Tody",
+        "Sortly"
+      ],
+      "source_website_links": [
+        "https://www.cozi.com",
+        "https://todyapp.com",
+        "https://www.sortly.com"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Parenting & Child Development",
+      "sub_category": "Learning, Safety & School Communication",
+      "user_problem_solved": "Help children learn and help parents manage safety and school communication.",
+      "standalone_app_examples": [
+        "Kids learning app",
+        "parental controls",
+        "school app"
+      ],
+      "addon_template_extension_examples": [
+        "Printable learning packs",
+        "screen-time templates"
+      ],
+      "actual_application_examples": [
+        "Khan Academy Kids",
+        "Bark",
+        "ClassDojo"
+      ],
+      "source_website_links": [
+        "https://learn.khanacademy.org/khan-academy-kids/",
+        "https://www.bark.us",
+        "https://www.classdojo.com"
+      ]
+    },
+    {
+      "super_category": "Health, Fitness & Lifestyle",
+      "main_category": "Religion & Spirituality",
+      "sub_category": "Scripture, Prayer & Spiritual Practice",
+      "user_problem_solved": "Support religious study, prayer, and reflection.",
+      "standalone_app_examples": [
+        "Bible app",
+        "prayer app",
+        "devotional app"
+      ],
+      "addon_template_extension_examples": [
+        "Devotional plans",
+        "scripture widgets",
+        "sermon templates"
+      ],
+      "actual_application_examples": [
+        "YouVersion",
+        "Hallow",
+        "Pray.com"
+      ],
+      "source_website_links": [
+        "https://www.bible.com/app",
+        "https://hallow.com",
+        "https://www.pray.com"
+      ]
+    },
+    {
+      "super_category": "Money & Commerce",
+      "main_category": "Finance & Budgeting",
+      "sub_category": "Budgeting & Bills",
+      "user_problem_solved": "Track income, spending, bills, and subscriptions.",
+      "standalone_app_examples": [
+        "Budget app",
+        "bill reminder",
+        "expense tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Budget spreadsheet",
+        "Notion finance dashboard"
+      ],
+      "actual_application_examples": [
+        "YNAB",
+        "Monarch Money",
+        "Copilot Money"
+      ],
+      "source_website_links": [
+        "https://www.ynab.com",
+        "https://www.monarchmoney.com",
+        "https://copilot.money"
+      ]
+    },
+    {
+      "super_category": "Money & Commerce",
+      "main_category": "Finance & Budgeting",
+      "sub_category": "Investing & Taxes",
+      "user_problem_solved": "Track investments, learn markets, and prepare tax records.",
+      "standalone_app_examples": [
+        "Portfolio tracker",
+        "tax software"
+      ],
+      "addon_template_extension_examples": [
+        "Investment spreadsheet",
+        "tax checklist template"
+      ],
+      "actual_application_examples": [
+        "Robinhood",
+        "TurboTax",
+        "Seeking Alpha"
+      ],
+      "source_website_links": [
+        "https://robinhood.com",
+        "https://turbotax.intuit.com",
+        "https://seekingalpha.com"
+      ]
+    },
+    {
+      "super_category": "Money & Commerce",
+      "main_category": "Shopping & Consumer Services",
+      "sub_category": "Shopping, Deals & Delivery",
+      "user_problem_solved": "Buy goods, find deals, compare prices, and get delivery.",
+      "standalone_app_examples": [
+        "Marketplace app",
+        "coupon app",
+        "delivery app"
+      ],
+      "addon_template_extension_examples": [
+        "Coupon extension",
+        "price tracker",
+        "Shopify theme"
+      ],
+      "actual_application_examples": [
+        "Amazon",
+        "Etsy",
+        "Honey"
+      ],
+      "source_website_links": [
+        "https://www.amazon.com",
+        "https://www.etsy.com",
+        "https://www.joinhoney.com"
+      ]
+    },
+    {
+      "super_category": "Money & Commerce",
+      "main_category": "Marketplaces for Digital Goods",
+      "sub_category": "Digital Downloads & Creator Products",
+      "user_problem_solved": "Buy or sell templates, assets, courses, and digital goods.",
+      "standalone_app_examples": [
+        "Marketplace app",
+        "course platform"
+      ],
+      "addon_template_extension_examples": [
+        "Fonts",
+        "UI kits",
+        "templates",
+        "icon packs",
+        "courses"
+      ],
+      "actual_application_examples": [
+        "Gumroad",
+        "Creative Market",
+        "Envato Elements"
+      ],
+      "source_website_links": [
+        "https://gumroad.com",
+        "https://creativemarket.com",
+        "https://elements.envato.com"
+      ]
+    },
+    {
+      "super_category": "Learning & Knowledge",
+      "main_category": "Education & Learning",
+      "sub_category": "Language, Academic & Test Prep",
+      "user_problem_solved": "Learn subjects, languages, or exam material.",
+      "standalone_app_examples": [
+        "Language app",
+        "test prep app",
+        "tutoring app"
+      ],
+      "addon_template_extension_examples": [
+        "Flashcard decks",
+        "study templates",
+        "course worksheets"
+      ],
+      "actual_application_examples": [
+        "Duolingo",
+        "Khan Academy",
+        "Quizlet"
+      ],
+      "source_website_links": [
+        "https://www.duolingo.com",
+        "https://www.khanacademy.org",
+        "https://quizlet.com"
+      ]
+    },
+    {
+      "super_category": "Learning & Knowledge",
+      "main_category": "Education & Learning",
+      "sub_category": "Skill Learning",
+      "user_problem_solved": "Learn practical, creative, or professional skills.",
+      "standalone_app_examples": [
+        "Course app",
+        "tutorial app"
+      ],
+      "addon_template_extension_examples": [
+        "Course templates",
+        "LMS add-ons",
+        "lesson templates"
+      ],
+      "actual_application_examples": [
+        "Coursera",
+        "Skillshare",
+        "Udemy"
+      ],
+      "source_website_links": [
+        "https://www.coursera.org",
+        "https://www.skillshare.com",
+        "https://www.udemy.com"
+      ]
+    },
+    {
+      "super_category": "Creation & Creativity",
+      "main_category": "Photo, Video & Design",
+      "sub_category": "Photo, Video & Graphic Design",
+      "user_problem_solved": "Create and edit images, videos, layouts, and graphics.",
+      "standalone_app_examples": [
+        "Photo editor",
+        "video editor",
+        "design app"
+      ],
+      "addon_template_extension_examples": [
+        "Canva templates",
+        "Photoshop brushes",
+        "Lightroom presets"
+      ],
+      "actual_application_examples": [
+        "Canva",
+        "Photoshop",
+        "CapCut"
+      ],
+      "source_website_links": [
+        "https://www.canva.com",
+        "https://www.adobe.com/products/photoshop.html",
+        "https://www.capcut.com"
+      ]
+    },
+    {
+      "super_category": "Creation & Creativity",
+      "main_category": "Photo, Video & Design",
+      "sub_category": "UI, Animation & 3D",
+      "user_problem_solved": "Design interfaces, animations, or 3D visuals.",
+      "standalone_app_examples": [
+        "UI design app",
+        "animation app",
+        "3D modeling app"
+      ],
+      "addon_template_extension_examples": [
+        "Figma plugins",
+        "UI kits",
+        "After Effects templates"
+      ],
+      "actual_application_examples": [
+        "Figma",
+        "Blender",
+        "After Effects"
+      ],
+      "source_website_links": [
+        "https://www.figma.com",
+        "https://www.blender.org",
+        "https://www.adobe.com/products/aftereffects.html"
+      ]
+    },
+    {
+      "super_category": "Creation & Creativity",
+      "main_category": "Music & Audio Creation",
+      "sub_category": "Music, Recording & Audio Editing",
+      "user_problem_solved": "Produce, record, clean, or perform audio.",
+      "standalone_app_examples": [
+        "DAW",
+        "podcast editor",
+        "voice recorder"
+      ],
+      "addon_template_extension_examples": [
+        "VST plugins",
+        "loop packs",
+        "presets",
+        "sound effects"
+      ],
+      "actual_application_examples": [
+        "Ableton Live",
+        "Audacity",
+        "Splice"
+      ],
+      "source_website_links": [
+        "https://www.ableton.com",
+        "https://www.audacityteam.org",
+        "https://splice.com"
+      ]
+    },
+    {
+      "super_category": "Creation & Creativity",
+      "main_category": "Writing & Publishing",
+      "sub_category": "Writing, Editing & Publishing",
+      "user_problem_solved": "Write, edit, blog, publish, or format longer content.",
+      "standalone_app_examples": [
+        "Writing app",
+        "grammar checker",
+        "publishing platform"
+      ],
+      "addon_template_extension_examples": [
+        "Book templates",
+        "blog themes",
+        "newsletter templates"
+      ],
+      "actual_application_examples": [
+        "Scrivener",
+        "Grammarly",
+        "Substack"
+      ],
+      "source_website_links": [
+        "https://www.literatureandlatte.com/scrivener/overview",
+        "https://www.grammarly.com",
+        "https://substack.com"
+      ]
+    },
+    {
+      "super_category": "Utilities & Device Tools",
+      "main_category": "Utilities & Tools",
+      "sub_category": "Scanners, Calculators & File Tools",
+      "user_problem_solved": "Solve small everyday problems quickly.",
+      "standalone_app_examples": [
+        "Scanner app",
+        "calculator app",
+        "file utility"
+      ],
+      "addon_template_extension_examples": [
+        "Browser extensions",
+        "widgets",
+        "shortcut packs"
+      ],
+      "actual_application_examples": [
+        "CamScanner",
+        "Readdle Scanner Pro",
+        "CCleaner"
+      ],
+      "source_website_links": [
+        "https://www.camscanner.com",
+        "https://readdle.com/scannerpro",
+        "https://www.ccleaner.com"
+      ]
+    },
+    {
+      "super_category": "Utilities & Device Tools",
+      "main_category": "Security & Privacy",
+      "sub_category": "Passwords, VPNs & Device Protection",
+      "user_problem_solved": "Protect accounts, devices, privacy, and identity.",
+      "standalone_app_examples": [
+        "Password manager",
+        "VPN",
+        "antivirus"
+      ],
+      "addon_template_extension_examples": [
+        "Password browser extension",
+        "tracker blocker"
+      ],
+      "actual_application_examples": [
+        "1Password",
+        "NordVPN",
+        "Malwarebytes"
+      ],
+      "source_website_links": [
+        "https://1password.com",
+        "https://nordvpn.com",
+        "https://www.malwarebytes.com"
+      ]
+    },
+    {
+      "super_category": "Utilities & Device Tools",
+      "main_category": "Personalization & Customization",
+      "sub_category": "Wallpapers, Widgets & Launchers",
+      "user_problem_solved": "Customize device appearance and screen layout.",
+      "standalone_app_examples": [
+        "Wallpaper app",
+        "launcher",
+        "widget app"
+      ],
+      "addon_template_extension_examples": [
+        "Icon packs",
+        "themes",
+        "Chrome themes"
+      ],
+      "actual_application_examples": [
+        "Widgetsmith",
+        "Nova Launcher",
+        "Zedge"
+      ],
+      "source_website_links": [
+        "https://widgetsmith.app",
+        "https://novalauncher.com",
+        "https://www.zedge.net"
+      ]
+    },
+    {
+      "super_category": "Utilities & Device Tools",
+      "main_category": "Accessibility Apps",
+      "sub_category": "Vision, Hearing, Speech & Motor Support",
+      "user_problem_solved": "Make devices easier to use for users with accessibility needs.",
+      "standalone_app_examples": [
+        "Screen reader",
+        "caption app",
+        "speech-to-text app"
+      ],
+      "addon_template_extension_examples": [
+        "Accessibility extensions",
+        "keyboard shortcut packs"
+      ],
+      "actual_application_examples": [
+        "Be My Eyes",
+        "Otter.ai",
+        "Ava"
+      ],
+      "source_website_links": [
+        "https://www.bemyeyes.com",
+        "https://otter.ai",
+        "https://www.ava.me"
+      ]
+    },
+    {
+      "super_category": "Travel, Home & Real World Services",
+      "main_category": "Travel & Navigation",
+      "sub_category": "Maps, GPS & Trip Planning",
+      "user_problem_solved": "Navigate, plan trips, book travel, and track flights.",
+      "standalone_app_examples": [
+        "Map app",
+        "itinerary planner",
+        "flight tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Travel checklist templates",
+        "itinerary templates"
+      ],
+      "actual_application_examples": [
+        "Google Maps",
+        "Waze",
+        "TripIt"
+      ],
+      "source_website_links": [
+        "https://maps.google.com",
+        "https://www.waze.com",
+        "https://www.tripit.com"
+      ]
+    },
+    {
+      "super_category": "Travel, Home & Real World Services",
+      "main_category": "Transportation & Automotive",
+      "sub_category": "Vehicle, Parking, Commuting & EV Tools",
+      "user_problem_solved": "Manage cars, parking, commuting, rideshares, fuel, and charging.",
+      "standalone_app_examples": [
+        "Car maintenance app",
+        "parking app",
+        "EV charger map"
+      ],
+      "addon_template_extension_examples": [
+        "Mileage spreadsheet",
+        "maintenance log template"
+      ],
+      "actual_application_examples": [
+        "Carfax Car Care",
+        "ParkMobile",
+        "PlugShare"
+      ],
+      "source_website_links": [
+        "https://www.carfax.com/Service/",
+        "https://parkmobile.io",
+        "https://www.plugshare.com"
+      ]
+    },
+    {
+      "super_category": "Travel, Home & Real World Services",
+      "main_category": "Real Estate & Housing",
+      "sub_category": "Home Search, Renting & Improvement",
+      "user_problem_solved": "Find homes, manage rent, design rooms, or plan renovations.",
+      "standalone_app_examples": [
+        "Apartment search",
+        "interior design app"
+      ],
+      "addon_template_extension_examples": [
+        "Real estate website templates",
+        "mortgage calculators"
+      ],
+      "actual_application_examples": [
+        "Zillow",
+        "Apartments.com",
+        "Houzz"
+      ],
+      "source_website_links": [
+        "https://www.zillow.com",
+        "https://www.apartments.com",
+        "https://www.houzz.com"
+      ]
+    },
+    {
+      "super_category": "Travel, Home & Real World Services",
+      "main_category": "Legal & Government Services",
+      "sub_category": "Legal Documents, Forms & Records",
+      "user_problem_solved": "Handle personal legal documents, forms, and records.",
+      "standalone_app_examples": [
+        "Legal form app",
+        "document vault"
+      ],
+      "addon_template_extension_examples": [
+        "Contract templates",
+        "legal document templates"
+      ],
+      "actual_application_examples": [
+        "LegalZoom",
+        "Rocket Lawyer",
+        "DocuSign"
+      ],
+      "source_website_links": [
+        "https://www.legalzoom.com",
+        "https://www.rocketlawyer.com",
+        "https://www.docusign.com"
+      ]
+    },
+    {
+      "super_category": "Specialized Personal Use",
+      "main_category": "Sports & Hobbies",
+      "sub_category": "Sports, Outdoors & Creative Hobbies",
+      "user_problem_solved": "Support recreation, fan activity, outdoor hobbies, and collections.",
+      "standalone_app_examples": [
+        "Hobby tracker",
+        "fantasy sports app",
+        "hiking app"
+      ],
+      "addon_template_extension_examples": [
+        "Stat trackers",
+        "printable hobby templates",
+        "collection spreadsheets"
+      ],
+      "actual_application_examples": [
+        "ESPN Fantasy",
+        "AllTrails",
+        "Fishbrain"
+      ],
+      "source_website_links": [
+        "https://fantasy.espn.com",
+        "https://www.alltrails.com",
+        "https://fishbrain.com"
+      ]
+    },
+    {
+      "super_category": "Specialized Personal Use",
+      "main_category": "Personal Data & Tracking",
+      "sub_category": "Life Logging, Goals & Quantified Self",
+      "user_problem_solved": "Track personal activity, symptoms, goals, and metrics over time.",
+      "standalone_app_examples": [
+        "Life log",
+        "goal tracker",
+        "symptom tracker"
+      ],
+      "addon_template_extension_examples": [
+        "Notion dashboards",
+        "spreadsheet trackers",
+        "wearable integrations"
+      ],
+      "actual_application_examples": [
+        "Exist",
+        "Bearable",
+        "Gyroscope"
+      ],
+      "source_website_links": [
+        "https://exist.io",
+        "https://bearable.app",
+        "https://gyrosco.pe"
+      ]
+    },
+    {
+      "super_category": "Add-Ons, Extensions & Digital Assets",
+      "main_category": "Website & No-Code Templates",
+      "sub_category": "Website, Landing Page & Store Templates",
+      "user_problem_solved": "Prebuilt designs for websites, stores, dashboards, and apps.",
+      "standalone_app_examples": [
+        "Usually platform-dependent rather than standalone"
+      ],
+      "addon_template_extension_examples": [
+        "Webflow templates",
+        "Framer templates",
+        "Shopify themes",
+        "Bubble templates"
+      ],
+      "actual_application_examples": [
+        "Webflow Templates",
+        "Framer Marketplace",
+        "Shopify Themes"
+      ],
+      "source_website_links": [
+        "https://webflow.com/templates",
+        "https://www.framer.com/marketplace/",
+        "https://themes.shopify.com"
+      ]
+    },
+    {
+      "super_category": "Add-Ons, Extensions & Digital Assets",
+      "main_category": "App Add-Ons & Plugins",
+      "sub_category": "Browser, Design, Office & AI Extensions",
+      "user_problem_solved": "Add features to an existing app or platform.",
+      "standalone_app_examples": [
+        "Small utility app",
+        "add-on manager"
+      ],
+      "addon_template_extension_examples": [
+        "Chrome extensions",
+        "Figma plugins",
+        "Adobe plugins",
+        "Notion templates"
+      ],
+      "actual_application_examples": [
+        "Chrome Web Store",
+        "Figma Community",
+        "Adobe Exchange"
+      ],
+      "source_website_links": [
+        "https://chromewebstore.google.com",
+        "https://www.figma.com/community/plugins",
+        "https://exchange.adobe.com"
+      ]
+    },
+    {
+      "super_category": "Add-Ons, Extensions & Digital Assets",
+      "main_category": "Game Add-Ons",
+      "sub_category": "Mods, Maps, Servers & Companion Tools",
+      "user_problem_solved": "Modify games or help players outside the game.",
+      "standalone_app_examples": [
+        "Companion app",
+        "mod manager"
+      ],
+      "addon_template_extension_examples": [
+        "Minecraft mods",
+        "Skyrim mods",
+        "overlays",
+        "Discord bots"
+      ],
+      "actual_application_examples": [
+        "CurseForge",
+        "Nexus Mods",
+        "Modrinth"
+      ],
+      "source_website_links": [
+        "https://www.curseforge.com",
+        "https://www.nexusmods.com",
+        "https://modrinth.com"
+      ]
+    },
+    {
+      "super_category": "Add-Ons, Extensions & Digital Assets",
+      "main_category": "Creative Digital Assets",
+      "sub_category": "UI Kits, Fonts, Icons, Presets & Audio Packs",
+      "user_problem_solved": "Reusable files for designers, creators, and developers.",
+      "standalone_app_examples": [
+        "Asset organizer",
+        "design library app"
+      ],
+      "addon_template_extension_examples": [
+        "Figma UI kits",
+        "icon packs",
+        "font packs",
+        "LUTs",
+        "loops"
+      ],
+      "actual_application_examples": [
+        "Creative Market",
+        "Envato Elements",
+        "UI8"
+      ],
+      "source_website_links": [
+        "https://creativemarket.com",
+        "https://elements.envato.com",
+        "https://ui8.net"
+      ]
+    }
+  ]
+}

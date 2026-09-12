@@ -1,0 +1,60 @@
+{
+  "run_id": "run-fixture-mojibake",
+  "goal": "Identify the highest-potential net-new mobile app ideas to launch as an AI-first startup. Each idea must be CRITICALLY dependent on AI capabilities that became feasible only very recently (agentic multi-step workflows, on-device multimodal models, real-time voice, long-context reasoning, cheap inference). HARD GATE: reject any idea that could have been built a year ago without these new capabilities. Ideas should ride emerging automation trends where users will pay to save time and/or money, targeting consumers AND small-business/prosumer users. Scope spans all ~52 consumer/prosumer software categories in the provided category map. Score each idea on estimated addressable subscriber base, competitor landscape (white space), and a credible path to $1-5M+/yr revenue (~1% conversion of a defined base, via subscription or one-time sales) -- revenue headroom is a heavily-weighted scoring dimension, not a hard filter.",
+  "created": "2026-06-02T11:49:35.746252+00:00",
+  "updated": "2026-06-02T13:33:30.595564+00:00",
+  "iteration": 2,
+  "calls_used": 12,
+  "next_id": 3,
+  "feedback": "RECURRING_ISSUES:\n- Soft recency that doesn't bind: hypotheses anchored on \"1M+ context\" or \"hour-long video\" \u00e2\u20ac\u201d both shipped Feb 2024 (Gemini 1.5). The single most common failure (h016/h018/h020). Context SIZE is not a 2025/2026 lock; only REASONING QUALITY AT LENGTH (multi-needle recall, cross-reference, contradiction-finding over the full window) is.\n- Crowding invisible until deep search: losers were killed by vertical-AI startups already shipping the exact mechanic (Clinplex/Leaf/Assyro for h019; Hercules/Ecliptic/Send for h018; Nomad/Kolena/V7/Five Sigma for h016/h020; BillGuard for h014). Surface-level \"no incumbent\" did not survive an exhaustive named sweep.\n- Catastrophic-single-miss recall risk: domains where one missed needle is a disaster (biotech eCTD h019 ~60% recall past 400-500k; insurance numeric h016 60-90% accuracy) score poorly \u00e2\u20ac\u201d current long-context recall can't clear the buyer's error bar.\n- TAM inflation: even co-leader h013 took a hit for ~10x-inflated TAM. Bottom-up math is being skipped.\n- Slow sales cycle on the high-WTP buyers: best white space (studios h013, universities/grants h017) sits behind 6-18mo procurement, undercutting near-term revenue credibility.\n\nWHAT_WINS:\n- Defensible white space that survives a named-competitor sweep (h013, h017).\n- A buyer with an EXPENSIVE AND URGENT failure mode \u00e2\u20ac\u201d a burning platform (HHS-OIG/AERO for h017) beats nice-to-have.\n- A recency lock grounded in reasoning-at-length quality, not raw context size.\n- Tolerant recall profile: domains where a missed item is recoverable/additive (human triage), not a single catastrophic miss.\n\nGUIDANCE_NEXT_ROUND (FINAL):\n1. Bind recency to a 2025-2026 reasoning-at-length capability, stated explicitly: name WHICH post-mid-2025 capability makes it newly possible (reliable multi-document contradiction-detection across a full window; agentic multi-hop cross-referencing; sustained reasoning quality at 200k-1M tokens \u00e2\u20ac\u201d the thing Gemini 1.5's SIZE did not deliver Feb 2024). Reject any hypothesis whose only novelty is context-window size, \"reads long video,\" or \"ingests big PDFs.\"\n2. Run an explicit named-incumbent kill-test in the output: list 3-5 specific vertical-AI startups/products in the exact niche + why each does NOT ship the mechanic. Can't name them or gap is thin -> drop it.\n3. Prefer tolerant-recall, fast-cycle segments: favor additive/triage output (surfaces candidates a human confirms) over exhaustive single-pass recall with catastrophic single-miss cost. Pair with a buyer who buys fast (PLG, dept budget, <90-day cycle) over enterprise/gov procurement.\n4. Show bottom-up addressable-base math: # buyers x realistic ACV x 1% conversion = revenue; tie the $1-5M path to that arithmetic. Penalize unsupported TAM.\n5. Optimize final slate for revenue x defensibility jointly. Evolve the co-leaders toward weaknesses: h013 -> faster-cycle adjacent buyer / land-and-expand; h017 -> binding reasoning-at-length lock + faster procurement entry. Generate 1-2 NEW hypotheses that combine winning traits (defensible white space + urgent expensive failure + binding reasoning-at-length lock + tolerant recall + fast buyer) rather than re-exploring rejected soft-recency space.\n",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 60,
+    "matches_per_round": 6,
+    "evolve_top_k": 3
+  },
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "TITLE: ProofOfWork \u00e2\u20ac\u201d Student-Side Authorship Provenance + Binding Oral Micro-D",
+      "file": "runs\\run-fixture-mojibake\\hypotheses\\h001.md",
+      "elo": 1216.0,
+      "matches": 1,
+      "wins": 1,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "Real wedge, thin moat."
+      },
+      "cluster": "c1",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h002": {
+      "id": "h002",
+      "title": "TITLE: BenchPartner \u00e2\u20ac\u201d Live Lab-Bench Copilot for the Data-Capture-to-Analysis ",
+      "file": "runs\\run-fixture-mojibake\\hypotheses\\h002.md",
+      "elo": 1184.0,
+      "matches": 1,
+      "wins": 0,
+      "status": "rejected",
+      "review": {
+        "verdict": "reject",
+        "note": "Incumbent-occupied wedge."
+      },
+      "cluster": "c2",
+      "created_iter": 1,
+      "parent": null
+    }
+  },
+  "matches": [
+    {
+      "a": "h001",
+      "b": "h002",
+      "winner": "a",
+      "iter": 1,
+      "note": "Clearer moat."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0c1116" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Oracle</title>
+    <!-- Paints the stored theme before the first frame. Without it a forced
+         light theme flashes dark for as long as the bundle takes to parse.
+         Any value but the two words is ignored, which leaves the OS in charge. -->
+    <script>
+      try {
+        var t = localStorage.getItem("coscientist.theme.v1");
+        if (t === "light" || t === "dark")
+          document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        /* storage unavailable; the OS decides */
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

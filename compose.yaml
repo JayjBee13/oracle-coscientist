@@ -1,0 +1,144 @@
+name: oracle
+
+# One command brings up PostgreSQL, the API (which also serves the built frontend) and an
+# nginx front end:
+#
+#     cp docker/.env.example docker/.env     # then edit it
+#     docker compose up -d --build
+#
+# Open http://localhost:18000. Health: http://localhost:18001/api/health.
+#
+# To use an existing PostgreSQL instead of the bundled one, point DATABASE_URL in
+# docker/.env at it and start with `docker compose up -d app proxy`.
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    volumes:
+      - type: volume
+        source: oracle_db
+        target: /var/lib/postgresql/data
+      # Runs once, on an empty data volume: creates the role and the one database the
+      # application is allowed to own.
+      - type: bind
+        source: ./docker/init-db.sql
+        target: /docker-entrypoint-initdb.d/10-init.sql
+        read_only: true
+    init: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ai_coscientist_gui"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  app:
+    build:
+      context: .
+      target: runtime
+      args:
+        CLAUDE_CODE_VERSION: 2.1.263
+        CODEX_VERSION: 0.153.4
+    image: oracle-coscientist:local
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./docker/.env
+    environment:
+      APP_ENV: docker
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8787
+      FRONTEND_ORIGIN: ${ORACLE_PUBLIC_ORIGIN:-http://localhost:18000}
+      WEB_DIST_DIR: /app/frontend/dist
+      COSCIENTIST_RUNS_ROOT: /app/engines/runs
+      MANAGE_SUPERVISORS_ON_SHUTDOWN: "true"
+      SUPERVISOR_SHUTDOWN_GRACE_SECONDS: "10"
+      HOME: /home/oracle
+      DISABLE_AUTOUPDATER: "1"
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 45s
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 127.0.0.1:${ORACLE_API_PORT:-18001}:8787
+    volumes:
+      # Run workdirs stay on the host, so results survive the container.
+      - type: bind
+        source: ./engines
+        target: /app/engines
+      # CLI credentials live here, isolated from the host's own logins. Sign in with
+      # `docker compose exec app claude login` / `codex login`.
+      - type: volume
+        source: oracle_home
+        target: /home/oracle
+      - type: volume
+        source: oracle_runtime
+        target: /app/.dev
+    tmpfs:
+      - /tmp:uid=10001,gid=10001,mode=1777
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json,urllib.request; d=json.load(urllib.request.urlopen('http://127.0.0.1:8787/api/health', timeout=5)); assert d['status']=='ok' and d['db_ok']"]
+      interval: 15s
+      timeout: 8s
+      retries: 8
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"
+
+  proxy:
+    image: nginx:1.28.0-alpine@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284
+    depends_on:
+      app:
+        condition: service_healthy
+        restart: true
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 15s
+    user: "101:101"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 127.0.0.1:${ORACLE_WEB_PORT:-18000}:8080
+    volumes:
+      - type: bind
+        source: ./docker/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+    tmpfs:
+      - /tmp:uid=101,gid=101,mode=1777
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--output-document=/dev/null", "http://127.0.0.1:8080/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"
+
+volumes:
+  oracle_db:
+  oracle_home:
+  oracle_runtime:

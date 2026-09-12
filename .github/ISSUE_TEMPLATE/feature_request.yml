@@ -1,0 +1,55 @@
+name: Feature request
+description: Propose a change to how Oracle researches, or to the app around it.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For anything larger than a small addition, describe the problem before the solution.
+        Changes that weaken a documented engine invariant (see `CONTRIBUTING.md`) will be
+        declined, however well argued — propose an alternative that keeps them.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you unable to do today, and what do you do instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Research method (roles, scheduler, novelty injection)
+        - Models, tiers or cost control
+        - Run controls and steering
+        - Reporting and export
+        - API
+        - Frontend
+        - Deployment
+        - Docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+
+  - type: checkboxes
+    id: invariants
+    attributes:
+      label: Engine invariants
+      options:
+        - label: This does not give a role a shell, a filesystem, or a tool beyond web search.
+        - label: This keeps the loop in deterministic Python rather than moving decisions into a model.
+        - label: This does not change anything under `archive/`.

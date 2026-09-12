@@ -1,0 +1,508 @@
+/* ===========================================================================
+   The round circuit — /how-it-works.
+   An additive layer over base.css, owned by pages/HowItWorksPage.tsx and the
+   components under pages/circuit/.
+
+   Not one colour is written down here. The board, the readout and the trace
+   lane are built from the Observatory tokens like every other surface, so the
+   page follows the top bar's theme toggle with nothing to keep in sync.
+
+   That the five wire semantics survive the switch is a property of the tokens,
+   not a coincidence: --accent carries ideas, --info judgments, --caution
+   steering, --danger death and --go the report, and each of those has a light
+   value picked to mean the same thing at the same strength. Measured against
+   --surface-inset they run 4.6–6.0:1 in light and 6.4–10.5:1 in dark, so the
+   labels along the wires are legible either way round.
+
+   The one token deliberately *not* used for anything on the board is --faint
+   (3.3:1 light, 4.1:1 dark). It is the right weight for a section eyebrow on a
+   card and the wrong weight for a 10px label a reader has to find on a diagram.
+   =========================================================================== */
+
+/* --- The stage: board and readout ---------------------------------------- */
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The board is the only thing on this page allowed to scroll sideways. Below
+   960px of drawing the stations overlap their own labels, so the container
+   scrolls and the page body never does. */
+.board {
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.circuit {
+  display: block;
+  min-width: 960px;
+  width: 100%;
+  height: auto;
+}
+
+/* --- Type on the board ---------------------------------------------------- */
+.circuit text {
+  font-family: var(--font-ui);
+  fill: var(--text);
+}
+
+.circuit__title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: var(--weight-semibold);
+  fill: var(--text-strong);
+  letter-spacing: 0.02em;
+}
+
+.circuit__title--tight {
+  font-size: 12px;
+}
+
+.circuit__sub {
+  font-size: 10.5px;
+  fill: var(--muted);
+}
+
+/* --muted, not --faint: the step number is how a reader locates themselves in
+   the round, and at 10px --faint is 3.3:1 on a light board. */
+.circuit__step {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  fill: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.circuit__wire-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  fill: var(--muted);
+}
+
+.circuit__wire-label--amber {
+  fill: var(--caution);
+}
+.circuit__wire-label--red {
+  fill: var(--danger);
+}
+.circuit__wire-label--green {
+  fill: var(--go);
+}
+.circuit__wire-label--blue {
+  fill: var(--info);
+}
+
+/* --- Stations ------------------------------------------------------------- */
+.circuit__station {
+  cursor: pointer;
+  outline: none;
+}
+
+.circuit__station rect {
+  fill: var(--surface-raised);
+  stroke: var(--border-strong);
+}
+
+.circuit__station--small rect {
+  fill: var(--surface-raised-2);
+  stroke: var(--border);
+}
+
+.circuit__station:hover rect,
+.circuit__station:focus-visible rect {
+  stroke: var(--accent);
+}
+
+/* The focus ring is drawn on the box rather than suppressed: these are the only
+   ten controls on the page and every one of them must be findable by keyboard. */
+.circuit__station:focus-visible rect {
+  stroke-width: 2;
+}
+
+.circuit__station.is-active rect {
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 6px var(--accent-wash));
+}
+
+/* --- Wires ---------------------------------------------------------------- */
+.circuit__wire {
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.circuit__wire--idea {
+  stroke: var(--accent);
+  stroke-dasharray: 7 5;
+  animation: circuit-flow 1.1s linear infinite;
+}
+
+.circuit__wire--eval {
+  stroke: var(--info);
+}
+
+.circuit__wire--guide {
+  stroke: var(--caution);
+  stroke-dasharray: 3 4;
+}
+
+.circuit__wire--death {
+  stroke: var(--danger);
+}
+
+.circuit__wire--exit {
+  stroke: var(--go);
+}
+
+.circuit__head--idea path {
+  fill: var(--accent);
+}
+.circuit__head--eval path {
+  fill: var(--info);
+}
+.circuit__head--guide path {
+  fill: var(--caution);
+}
+.circuit__head--death path {
+  fill: var(--danger);
+}
+.circuit__head--exit path {
+  fill: var(--go);
+}
+
+@keyframes circuit-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+/* The marching ants say "ideas are moving through here" and nothing else, so
+   stopping them costs the drawing no meaning at all. */
+@media (prefers-reduced-motion: reduce) {
+  .circuit__wire--idea {
+    animation: none;
+  }
+}
+
+/* --- Selection: dim everything the chosen station does not touch ---------- */
+.circuit--focused .circuit__wire,
+.circuit--focused .circuit__wire-label {
+  opacity: 0.13;
+}
+
+.circuit--focused .circuit__wire.is-lit,
+.circuit--focused .circuit__wire-label.is-lit {
+  opacity: 1;
+}
+
+.circuit--focused .circuit__station {
+  opacity: 0.45;
+}
+
+.circuit--focused .circuit__station.is-active,
+.circuit--focused .circuit__station.is-peer {
+  opacity: 1;
+}
+
+/* --- The readout ---------------------------------------------------------- */
+.rail {
+  position: sticky;
+  top: var(--space-4);
+  background: var(--surface-raised);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+/* The hint is the instruction for working the diagram, not a footnote on it, so
+   it reads at --muted rather than at the eyebrow weight below. */
+.rail__hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}
+
+.rail__hint strong {
+  color: var(--text);
+}
+
+.rail__caption {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.rail__title {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+.rail__fans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.rail__fan {
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: var(--weight-semibold);
+  color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.rail__facts {
+  margin: var(--space-4) 0 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.rail__facts dt {
+  margin-bottom: 3px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.rail__facts dd {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--text);
+}
+
+.rail__model {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--accent);
+}
+
+.rail__override {
+  margin-left: var(--space-2);
+  border: var(--hairline) solid var(--caution);
+  border-radius: var(--radius-pill);
+  padding: 1px var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--caution);
+  background: var(--caution-wash);
+}
+
+.rail__why,
+.rail__norole {
+  margin-top: var(--space-1) !important;
+  color: var(--muted) !important;
+}
+
+/* --- Legend (page chrome: themes with the app) ---------------------------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  margin: var(--space-4) 0 0;
+  padding: 0 var(--space-1);
+  list-style: none;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.legend__swatch {
+  width: 26px;
+  height: 0;
+  border-top: 2px solid;
+  display: inline-block;
+}
+
+.legend__swatch--idea {
+  border-color: var(--accent);
+  border-top-style: dashed;
+}
+.legend__swatch--eval {
+  border-color: var(--info);
+}
+.legend__swatch--guide {
+  border-color: var(--caution);
+  border-top-style: dotted;
+}
+.legend__swatch--death {
+  border-color: var(--danger);
+}
+.legend__swatch--exit {
+  border-color: var(--go);
+}
+
+/* --- The life of one idea ------------------------------------------------- */
+.trace {
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-5) var(--space-7);
+  overflow-x: auto;
+}
+
+.trace__badge {
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  border: var(--hairline) solid var(--caution);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--caution);
+  background: var(--caution-wash);
+}
+
+.trace__lane {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  min-width: 900px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trace__step {
+  flex: 1 1 0;
+  position: relative;
+  padding: 0 var(--space-3);
+  display: flex;
+  flex-direction: column;
+}
+
+/* The rail between the dots, drawn behind them so the lane reads as one run of
+   track rather than six unrelated markers. */
+.trace__step::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: -50%;
+  width: 100%;
+  height: 0;
+  border-top: 2px solid var(--border-strong);
+}
+
+.trace__step:first-child::before {
+  display: none;
+}
+
+.trace__dot {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--space-2);
+  background: var(--surface-raised);
+  border: 2px solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  color: var(--accent);
+}
+
+.trace__step--win .trace__dot {
+  border-color: var(--go);
+  color: var(--go);
+}
+
+.trace__step--breed .trace__dot {
+  border-color: var(--caution);
+  color: var(--caution);
+}
+
+.trace__name {
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+  letter-spacing: 0.02em;
+}
+
+.trace__what {
+  margin-top: 2px;
+  font-size: 11.5px;
+  line-height: var(--leading-normal);
+  color: var(--muted);
+  max-width: 26ch;
+}
+
+.trace__what code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: var(--weight-medium);
+  color: var(--text);
+  background: var(--surface-raised-2);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-1);
+}
+
+.trace__dynasty {
+  margin: var(--space-6) 0 0;
+  padding-top: var(--space-4);
+  border-top: var(--hairline) dashed var(--border);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--muted);
+}
+
+.trace__dynasty strong {
+  color: var(--text);
+}
+
+.trace__kid-line {
+  display: inline-block;
+  margin-right: var(--space-3);
+}
+
+.trace__kid {
+  display: inline-block;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-pill);
+  border: var(--hairline) solid var(--caution);
+  color: var(--caution);
+  background: var(--caution-wash);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+}
+
+.trace__link {
+  margin: var(--space-4) 0 0;
+}

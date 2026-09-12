@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["options"],
+  "properties": {
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "prompt", "scoring_criteria", "recommended_settings"],
+        "properties": {
+          "label": {
+            "type": "string",
+            "enum": ["A", "B"]
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 160
+          },
+          "scoring_criteria": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["primary", "secondary", "rejection"],
+            "properties": {
+              "primary": {
+                "type": "string"
+              },
+              "secondary": {
+                "type": "string"
+              },
+              "rejection": {
+                "type": "string"
+              }
+            }
+          },
+          "recommended_settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["grounding_depth", "rounds", "budget", "matches_per_round", "top_k"],
+            "properties": {
+              "grounding_depth": {
+                "type": "string",
+                "enum": ["shallow", "standard", "deep"]
+              },
+              "rounds": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "budget": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "matches_per_round": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "top_k": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

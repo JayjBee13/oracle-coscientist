@@ -1,0 +1,64 @@
+{
+  "run_id": "fixture-healthy",
+  "goal": "A fixture run whose idea pool keeps opening new regions every round.",
+  "created": "2026-06-01T00:00:00Z",
+  "updated": "2026-06-01T03:00:00Z",
+  "iteration": 3,
+  "calls_used": 30,
+  "next_id": 9,
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 60,
+    "matches_per_round": 6,
+    "evolve_top_k": 3,
+    "graft": {
+      "enabled": true,
+      "quorum_k": 1,
+      "window": 3,
+      "thresholds": {"hhi": 0.5, "birth_rate": 0, "plateau_slack": 0},
+      "cooldown": 2
+    }
+  },
+  "hypotheses": {
+    "h001": {"id": "h001", "title": "Alpha", "file": "hypotheses/h001.md", "cluster": "c-alpha",
+             "created_iter": 1, "elo": 1240.0, "matches": 4, "wins": 3, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h002": {"id": "h002", "title": "Beta", "file": "hypotheses/h002.md", "cluster": "c-beta",
+             "created_iter": 1, "elo": 1210.0, "matches": 3, "wins": 2, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h003": {"id": "h003", "title": "Gamma", "file": "hypotheses/h003.md", "cluster": "c-gamma",
+             "created_iter": 1, "elo": 1180.0, "matches": 3, "wins": 1, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h004": {"id": "h004", "title": "Delta", "file": "hypotheses/h004.md", "cluster": "c-delta",
+             "created_iter": 2, "elo": 1205.0, "matches": 2, "wins": 1, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h005": {"id": "h005", "title": "Epsilon", "file": "hypotheses/h005.md", "cluster": "c-epsilon",
+             "created_iter": 2, "elo": 1195.0, "matches": 2, "wins": 1, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h006": {"id": "h006", "title": "Rejected at birth", "file": "hypotheses/h006.md",
+             "cluster": null, "created_iter": 2, "elo": 1200.0, "matches": 0, "wins": 0,
+             "parent": null, "status": "rejected", "review": {"verdict": "reject"}},
+    "h007": {"id": "h007", "title": "Zeta", "file": "hypotheses/h007.md", "cluster": "c-zeta",
+             "created_iter": 3, "elo": 1200.0, "matches": 0, "wins": 0, "parent": null,
+             "status": "active", "review": {"verdict": "pass"}},
+    "h008": {"id": "h008", "title": "Alpha, evolved", "file": "hypotheses/h008.md",
+             "cluster": "c-alpha", "created_iter": 2, "elo": 1215.0, "matches": 1, "wins": 1,
+             "parent": "h001", "status": "active", "review": {"verdict": "pass"}}
+  },
+  "matches": [],
+  "feedback": [],
+  "collapse": {
+    "history": [
+      {"iter": 1, "n_active": 3, "n_clusters": 3, "hhi": 0.333,
+       "clusters": ["c-alpha", "c-beta", "c-gamma"]},
+      {"iter": 2, "n_active": 5, "n_clusters": 5, "hhi": 0.2,
+       "clusters": ["c-alpha", "c-beta", "c-delta", "c-epsilon", "c-gamma"]},
+      {"iter": 3, "n_active": 7, "n_clusters": 6, "hhi": 0.184,
+       "clusters": ["c-alpha", "c-beta", "c-delta", "c-epsilon", "c-gamma", "c-zeta"]}
+    ],
+    "last_fired_iter": null,
+    "fired_count": 0
+  },
+  "pending_injection": ""
+}

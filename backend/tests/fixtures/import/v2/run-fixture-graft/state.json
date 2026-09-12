@@ -1,0 +1,156 @@
+{
+  "run_id": "run-fixture-graft",
+  "goal": "Identify the top novel FAITH/RELIGIOUS consumer & prosumer software ideas newly buildable specifically because of 2024-2026 AI advances \u2014 products a 1-3 person AI-native startup could MVP in 3-6 months and sell. Rank on: (1) TRUE why-now (genuinely newly-possible, NOT already shipped), (2) a STRUCTURAL wedge a big incumbent won't/can't copy, (3) buildability by a small team, (4) a clear payer who gains, (5) bounded liability (doctrinal-accuracy + crisis-safety + denominational-sensitivity handled).",
+  "created": "2026-06-01T23:44:27.821698+00:00",
+  "updated": "2026-06-02T00:56:00.181564+00:00",
+  "iteration": 2,
+  "calls_used": 31,
+  "next_id": 5,
+  "feedback": "RECURRING_ISSUES (losers):\n- Distribution moat is single-channel or captive to a closed third-party API (CCLI, Dharmamitra, Baian/Yaqeen), making the wedge fragile or already gatekept by an incumbent.\n- White-label / sermon-clip / chatbot-on-corpus plays are saturated; reviewers flag Gospel Bots, Ap",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 120,
+    "matches_per_round": 6,
+    "evolve_top_k": 3,
+    "graft": {
+      "enabled": true,
+      "quorum_k": 2,
+      "window": 3,
+      "thresholds": {
+        "hhi": 0.5,
+        "birth_rate": 0,
+        "plateau_slack": 0
+      },
+      "cooldown": 2
+    }
+  },
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "PastoralMind",
+      "file": "runs\\run-fixture-graft\\hypotheses\\h001.md",
+      "elo": 1216.0,
+      "matches": 2,
+      "wins": 2,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "Thin moat but real wedge."
+      },
+      "cluster": "c-clergy-notes",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h002": {
+      "id": "h002",
+      "title": "TeshuvaDraft",
+      "file": "runs\\run-fixture-graft\\hypotheses\\h002.md",
+      "elo": 1192.0,
+      "matches": 2,
+      "wins": 1,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "Datable why-now."
+      },
+      "cluster": "c-responsa",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h003": {
+      "id": "h003",
+      "title": "ZakatLedger",
+      "file": "runs\\run-fixture-graft\\hypotheses\\h003.md",
+      "elo": 1184.0,
+      "matches": 2,
+      "wins": 0,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "Payer risk unresolved."
+      },
+      "cluster": "c-zakat-audit",
+      "created_iter": 2,
+      "parent": "h001"
+    },
+    "h004": {
+      "id": "h004",
+      "title": "DayanOS",
+      "file": "runs\\run-fixture-graft\\hypotheses\\h004.md",
+      "elo": 1208.0,
+      "matches": 0,
+      "wins": 0,
+      "status": "active",
+      "review": {
+        "verdict": "pass",
+        "note": "Combination of two beachheads."
+      },
+      "cluster": "c-beitdin-os",
+      "created_iter": 2,
+      "parent": "h001,h002"
+    }
+  },
+  "matches": [
+    {
+      "a": "h001",
+      "b": "h002",
+      "winner": "a",
+      "iter": 1,
+      "note": "Clearer payer."
+    },
+    {
+      "a": "h002",
+      "b": "h003",
+      "winner": "a",
+      "iter": 1,
+      "note": "Sharper wedge."
+    },
+    {
+      "a": "h001",
+      "b": "h003",
+      "winner": "a",
+      "iter": 2,
+      "note": "Better distribution."
+    }
+  ],
+  "collapse": {
+    "history": [
+      {
+        "iter": 1,
+        "n_active": 2,
+        "n_clusters": 2,
+        "hhi": 0.5,
+        "clusters": [
+          "c-clergy-notes",
+          "c-responsa"
+        ]
+      },
+      {
+        "iter": 2,
+        "n_active": 4,
+        "n_clusters": 4,
+        "hhi": 0.25,
+        "clusters": [
+          "c-beitdin-os",
+          "c-clergy-notes",
+          "c-responsa",
+          "c-zakat-audit"
+        ]
+      },
+      {
+        "iter": 3,
+        "n_active": 4,
+        "n_clusters": 2,
+        "hhi": 0.5,
+        "clusters": [
+          "c-beitdin-os",
+          "c-clergy-notes"
+        ]
+      }
+    ],
+    "fired_count": 1,
+    "last_fired_iter": 3
+  },
+  "pending_injection": ""
+}

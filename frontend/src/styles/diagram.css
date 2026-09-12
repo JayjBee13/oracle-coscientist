@@ -1,0 +1,536 @@
+/* ===========================================================================
+   Workflow diagram — what a run actually does, drawn.
+   An additive layer over base.css, owned by components/WorkflowDiagram.tsx and
+   used by /how-it-works and by the wizard's Confirm step. Documented in
+   DESIGN.md § "Workflow diagram".
+
+   Every value here is a token. Nothing here is drawn by a charting library:
+   the spine, the fan-out and the return arrow are a border, a grid and two
+   hand-written SVG paths, which is why the whole thing themes itself from
+   `currentColor` and needs no second set of colours for light mode.
+
+   The one rule this file exists for: the diagram must read as a *loop with a
+   tail*, not as a list of eight equal things. The seven round steps sit on one
+   continuous spine that visibly turns back on itself; the report is separated
+   from them by a phase banner and hangs off the end.
+   =========================================================================== */
+
+.wf {
+  --wf-rail: 30px;
+  --wf-rail-center: 15px;
+  display: block;
+}
+
+/* --- Phase banners -------------------------------------------------------- */
+.wf__phase {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  margin: 0 0 var(--space-4);
+}
+
+.wf__phase--final {
+  grid-column: 1 / -1;
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--hairline) dashed var(--border);
+}
+
+.wf__phase-key {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  font-stretch: 87.5%;
+  color: var(--accent);
+}
+
+.wf__phase-text {
+  font-size: var(--text-xs);
+  color: var(--faint);
+}
+
+/* --- The spine ------------------------------------------------------------ */
+.wf__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wf__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--wf-rail) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+/* The continuous line the round sits on. It stops at the last round step,
+   where the return arrow takes over. */
+.wf__step[data-phase="round"]::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--wf-rail-center) - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border-strong);
+}
+
+.wf__step:first-child::before {
+  top: var(--space-4);
+}
+
+.wf__node {
+  position: relative;
+  z-index: 1;
+  width: var(--wf-rail);
+  height: var(--wf-rail);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--border-strong);
+  background: var(--surface-raised-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+
+.wf__step[data-kind="code"] .wf__node {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.wf__step[data-phase="final"] .wf__node {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* --- The card ------------------------------------------------------------- */
+.wf__card {
+  min-width: 0;
+  padding: var(--space-4);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--elev-1);
+}
+
+/* Code, not a model call: dashed and sunken, so it is legible as a different
+   kind of thing at a glance rather than only from its label. */
+.wf__step[data-kind="code"] .wf__card {
+  border-style: dashed;
+  background: var(--surface-inset);
+  box-shadow: none;
+}
+
+.wf__step[data-phase="final"] .wf__card {
+  border-color: var(--accent-quiet);
+}
+
+.wf__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.wf__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+}
+
+.wf__marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.wf__model {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+.wf__what {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text);
+  max-width: 78ch;
+}
+
+/* --- Flags: parallelism and grounding, stated both ways -------------------- */
+.wf__flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-3);
+}
+
+.wf__flag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-stretch: 87.5%;
+  color: var(--faint);
+}
+
+.wf__flag[data-on="true"] {
+  color: var(--text);
+}
+
+/* An "off" flag has no icon at all — a struck-through globe reads as an error,
+   and a greyed one reads as "loading". The words carry it. */
+.wf__flag[data-on="false"]::before {
+  content: "";
+  width: 10px;
+  height: 2px;
+  background: var(--border-strong);
+}
+
+.wf__icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chip .wf__icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- The fan-out ---------------------------------------------------------- */
+.wf__fan {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--border-faint);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised-2);
+}
+
+.wf__fan-svg {
+  width: 68px;
+  height: 28px;
+  flex: none;
+  color: var(--accent);
+}
+
+.wf__fan-text {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.wf__mark-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wf__mark-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.wf__mark-line--accent,
+.wf__mark-fill--accent {
+  color: var(--accent);
+}
+
+/* --- The engine's own reason --------------------------------------------- */
+.wf__note {
+  margin: var(--space-4) 0 0;
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--accent-quiet);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--muted);
+  max-width: 78ch;
+}
+
+.wf__note .label {
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.wf__aside {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  max-width: 78ch;
+}
+
+/* --- The conditional branch ---------------------------------------------- */
+.wf__branch {
+  margin: var(--space-4) 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline) dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--info-wash);
+}
+
+.wf__branch-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.wf__branch-title {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+.wf__branch .wf__what {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+/* --- The loop closing ----------------------------------------------------- */
+.wf__return {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: var(--wf-rail) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.wf__return-svg {
+  width: var(--wf-rail);
+  height: 46px;
+  justify-self: center;
+}
+
+.wf__return-text {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  max-width: 78ch;
+}
+
+/* --- Escalations the table cannot express -------------------------------- */
+.wf__escalations {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border: var(--hairline) solid var(--border-faint);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised-2);
+}
+
+.wf__escalations ul {
+  margin: var(--space-3) 0 0;
+  padding-left: var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.wf__escalations li + li {
+  margin-top: var(--space-2);
+}
+
+/* --- A tier the engine no longer publishes -------------------------------- */
+.wf__retired {
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--caution-wash);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* --- Compact: the Confirm step -------------------------------------------
+   Below ~1100px the strip wraps rather than scrolling, because the tile that
+   gets cut off is the report — the one reassurance this section exists to give
+   ("a report is written even if you stop early") — and there was no affordance
+   saying anything had been cut. Wrapped, the chevrons between tiles would point
+   into the margin, so they go; the numbered pips already carry the order.
+
+   The wrapper keeps `overflow-x: auto` and is focusable regardless: if a step is
+   ever added and the strip overflows even when wrapped, a keyboard can still
+   reach the scroll (WCAG 2.1.1) instead of the tail being unreachable.
+   ------------------------------------------------------------------------- */
+/* The global `:focus-visible` ring applies; it only needs room to sit in. */
+.wf__scroller:focus-visible {
+  outline-offset: 3px;
+}
+
+.wf__strip {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--space-6);
+  min-width: max-content;
+  margin: 0;
+  padding: var(--space-1) 0 var(--space-3);
+  list-style: none;
+}
+
+@media (max-width: 1100px) {
+  .wf__strip {
+    flex-wrap: wrap;
+    min-width: 0;
+    column-gap: var(--space-5);
+    row-gap: var(--space-5);
+  }
+
+  .wf__tile + .wf__tile::before {
+    display: none;
+  }
+}
+
+.wf__tile {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: var(--space-1);
+  min-width: 96px;
+}
+
+/* The step-to-step chevron, drawn in the gap rather than as a character. */
+.wf__tile + .wf__tile::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--space-6) + 3px);
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid var(--border-strong);
+  border-right: 2px solid var(--border-strong);
+  transform: rotate(45deg);
+}
+
+.wf__tile[data-phase="final"] {
+  padding-left: var(--space-6);
+  border-left: var(--hairline) dashed var(--border-strong);
+}
+
+.wf__tile[data-phase="final"]::before {
+  display: none;
+}
+
+.wf__pip {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  border: var(--hairline) solid var(--border-strong);
+  background: var(--surface-raised-2);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+
+.wf__tile[data-kind="code"] .wf__pip {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.wf__tile[data-phase="final"] .wf__pip {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.wf__tile-name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+  white-space: nowrap;
+}
+
+.wf__tile-model {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--muted);
+  white-space: nowrap;
+  min-height: 1em;
+}
+
+.wf__tile-flags {
+  display: flex;
+  gap: var(--space-2);
+  color: var(--faint);
+  min-height: 14px;
+}
+
+.wf__caption {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--faint);
+}
+
+.wf__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-stretch: 87.5%;
+  color: var(--faint);
+}
+
+.wf__legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* --- Narrow --------------------------------------------------------------- */
+@media (max-width: 899px) {
+  .wf {
+    --wf-rail: 26px;
+    --wf-rail-center: 13px;
+  }
+
+  .wf__step {
+    column-gap: var(--space-3);
+  }
+
+  .wf__card {
+    padding: var(--space-3);
+  }
+
+  .wf__marks {
+    margin-left: 0;
+  }
+}
+
+/* --- Reduced motion -------------------------------------------------------
+   Nothing here animates by design — the diagram is static, because a loop that
+   loops on screen is a loop you cannot read. This block is the guarantee.
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .wf,
+  .wf * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

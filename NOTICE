@@ -1,0 +1,38 @@
+Oracle — a multi-agent research engine
+Copyright 2026 Oracle co-scientist contributors
+
+This product includes software developed by the Oracle co-scientist contributors.
+Licensed under the Apache License, Version 2.0 (the "License"). You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Attribution and independence
+--------------------------------------------------------------------------------
+
+Oracle is an independent implementation of the multi-agent research workflow described
+in "Towards an AI co-scientist" (Gottweis et al., Google, 2025; arXiv:2502.18864) —
+the generation / reflection / proximity / ranking / evolution / meta-review loop with an
+Elo tournament — extended with novelty injection, a deterministic adaptive scheduler,
+evidence verification, synthesis and adversarial challenge.
+
+No code from that work is included here. This project is NOT affiliated with, sponsored
+by, or endorsed by Google LLC, Anthropic PBC, or OpenAI.
+
+Oracle invokes third-party command-line tools that it does not distribute:
+
+  * Claude Code CLI (@anthropic-ai/claude-code) — Anthropic PBC
+  * Codex CLI (@openai/codex) — OpenAI
+
+Those tools, the models they reach, and the accounts used to sign in to them are governed
+by their own terms of service. Confirm that your intended use is permitted under the
+subscription you authenticate with. "Claude", "Anthropic", "OpenAI", "Codex", "ChatGPT"
+and "Oracle" (as used by Oracle Corporation) are the trademarks of their respective
+owners; their use here is nominative and implies no endorsement.
+
+--------------------------------------------------------------------------------
+Archived original engines
+--------------------------------------------------------------------------------
+
+archive/engine-source/ contains the project's own earlier v1 and v2 engines and their
+role prompts, kept byte-exact so a test can prove the passages that had to survive the
+port still say what they said. They are covered by this repository's license.

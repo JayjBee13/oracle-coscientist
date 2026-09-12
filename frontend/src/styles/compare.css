@@ -1,0 +1,279 @@
+/* ===========================================================================
+   Comparison — two runs, side by side, never merged.
+   Additive over base.css; documented in DESIGN.md § "Screen layers".
+
+   The whole page is built around one constraint: Elo means nothing across two
+   tournaments. So the two ranked lists are separate charts, each normalised
+   against its own run, sharing a heading structure and a column position but
+   never a scale. Identity is carried by position and label — both sides use the
+   same accent fill, because a second hue would imply a second measure.
+   =========================================================================== */
+
+/* --- Pickers -------------------------------------------------------------- */
+.picker-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .picker-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .picker-swap {
+    justify-self: center;
+  }
+}
+
+.picker-swap {
+  align-self: center;
+  margin-top: var(--space-8);
+}
+
+.picker__list {
+  max-height: 280px;
+  overflow-y: auto;
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-inset);
+}
+
+.picker__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3);
+  text-align: left;
+  color: var(--text);
+  border: 0;
+  border-bottom: var(--hairline) solid var(--border-faint);
+  background: transparent;
+  transition: background var(--dur-1) var(--ease-out);
+}
+
+.picker__row:last-child {
+  border-bottom: 0;
+}
+
+.picker__row:hover {
+  background: var(--neutral-wash);
+}
+
+.picker__row[aria-pressed="true"] {
+  background: var(--accent-wash);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.picker__title {
+  min-width: 0;
+  font-weight: var(--weight-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picker__meta {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+/* --- Banners -------------------------------------------------------------- */
+.cmp-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: var(--hairline) solid var(--border);
+  border-left: 3px solid var(--tone, var(--border-strong));
+  background: var(--tone-wash, var(--neutral-wash));
+}
+
+.cmp-banner__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+}
+
+/* --- The verdict ---------------------------------------------------------- */
+.verdict {
+  padding: var(--space-6);
+  border-left: 3px solid var(--tone, var(--accent));
+}
+
+.verdict__headline {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+  text-wrap: balance;
+}
+
+/* --- Deltas ---------------------------------------------------------------
+   A table, not a chart: seven unrelated measures on seven different scales.
+   Every number is labelled, and the direction is an arrow *and* a word — never
+   a colour on its own.
+   ------------------------------------------------------------------------- */
+.delta-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.delta-table th {
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: right;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--hairline) solid var(--border);
+  white-space: nowrap;
+}
+
+.delta-table th:first-child {
+  text-align: left;
+}
+
+.delta-table td {
+  padding: var(--space-3);
+  border-bottom: var(--hairline) solid var(--border-faint);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.delta-table td:first-child {
+  text-align: left;
+  white-space: normal;
+  color: var(--text);
+}
+
+.delta-table tbody tr:hover td {
+  background: var(--neutral-wash);
+}
+
+.delta__change {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  color: var(--tone, var(--muted));
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+}
+
+.delta__word {
+  font-family: var(--font-ui);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-regular);
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+/* --- The two ranked lists ------------------------------------------------- */
+.cmp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .cmp-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cmp-side__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-bottom: var(--hairline) solid var(--border);
+}
+
+.cmp-side__title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-strong);
+  line-height: var(--leading-snug);
+}
+
+.rank {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) 0;
+}
+
+.rank__row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: inherit;
+  text-decoration: none;
+}
+
+a.rank__row:hover {
+  background: var(--neutral-wash);
+  color: inherit;
+}
+
+.rank__place {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--faint);
+}
+
+.rank__title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rank__elo {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+
+/* The bar. Thin, rounded at the data end only, anchored to a hairline track —
+   it reads as a measurement rather than as a container that is partly full. */
+.rank__bar {
+  grid-column: 2 / -1;
+  height: 6px;
+  margin-top: var(--space-1);
+  border-radius: var(--radius-xs);
+  background: var(--surface-inset);
+  border: var(--hairline) solid var(--border-faint);
+  overflow: hidden;
+}
+
+.rank__fill {
+  height: 100%;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--accent);
+  transition: width var(--dur-3) var(--ease-out);
+}
+
+.rank__caption {
+  padding: var(--space-3) var(--space-4);
+  border-top: var(--hairline) solid var(--border-faint);
+  font-size: var(--text-xs);
+  color: var(--faint);
+}

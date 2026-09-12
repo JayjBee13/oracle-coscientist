@@ -1,0 +1,5679 @@
+{
+  "components": {
+    "schemas": {
+      "AcceptedResponse": {
+        "additionalProperties": false,
+        "description": "`202` body for the two fire-and-forget writes: queued, not yet applied.",
+        "properties": {
+          "accepted": {
+            "default": true,
+            "title": "Accepted",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "accepted"
+        ],
+        "title": "AcceptedResponse",
+        "type": "object"
+      },
+      "BudgetByRole": {
+        "properties": {
+          "calls": {
+            "title": "Calls",
+            "type": "integer"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "tokens": {
+            "title": "Tokens",
+            "type": "integer"
+          },
+          "usd": {
+            "title": "Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "calls",
+          "role",
+          "tokens",
+          "usd"
+        ],
+        "title": "BudgetByRole",
+        "type": "object"
+      },
+      "CapabilitiesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "grounding": {
+            "$ref": "#/components/schemas/GroundingBrief"
+          },
+          "harnesses": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/HarnessBrief"
+            },
+            "title": "Harnesses",
+            "type": "object"
+          },
+          "models": {
+            "$ref": "#/components/schemas/ModelsBrief"
+          }
+        },
+        "required": [
+          "grounding",
+          "harnesses",
+          "models"
+        ],
+        "title": "CapabilitiesResponse",
+        "type": "object"
+      },
+      "CapabilityStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "checked_at": {
+            "format": "date-time",
+            "title": "Checked At",
+            "type": "string"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "required": [
+          "available",
+          "checked_at",
+          "notes"
+        ],
+        "title": "CapabilityStatus",
+        "type": "object"
+      },
+      "ChooseWorkshopRequest": {
+        "properties": {
+          "final_prompt": {
+            "default": "",
+            "title": "Final Prompt",
+            "type": "string"
+          },
+          "option_id": {
+            "title": "Option Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "option_id"
+        ],
+        "title": "ChooseWorkshopRequest",
+        "type": "object"
+      },
+      "ChosenPrompt": {
+        "properties": {
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "title": "ChosenPrompt",
+        "type": "object"
+      },
+      "CompareAnalytics": {
+        "properties": {
+          "baseline": {
+            "$ref": "#/components/schemas/RunSummary"
+          },
+          "challenger": {
+            "$ref": "#/components/schemas/RunSummary"
+          },
+          "deltas": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CompareDelta"
+            },
+            "title": "Deltas",
+            "type": "array"
+          },
+          "graft_summary": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CompareGraft"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "default": {},
+            "title": "Graft Summary",
+            "type": "object"
+          },
+          "movement": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CompareMovement"
+            },
+            "title": "Movement",
+            "type": "array"
+          },
+          "shared_prompt": {
+            "title": "Shared Prompt",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "baseline",
+          "challenger",
+          "deltas",
+          "graft_summary",
+          "movement",
+          "shared_prompt"
+        ],
+        "title": "CompareAnalytics",
+        "type": "object"
+      },
+      "CompareDelta": {
+        "properties": {
+          "base": {
+            "title": "Base",
+            "type": "number"
+          },
+          "challenger": {
+            "title": "Challenger",
+            "type": "number"
+          },
+          "direction_hint": {
+            "$ref": "#/components/schemas/DirectionHint"
+          },
+          "metric": {
+            "title": "Metric",
+            "type": "string"
+          }
+        },
+        "required": [
+          "base",
+          "challenger",
+          "direction_hint",
+          "metric"
+        ],
+        "title": "CompareDelta",
+        "type": "object"
+      },
+      "CompareGraft": {
+        "properties": {
+          "collapse_events": {
+            "title": "Collapse Events",
+            "type": "integer"
+          },
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "fired_count": {
+            "title": "Fired Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "collapse_events",
+          "enabled",
+          "fired_count"
+        ],
+        "title": "CompareGraft",
+        "type": "object"
+      },
+      "CompareMovement": {
+        "properties": {
+          "delta": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delta"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "previous_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous Rank"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "delta",
+          "hid",
+          "previous_rank",
+          "rank",
+          "title"
+        ],
+        "title": "CompareMovement",
+        "type": "object"
+      },
+      "ContextDocIn": {
+        "additionalProperties": false,
+        "description": "A document inlined into the prompts. Bytes only — no path ever reaches the CLI.",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "text": {
+            "maxLength": 200000,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "text"
+        ],
+        "title": "ContextDocIn",
+        "type": "object"
+      },
+      "ContextDocRef": {
+        "properties": {
+          "cap_chars": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cap Chars"
+          },
+          "chars": {
+            "title": "Chars",
+            "type": "integer"
+          },
+          "delivered": {
+            "default": "pending",
+            "enum": [
+              "full",
+              "truncated",
+              "omitted",
+              "pending"
+            ],
+            "title": "Delivered",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "cap_chars",
+          "chars",
+          "delivered",
+          "name"
+        ],
+        "title": "ContextDocRef",
+        "type": "object"
+      },
+      "ControlAction": {
+        "description": "Plan C4's legal actions. Which are legal *when* is the lifecycle's business.",
+        "enum": [
+          "pause",
+          "resume",
+          "continue",
+          "stop",
+          "finish",
+          "force_stop"
+        ],
+        "title": "ControlAction",
+        "type": "string"
+      },
+      "CreateRunRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "config": {
+            "$ref": "#/components/schemas/RunConfigIn"
+          },
+          "context_docs": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ContextDocIn"
+            },
+            "maxItems": 5,
+            "title": "Context Docs",
+            "type": "array"
+          },
+          "from_run": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Run"
+          },
+          "harness": {
+            "default": "claude",
+            "enum": [
+              "claude",
+              "codex",
+              "demo"
+            ],
+            "title": "Harness",
+            "type": "string"
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt"
+          },
+          "question": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Question"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          }
+        },
+        "title": "CreateRunRequest",
+        "type": "object"
+      },
+      "CreateWorkshopRequest": {
+        "properties": {
+          "context_docs": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/WorkshopContextDoc"
+            },
+            "title": "Context Docs",
+            "type": "array"
+          },
+          "harness": {
+            "$ref": "#/components/schemas/Harness",
+            "default": "claude"
+          },
+          "question": {
+            "title": "Question",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "title": "CreateWorkshopRequest",
+        "type": "object"
+      },
+      "DirectionHint": {
+        "description": "Which way a larger challenger number reads.",
+        "enum": [
+          "up",
+          "down",
+          "flat"
+        ],
+        "title": "DirectionHint",
+        "type": "string"
+      },
+      "Event": {
+        "properties": {
+          "payload": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Payload",
+            "type": "object"
+          },
+          "round": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Round"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "ts": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ts"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "payload",
+          "round",
+          "run_id",
+          "seq",
+          "ts",
+          "type"
+        ],
+        "title": "Event",
+        "type": "object"
+      },
+      "EventTicket": {
+        "properties": {
+          "expires_in": {
+            "title": "Expires In",
+            "type": "integer"
+          },
+          "ticket": {
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expires_in",
+          "ticket"
+        ],
+        "title": "EventTicket",
+        "type": "object"
+      },
+      "FeedbackEntry": {
+        "properties": {
+          "guidance": {
+            "title": "Guidance",
+            "type": "string"
+          },
+          "round": {
+            "title": "Round",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "guidance",
+          "round"
+        ],
+        "title": "FeedbackEntry",
+        "type": "object"
+      },
+      "GraftConfigIn": {
+        "properties": {
+          "cooldown": {
+            "default": 2,
+            "maximum": 10.0,
+            "minimum": 0.0,
+            "title": "Cooldown",
+            "type": "integer"
+          },
+          "enabled": {
+            "default": false,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "quorum_k": {
+            "default": 3,
+            "maximum": 3.0,
+            "minimum": 1.0,
+            "title": "Quorum K",
+            "type": "integer"
+          },
+          "window": {
+            "default": 3,
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Window",
+            "type": "integer"
+          }
+        },
+        "title": "GraftConfigIn",
+        "type": "object"
+      },
+      "GraftEvent": {
+        "properties": {
+          "abstained_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Abstained Reason"
+          },
+          "fired": {
+            "title": "Fired",
+            "type": "boolean"
+          },
+          "hhi": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hhi"
+          },
+          "n_clusters": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N Clusters"
+          },
+          "round": {
+            "title": "Round",
+            "type": "integer"
+          },
+          "seed_framing": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed Framing"
+          },
+          "source_domain": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Domain"
+          },
+          "votes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Votes"
+          }
+        },
+        "required": [
+          "abstained_reason",
+          "fired",
+          "hhi",
+          "n_clusters",
+          "round",
+          "seed_framing",
+          "source_domain",
+          "votes"
+        ],
+        "title": "GraftEvent",
+        "type": "object"
+      },
+      "GraphEdge": {
+        "description": "One descent link, parent → child.\n\nThe operator is copied from the child so an edge can be styled without a lookup — the\ntwo arrows converging on a combination are the visual signature of evolution.",
+        "properties": {
+          "child": {
+            "title": "Child",
+            "type": "string"
+          },
+          "operator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operator"
+          },
+          "parent": {
+            "title": "Parent",
+            "type": "string"
+          }
+        },
+        "required": [
+          "child",
+          "operator",
+          "parent"
+        ],
+        "title": "GraphEdge",
+        "type": "object"
+      },
+      "GraphMeta": {
+        "description": "What the legend needs to describe this run without overclaiming.",
+        "properties": {
+          "elo_max": {
+            "title": "Elo Max",
+            "type": "number"
+          },
+          "elo_min": {
+            "title": "Elo Min",
+            "type": "number"
+          },
+          "has_clusters": {
+            "title": "Has Clusters",
+            "type": "boolean"
+          },
+          "has_lineage": {
+            "title": "Has Lineage",
+            "type": "boolean"
+          },
+          "lineage_recorded": {
+            "title": "Lineage Recorded",
+            "type": "boolean"
+          },
+          "node_count": {
+            "title": "Node Count",
+            "type": "integer"
+          },
+          "rounds": {
+            "title": "Rounds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "elo_max",
+          "elo_min",
+          "has_clusters",
+          "has_lineage",
+          "lineage_recorded",
+          "node_count",
+          "rounds"
+        ],
+        "title": "GraphMeta",
+        "type": "object"
+      },
+      "GraphNode": {
+        "description": "One idea as the genealogy canvas draws it.\n\nNarrower than `HypothesisRow` on purpose in one direction and wider in another: no\n`body_md` and no `parent_ids` (descent is edges, so a node and a link are not two\ndisagreeing statements of the same fact), plus `is_leader`, which no single row can\nknow because it is a fact about the run.",
+        "properties": {
+          "cluster": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cluster"
+          },
+          "created_round": {
+            "title": "Created Round",
+            "type": "integer"
+          },
+          "duplicate_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duplicate Of"
+          },
+          "elo": {
+            "title": "Elo",
+            "type": "number"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_leader": {
+            "title": "Is Leader",
+            "type": "boolean"
+          },
+          "matches": {
+            "title": "Matches",
+            "type": "integer"
+          },
+          "operator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operator"
+          },
+          "source": {
+            "$ref": "#/components/schemas/HypothesisSource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HypothesisStatus"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "wins": {
+            "title": "Wins",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "cluster",
+          "created_round",
+          "duplicate_of",
+          "elo",
+          "hid",
+          "id",
+          "is_leader",
+          "matches",
+          "operator",
+          "source",
+          "status",
+          "title",
+          "wins"
+        ],
+        "title": "GraphNode",
+        "type": "object"
+      },
+      "GroundingBrief": {
+        "additionalProperties": false,
+        "properties": {
+          "perplexity": {
+            "title": "Perplexity",
+            "type": "boolean"
+          },
+          "web": {
+            "title": "Web",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "perplexity",
+          "web"
+        ],
+        "title": "GroundingBrief",
+        "type": "object"
+      },
+      "GroundingCapabilitiesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "built_in_web": {
+            "$ref": "#/components/schemas/CapabilityStatus"
+          },
+          "perplexity": {
+            "$ref": "#/components/schemas/CapabilityStatus"
+          }
+        },
+        "required": [
+          "built_in_web",
+          "perplexity"
+        ],
+        "title": "GroundingCapabilitiesResponse",
+        "type": "object"
+      },
+      "GroundingDepth": {
+        "enum": [
+          "shallow",
+          "standard",
+          "deep"
+        ],
+        "title": "GroundingDepth",
+        "type": "string"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HaltAllResponse": {
+        "description": "`POST /admin/halt-all`. The runs the kill switch actually stopped.",
+        "properties": {
+          "stopped": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Stopped",
+            "type": "array"
+          }
+        },
+        "required": [
+          "stopped"
+        ],
+        "title": "HaltAllResponse",
+        "type": "object"
+      },
+      "Harness": {
+        "enum": [
+          "claude",
+          "codex",
+          "demo"
+        ],
+        "title": "Harness",
+        "type": "string"
+      },
+      "HarnessBrief": {
+        "additionalProperties": false,
+        "properties": {
+          "installed": {
+            "title": "Installed",
+            "type": "boolean"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          }
+        },
+        "required": [
+          "installed",
+          "version"
+        ],
+        "title": "HarnessBrief",
+        "type": "object"
+      },
+      "HarnessCapabilitiesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "claude": {
+            "$ref": "#/components/schemas/HarnessCapabilityStatus"
+          },
+          "codex": {
+            "$ref": "#/components/schemas/HarnessCapabilityStatus"
+          }
+        },
+        "required": [
+          "claude",
+          "codex"
+        ],
+        "title": "HarnessCapabilitiesResponse",
+        "type": "object"
+      },
+      "HarnessCapabilityStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "checked_at": {
+            "format": "date-time",
+            "title": "Checked At",
+            "type": "string"
+          },
+          "executable": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Executable"
+          },
+          "installed": {
+            "title": "Installed",
+            "type": "boolean"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "real_runs_enabled": {
+            "title": "Real Runs Enabled",
+            "type": "boolean"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          }
+        },
+        "required": [
+          "available",
+          "checked_at",
+          "executable",
+          "installed",
+          "notes",
+          "real_runs_enabled",
+          "version"
+        ],
+        "title": "HarnessCapabilityStatus",
+        "type": "object"
+      },
+      "HarnessHealthStatus": {
+        "properties": {
+          "installed": {
+            "title": "Installed",
+            "type": "boolean"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          }
+        },
+        "required": [
+          "installed",
+          "version"
+        ],
+        "title": "HarnessHealthStatus",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "active_runs": {
+            "title": "Active Runs",
+            "type": "integer"
+          },
+          "db_ok": {
+            "title": "Db Ok",
+            "type": "boolean"
+          },
+          "harnesses": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/HarnessHealthStatus"
+            },
+            "title": "Harnesses",
+            "type": "object"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "active_runs",
+          "db_ok",
+          "harnesses",
+          "status",
+          "version"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "HypothesisDetail": {
+        "properties": {
+          "body_md": {
+            "title": "Body Md",
+            "type": "string"
+          },
+          "cluster": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cluster"
+          },
+          "created_round": {
+            "title": "Created Round",
+            "type": "integer"
+          },
+          "duplicate_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duplicate Of"
+          },
+          "elo": {
+            "title": "Elo",
+            "type": "number"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "lineage": {
+            "$ref": "#/components/schemas/Lineage"
+          },
+          "match_history": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/MatchRow"
+            },
+            "title": "Match History",
+            "type": "array"
+          },
+          "matches": {
+            "title": "Matches",
+            "type": "integer"
+          },
+          "novelty_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Novelty Level"
+          },
+          "operator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operator"
+          },
+          "parent_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Parent Ids",
+            "type": "array"
+          },
+          "reviews": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ReviewRow"
+            },
+            "title": "Reviews",
+            "type": "array"
+          },
+          "source": {
+            "$ref": "#/components/schemas/HypothesisSource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HypothesisStatus"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "wins": {
+            "title": "Wins",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "body_md",
+          "cluster",
+          "created_round",
+          "duplicate_of",
+          "elo",
+          "hid",
+          "id",
+          "lineage",
+          "match_history",
+          "matches",
+          "novelty_level",
+          "operator",
+          "parent_ids",
+          "reviews",
+          "source",
+          "status",
+          "title",
+          "wins"
+        ],
+        "title": "HypothesisDetail",
+        "type": "object"
+      },
+      "HypothesisRow": {
+        "properties": {
+          "cluster": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cluster"
+          },
+          "created_round": {
+            "title": "Created Round",
+            "type": "integer"
+          },
+          "duplicate_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duplicate Of"
+          },
+          "elo": {
+            "title": "Elo",
+            "type": "number"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "matches": {
+            "title": "Matches",
+            "type": "integer"
+          },
+          "novelty_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Novelty Level"
+          },
+          "operator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Operator"
+          },
+          "parent_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Parent Ids",
+            "type": "array"
+          },
+          "source": {
+            "$ref": "#/components/schemas/HypothesisSource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HypothesisStatus"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "wins": {
+            "title": "Wins",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "cluster",
+          "created_round",
+          "duplicate_of",
+          "elo",
+          "hid",
+          "id",
+          "matches",
+          "novelty_level",
+          "operator",
+          "parent_ids",
+          "source",
+          "status",
+          "title",
+          "wins"
+        ],
+        "title": "HypothesisRow",
+        "type": "object"
+      },
+      "HypothesisSource": {
+        "enum": [
+          "agent",
+          "human"
+        ],
+        "title": "HypothesisSource",
+        "type": "string"
+      },
+      "HypothesisStatus": {
+        "enum": [
+          "active",
+          "rejected",
+          "archived"
+        ],
+        "title": "HypothesisStatus",
+        "type": "string"
+      },
+      "IdentityResponse": {
+        "properties": {
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "groups": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Groups",
+            "type": "array"
+          },
+          "is_admin": {
+            "title": "Is Admin",
+            "type": "boolean"
+          },
+          "source": {
+            "enum": [
+              "gateway",
+              "local"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_name",
+          "email",
+          "groups",
+          "is_admin",
+          "source",
+          "username"
+        ],
+        "title": "IdentityResponse",
+        "type": "object"
+      },
+      "ImportReportResponse": {
+        "description": "`POST /admin/reimport`. Counts of what one pass over the archive did.",
+        "properties": {
+          "created": {
+            "default": 0,
+            "title": "Created",
+            "type": "integer"
+          },
+          "graft_events": {
+            "default": 0,
+            "title": "Graft Events",
+            "type": "integer"
+          },
+          "hypotheses": {
+            "default": 0,
+            "title": "Hypotheses",
+            "type": "integer"
+          },
+          "imported": {
+            "default": 0,
+            "title": "Imported",
+            "type": "integer"
+          },
+          "legacy_bodies": {
+            "default": 0,
+            "title": "Legacy Bodies",
+            "type": "integer"
+          },
+          "matches": {
+            "default": 0,
+            "title": "Matches",
+            "type": "integer"
+          },
+          "overviews": {
+            "default": 0,
+            "title": "Overviews",
+            "type": "integer"
+          },
+          "repaired_strings": {
+            "default": 0,
+            "title": "Repaired Strings",
+            "type": "integer"
+          },
+          "reviews": {
+            "default": 0,
+            "title": "Reviews",
+            "type": "integer"
+          },
+          "run_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Run Ids",
+            "type": "array"
+          },
+          "updated": {
+            "default": 0,
+            "title": "Updated",
+            "type": "integer"
+          },
+          "warnings": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "created",
+          "graft_events",
+          "hypotheses",
+          "imported",
+          "legacy_bodies",
+          "matches",
+          "overviews",
+          "repaired_strings",
+          "reviews",
+          "run_ids",
+          "updated",
+          "warnings"
+        ],
+        "title": "ImportReportResponse",
+        "type": "object"
+      },
+      "Lifecycle": {
+        "description": "Plan C4's canonical set. Transitions live with the model, not here.",
+        "enum": [
+          "queued",
+          "running",
+          "pausing",
+          "paused",
+          "stopping",
+          "stopped",
+          "finishing",
+          "completed",
+          "failed",
+          "lost"
+        ],
+        "title": "Lifecycle",
+        "type": "string"
+      },
+      "Lineage": {
+        "properties": {
+          "children": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HypothesisRow"
+            },
+            "title": "Children",
+            "type": "array"
+          },
+          "parents": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HypothesisRow"
+            },
+            "title": "Parents",
+            "type": "array"
+          }
+        },
+        "required": [
+          "children",
+          "parents"
+        ],
+        "title": "Lineage",
+        "type": "object"
+      },
+      "MatchRow": {
+        "properties": {
+          "a": {
+            "$ref": "#/components/schemas/MatchSide"
+          },
+          "b": {
+            "$ref": "#/components/schemas/MatchSide"
+          },
+          "debate_md": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Debate Md"
+          },
+          "elo_a_after": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elo A After"
+          },
+          "elo_a_before": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elo A Before"
+          },
+          "elo_b_after": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elo B After"
+          },
+          "elo_b_before": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elo B Before"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "judge_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Judge Model"
+          },
+          "round": {
+            "title": "Round",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/MatchStatus"
+          },
+          "ts": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ts"
+          },
+          "winner": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Winner"
+          }
+        },
+        "required": [
+          "a",
+          "b",
+          "debate_md",
+          "elo_a_after",
+          "elo_a_before",
+          "elo_b_after",
+          "elo_b_before",
+          "id",
+          "judge_model",
+          "round",
+          "status",
+          "ts",
+          "winner"
+        ],
+        "title": "MatchRow",
+        "type": "object"
+      },
+      "MatchSide": {
+        "properties": {
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hid",
+          "title"
+        ],
+        "title": "MatchSide",
+        "type": "object"
+      },
+      "MatchStatus": {
+        "enum": [
+          "planned",
+          "completed",
+          "skipped"
+        ],
+        "title": "MatchStatus",
+        "type": "string"
+      },
+      "ModelChoiceBrief": {
+        "additionalProperties": false,
+        "description": "A model a role may be set to, with what it costs to prefer it.\n\n**`efforts` is this model's own effort ladder, and an effort picker must read it off the\nselected model rather than off its provider.** The two providers' ladders happen to match\ntoday and are not required to: a ladder is published per model slug by the CLI that runs\nit, and offering a rung the model does not have is a 400 in the middle of a paid run.\n\n`input_usd_per_mtok`/`output_usd_per_mtok` are list prices per million tokens and are\n**null for models that have none** — the Codex pair runs on a ChatGPT account with no\nper-token price to quote. Their per-call bracket is still given, and `price_basis` says\nwhere it came from: `list` (derived from those prices) or `class_parity` (the bracket of\nthe model of the same class that does have them). A bracket labelled as a parity estimate\nis honest; a price nobody quoted would not be.",
+        "properties": {
+          "efforts": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Efforts",
+            "type": "array"
+          },
+          "grounded": {
+            "title": "Grounded",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "input_usd_per_mtok": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Usd Per Mtok"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "model_class": {
+            "title": "Model Class",
+            "type": "string"
+          },
+          "output_usd_per_mtok": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Usd Per Mtok"
+          },
+          "price_basis": {
+            "title": "Price Basis",
+            "type": "string"
+          },
+          "provider": {
+            "title": "Provider",
+            "type": "string"
+          },
+          "recommendation": {
+            "title": "Recommendation",
+            "type": "string"
+          },
+          "relative_cost": {
+            "title": "Relative Cost",
+            "type": "number"
+          },
+          "usd_per_call_high": {
+            "title": "Usd Per Call High",
+            "type": "number"
+          },
+          "usd_per_call_low": {
+            "title": "Usd Per Call Low",
+            "type": "number"
+          }
+        },
+        "required": [
+          "efforts",
+          "grounded",
+          "id",
+          "input_usd_per_mtok",
+          "label",
+          "model_class",
+          "output_usd_per_mtok",
+          "price_basis",
+          "provider",
+          "recommendation",
+          "relative_cost",
+          "usd_per_call_high",
+          "usd_per_call_low"
+        ],
+        "title": "ModelChoiceBrief",
+        "type": "object"
+      },
+      "ModelDefaultBrief": {
+        "additionalProperties": false,
+        "description": "The persisted system default every new run and workshop inherits.\n\nThe same value `GET /api/settings/models` serves, carried here so the wizard and the top\nbar can render on one round trip. `source` distinguishes a default somebody chose from\nthe built-in one nobody has changed yet.\n\n`tiers` is the stored per-tier override buckets — saving in the editor redefines the tier\nthat is selected, so there is one bucket per tier and each is sparse. `overrides` is the\nderived mirror of the selected tier's bucket, which is what the launcher and the workshop\nactually read, and `table` is that tier resolved.",
+        "properties": {
+          "overrides": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "default": {},
+            "title": "Overrides",
+            "type": "object"
+          },
+          "provider": {
+            "title": "Provider",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "table": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/RoleModelBrief"
+            },
+            "title": "Table",
+            "type": "array"
+          },
+          "tier": {
+            "title": "Tier",
+            "type": "string"
+          },
+          "tiers": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "type": "object"
+            },
+            "default": {},
+            "title": "Tiers",
+            "type": "object"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "required": [
+          "overrides",
+          "provider",
+          "source",
+          "table",
+          "tier",
+          "tiers",
+          "updated_at"
+        ],
+        "title": "ModelDefaultBrief",
+        "type": "object"
+      },
+      "ModelOverrideIn": {
+        "additionalProperties": false,
+        "description": "One role's model and/or effort, replacing what the tier would have given it.\n\nBoth fields are optional and independent: naming only an effort keeps the tier's model\nand vice versa. The literal sets are the allowlist itself rather than a copy of it, so\na model this engine refuses is a 422 at the edge and never reaches the launcher — and\n`claude-fable-5`, which the CLI silently downgrades to Opus 5, is refused here by not\nbeing in the set (the launcher's error explains why if it arrives another way).\n\nA row may name **either provider's** model regardless of the run's `provider`: mixing\nproviders within one run is the point of the field, not an accident of it.\n\n`effort` is checked here only against the engine's whole vocabulary. Whether a given\nlevel exists on the chosen *model* is the model's own business — every model publishes\nits own ladder in `/api/capabilities`, and a level outside it is clamped, visibly, in\nthe resolved table. **A client offering an effort picker must read the ladder off the\nselected model, not off its provider.**",
+        "properties": {
+          "effort": {
+            "anyOf": [
+              {
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "xhigh",
+                  "max"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effort"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "enum": [
+                  "claude-opus-5",
+                  "fable",
+                  "gpt-5.6-luna",
+                  "gpt-5.6-sol",
+                  "gpt-6-astra"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "title": "ModelOverrideIn",
+        "type": "object"
+      },
+      "ModelOverrideSettingIn": {
+        "additionalProperties": false,
+        "description": "One role's model and/or effort on the **settings** body. Deliberately plain strings.\n\nNot `schemas.launch.ModelOverrideIn`, which types both fields as the literal allowlist.\nThat is right for a launch — a run must never reach the launcher naming a model this\nengine refuses — and wrong here, because this endpoint's entire contract is that a\ndefault which could not become a run comes back carrying the *model policy's own*\nsentence. A literal union answers `claude-fable-5` with \"Input should be\n'claude-opus-5', 'fable', 'gpt-5.6-luna' or 'gpt-5.6-sol'\", which is true and useless:\nthe fact worth telling anybody is that the CLI accepts that id and silently runs Opus 5,\nand it lives in `MODEL_TRAPS`, one layer below where Pydantic stops.\n\nSo the values go through as strings and `validate_model`/`validate_effort` refuse them\nwith a reason. `extra=\"forbid\"` stays: an override carries these two fields and nothing\nelse, and an invented field is a malformed request rather than a policy question.",
+        "properties": {
+          "effort": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effort"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "title": "ModelOverrideSettingIn",
+        "type": "object"
+      },
+      "ModelSettingsResponse": {
+        "additionalProperties": false,
+        "description": "The stored default and the table it resolves to.\n\n`source` is `stored` once the editor has saved anything and `built_in` before that, so a\nUI can tell \"this is what the system does\" from \"this is what somebody chose\".\n\n`tiers` is the stored per-tier buckets and `overrides` is a **read-only mirror** of\n`tiers[tier]` — the same object the launcher and the workshop read, served so a client that\nonly cares about the tier in force does not have to index the buckets itself. It is derived\non every response rather than stored, so the mirror cannot fall out of step with what it\nmirrors. `table` is the resolved table for the **selected** tier.",
+        "properties": {
+          "overrides": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ModelOverrideIn"
+            },
+            "title": "Overrides",
+            "type": "object"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          },
+          "source": {
+            "enum": [
+              "stored",
+              "built_in"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "table": {
+            "items": {
+              "$ref": "#/components/schemas/ModelSettingsRow"
+            },
+            "title": "Table",
+            "type": "array"
+          },
+          "tier": {
+            "$ref": "#/components/schemas/ModelTier"
+          },
+          "tiers": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "$ref": "#/components/schemas/ModelOverrideIn"
+              },
+              "type": "object"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/ModelTier"
+            },
+            "title": "Tiers",
+            "type": "object"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "required": [
+          "overrides",
+          "provider",
+          "source",
+          "table",
+          "tier",
+          "tiers",
+          "updated_at"
+        ],
+        "title": "ModelSettingsResponse",
+        "type": "object"
+      },
+      "ModelSettingsRow": {
+        "additionalProperties": false,
+        "description": "One resolved step of the default table.",
+        "properties": {
+          "effort": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ],
+            "title": "Effort",
+            "type": "string"
+          },
+          "grounded": {
+            "title": "Grounded",
+            "type": "boolean"
+          },
+          "model": {
+            "enum": [
+              "claude-opus-5",
+              "fable",
+              "gpt-5.6-luna",
+              "gpt-5.6-sol",
+              "gpt-6-astra"
+            ],
+            "title": "Model",
+            "type": "string"
+          },
+          "model_class": {
+            "enum": [
+              "heavy",
+              "light"
+            ],
+            "title": "Model Class",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "effort",
+          "grounded",
+          "model",
+          "model_class",
+          "note",
+          "role"
+        ],
+        "title": "ModelSettingsRow",
+        "type": "object"
+      },
+      "ModelSettingsUpdate": {
+        "additionalProperties": false,
+        "description": "`PUT` body. Every field optional; an absent one keeps the built-in default's value.\n\n`overrides` may name either provider's model on any row — mixing providers inside one\ntable is the point of the field. The effort named for a row is checked against the\nengine's vocabulary in the service and against **the chosen model's own ladder** when the\ntable is resolved, which is where a level the model does not have gets clamped, visibly,\ninto the table this endpoint returns.\n\nProvider, tier and the override role keys are strings for the same reason the two fields\nof `ModelOverrideSettingIn` are: every one of them has an engine validator whose refusal\nnames the value *and* the alternatives, and a wire enum in front of that validator\nreplaces the message with a list. Tightening any of these back into an enum silently\nturns this endpoint's 400s into generic 422s again.",
+        "properties": {
+          "overrides": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ModelOverrideSettingIn"
+            },
+            "title": "Overrides",
+            "type": "object"
+          },
+          "provider": {
+            "default": "anthropic",
+            "title": "Provider",
+            "type": "string"
+          },
+          "tier": {
+            "default": "max",
+            "title": "Tier",
+            "type": "string"
+          },
+          "tiers": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "$ref": "#/components/schemas/ModelOverrideSettingIn"
+              },
+              "type": "object"
+            },
+            "title": "Tiers",
+            "type": "object"
+          }
+        },
+        "title": "ModelSettingsUpdate",
+        "type": "object"
+      },
+      "ModelTableEntry": {
+        "properties": {
+          "effort": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effort"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "effort",
+          "model",
+          "role"
+        ],
+        "title": "ModelTableEntry",
+        "type": "object"
+      },
+      "ModelTier": {
+        "description": "A preset that moves thinking effort — and, for `low` alone, the model too.\n\nFor `max`, `high` and `med`, which model a step runs on is fixed by how hard the step is\n— heavy steps take the provider's frontier model, light steps take its workhorse — so\n`med` is a run that thinks less, never a run that thinks with something weaker.\nClustering is pinned to low effort in every tier.\n\n`low` is the speed preset and the one exception: it pins **every** step to `gpt-5.6-luna`\nat high effort whatever the run's provider says, so a Low run drives the Codex CLI and\nneeds it installed. That is published rather than implied — `/api/capabilities` carries\nthe pin and the CLI requirement per tier in `models.tier_catalog` — because a tier\nchanging models is only a problem when nobody can see it.\n\nThe older names `standard`/`maximum` and the pre-floor `balanced`/`quality` are gone\nfrom the wire but are still accepted on the way in and mapped by\n`engine/runners.normalise_tier`, because stored run configs say them.",
+        "enum": [
+          "max",
+          "high",
+          "med",
+          "low"
+        ],
+        "title": "ModelTier",
+        "type": "string"
+      },
+      "ModelsBrief": {
+        "additionalProperties": false,
+        "description": "Which model and thinking effort each step gets, per provider and per tier.\n\nRead straight out of the engine's own `role_catalog`, so what the top bar and the wizard\nshow is what a run launched right now would actually use. `notes` carries the escalations\nthe orchestrator applies from run state, which no table can express; `catalog`,\n`providers` and `efforts` are the vocabularies a per-role picker chooses from — served\nrather than restated, because a client that types its own model list is a client that can\noffer a model the engine will refuse.\n\n`tiers` is keyed by provider and then by tier, because the same tier names a different\npair of models on each provider. `efforts` is the engine's whole vocabulary and is the\nouter bound only — **the options for one row are the `efforts` of that row's model in\n`catalog`.**\n\n`tier_catalog` is the tiers themselves: label, what each one does, and — for the one tier\nthat pins a model rather than only an effort — which model and which CLI that needs. A\ncontrol offering tiers reads that instead of hard-coding four names and a description each.",
+        "properties": {
+          "catalog": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ModelChoiceBrief"
+            },
+            "title": "Catalog",
+            "type": "array"
+          },
+          "default": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelDefaultBrief"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "default_provider": {
+            "title": "Default Provider",
+            "type": "string"
+          },
+          "default_tier": {
+            "title": "Default Tier",
+            "type": "string"
+          },
+          "efforts": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Efforts",
+            "type": "array"
+          },
+          "notes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "providers": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ProviderBrief"
+            },
+            "title": "Providers",
+            "type": "array"
+          },
+          "tier_catalog": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/TierBrief"
+            },
+            "title": "Tier Catalog",
+            "type": "array"
+          },
+          "tiers": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "items": {
+                  "$ref": "#/components/schemas/RoleModelBrief"
+                },
+                "type": "array"
+              },
+              "type": "object"
+            },
+            "title": "Tiers",
+            "type": "object"
+          }
+        },
+        "required": [
+          "catalog",
+          "default",
+          "default_provider",
+          "default_tier",
+          "efforts",
+          "notes",
+          "providers",
+          "tier_catalog",
+          "tiers"
+        ],
+        "title": "ModelsBrief",
+        "type": "object"
+      },
+      "NoteRequest": {
+        "additionalProperties": false,
+        "description": "`POST /runs/{id}/note`. Blank text is refused here rather than queued and ignored.",
+        "properties": {
+          "text": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "title": "NoteRequest",
+        "type": "object"
+      },
+      "PatchRunRequest": {
+        "additionalProperties": false,
+        "description": "`PATCH /runs/{id}`: the only two fields a scientist may change after launch.\n\nEverything else — question, prompt, config — is immutable once a run exists;\nrenaming or archiving it is bookkeeping, not a change to what the run did. A field left\nout of the body is left alone, not cleared.",
+        "properties": {
+          "archived": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Archived"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          }
+        },
+        "title": "PatchRunRequest",
+        "type": "object"
+      },
+      "Provider": {
+        "description": "Whose CLI runs a step. A quick-set for the whole table, never a lock on one row:\nsteps mix providers freely, and the runner for a call is chosen from that row's model.",
+        "enum": [
+          "anthropic",
+          "openai"
+        ],
+        "title": "Provider",
+        "type": "string"
+      },
+      "ProviderBrief": {
+        "additionalProperties": false,
+        "description": "One provider the top bar's quick-set can choose, and the CLI lane it drives.\n\n`efforts` here is the *union* of this provider's models' ladders and exists only to size\na control. It is not a per-row vocabulary: a row's real options are the `efforts` of the\nmodel on that row.",
+        "properties": {
+          "efforts": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Efforts",
+            "type": "array"
+          },
+          "harness": {
+            "title": "Harness",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "models": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Models",
+            "type": "array"
+          }
+        },
+        "required": [
+          "efforts",
+          "harness",
+          "id",
+          "label",
+          "models"
+        ],
+        "title": "ProviderBrief",
+        "type": "object"
+      },
+      "RefineWorkshopRequest": {
+        "properties": {
+          "base": {
+            "description": "An option id, or 'merge' to combine both.",
+            "title": "Base",
+            "type": "string"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "base"
+        ],
+        "title": "RefineWorkshopRequest",
+        "type": "object"
+      },
+      "ResearchApproach": {
+        "properties": {
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "framing": {
+            "title": "Framing",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "assumptions",
+          "framing",
+          "id",
+          "method"
+        ],
+        "title": "ResearchApproach",
+        "type": "object"
+      },
+      "ResearchCalculation": {
+        "properties": {
+          "assumption": {
+            "title": "Assumption",
+            "type": "string"
+          },
+          "claim_id": {
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "expected": {
+            "title": "Expected",
+            "type": "number"
+          },
+          "expression": {
+            "title": "Expression",
+            "type": "string"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "tolerance": {
+            "title": "Tolerance",
+            "type": "number"
+          }
+        },
+        "required": [
+          "assumption",
+          "claim_id",
+          "error",
+          "expected",
+          "expression",
+          "passed",
+          "result",
+          "tolerance"
+        ],
+        "title": "ResearchCalculation",
+        "type": "object"
+      },
+      "ResearchCandidate": {
+        "properties": {
+          "approach": {
+            "title": "Approach",
+            "type": "string"
+          },
+          "calculation_results": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchCalculation"
+            },
+            "title": "Calculation Results",
+            "type": "array"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchClaim"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "dimensions": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ResearchDimension"
+            },
+            "title": "Dimensions",
+            "type": "object"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "next_test": {
+            "title": "Next Test",
+            "type": "string"
+          },
+          "readiness": {
+            "title": "Readiness",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "approach",
+          "calculation_results",
+          "claims",
+          "dimensions",
+          "hid",
+          "next_test",
+          "readiness",
+          "title"
+        ],
+        "title": "ResearchCandidate",
+        "type": "object"
+      },
+      "ResearchClaim": {
+        "properties": {
+          "claim": {
+            "title": "Claim",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchSource"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim",
+          "id",
+          "rationale",
+          "sources",
+          "status"
+        ],
+        "title": "ResearchClaim",
+        "type": "object"
+      },
+      "ResearchContradiction": {
+        "properties": {
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchClaim"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claims",
+          "hid",
+          "title"
+        ],
+        "title": "ResearchContradiction",
+        "type": "object"
+      },
+      "ResearchDecision": {
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "checkpoint": {
+            "title": "Checkpoint",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "checkpoint",
+          "reason"
+        ],
+        "title": "ResearchDecision",
+        "type": "object"
+      },
+      "ResearchDependency": {
+        "properties": {
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "solution_hids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Solution Hids",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subproblem_id": {
+            "title": "Subproblem Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "rationale",
+          "solution_hids",
+          "status",
+          "subproblem_id"
+        ],
+        "title": "ResearchDependency",
+        "type": "object"
+      },
+      "ResearchDimension": {
+        "properties": {
+          "grade": {
+            "title": "Grade",
+            "type": "string"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "rationale"
+        ],
+        "title": "ResearchDimension",
+        "type": "object"
+      },
+      "ResearchSource": {
+        "properties": {
+          "finding": {
+            "title": "Finding",
+            "type": "string"
+          },
+          "relation": {
+            "title": "Relation",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "finding",
+          "relation",
+          "url"
+        ],
+        "title": "ResearchSource",
+        "type": "object"
+      },
+      "ResearchSourceStrategy": {
+        "properties": {
+          "other_source_queries": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Other Source Queries",
+            "type": "array"
+          },
+          "published_research_percent": {
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Published Research Percent",
+            "type": "integer"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "scholarly_queries": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scholarly Queries",
+            "type": "array"
+          }
+        },
+        "required": [
+          "other_source_queries",
+          "published_research_percent",
+          "rationale",
+          "scholarly_queries"
+        ],
+        "title": "ResearchSourceStrategy",
+        "type": "object"
+      },
+      "ResearchSubproblem": {
+        "properties": {
+          "acceptance_test": {
+            "title": "Acceptance Test",
+            "type": "string"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Depends On",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "question": {
+            "title": "Question",
+            "type": "string"
+          }
+        },
+        "required": [
+          "acceptance_test",
+          "depends_on",
+          "id",
+          "question"
+        ],
+        "title": "ResearchSubproblem",
+        "type": "object"
+      },
+      "ResearchView": {
+        "properties": {
+          "approaches": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchApproach"
+            },
+            "title": "Approaches",
+            "type": "array"
+          },
+          "blocking_issues": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Blocking Issues",
+            "type": "array"
+          },
+          "challenge_assessment": {
+            "default": "",
+            "title": "Challenge Assessment",
+            "type": "string"
+          },
+          "contradictions": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchContradiction"
+            },
+            "title": "Contradictions",
+            "type": "array"
+          },
+          "decisions": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchDecision"
+            },
+            "title": "Decisions",
+            "type": "array"
+          },
+          "dependencies": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchDependency"
+            },
+            "title": "Dependencies",
+            "type": "array"
+          },
+          "objective": {
+            "default": "",
+            "title": "Objective",
+            "type": "string"
+          },
+          "phase": {
+            "default": "queued",
+            "title": "Phase",
+            "type": "string"
+          },
+          "portfolio": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchCandidate"
+            },
+            "title": "Portfolio",
+            "type": "array"
+          },
+          "recommendation_ready": {
+            "default": false,
+            "title": "Recommendation Ready",
+            "type": "boolean"
+          },
+          "source_strategy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchSourceStrategy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "subproblems": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchSubproblem"
+            },
+            "title": "Subproblems",
+            "type": "array"
+          },
+          "synthesis_markdown": {
+            "default": "",
+            "title": "Synthesis Markdown",
+            "type": "string"
+          },
+          "synthesis_round": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synthesis Round"
+          },
+          "unresolved": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Unresolved",
+            "type": "array"
+          }
+        },
+        "required": [
+          "approaches",
+          "blocking_issues",
+          "challenge_assessment",
+          "contradictions",
+          "decisions",
+          "dependencies",
+          "objective",
+          "phase",
+          "portfolio",
+          "recommendation_ready",
+          "source_strategy",
+          "subproblems",
+          "synthesis_markdown",
+          "synthesis_round",
+          "unresolved"
+        ],
+        "title": "ResearchView",
+        "type": "object"
+      },
+      "ReviewRow": {
+        "description": "Imported runs carry only `verdict` and `note` — history recorded nothing else.",
+        "properties": {
+          "correctness": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correctness"
+          },
+          "key_risk": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Key Risk"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "novelty_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Novelty Level"
+          },
+          "novelty_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Novelty Note"
+          },
+          "testability": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Testability"
+          },
+          "verdict": {
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "correctness",
+          "key_risk",
+          "model",
+          "note",
+          "novelty_level",
+          "novelty_note",
+          "testability",
+          "verdict"
+        ],
+        "title": "ReviewRow",
+        "type": "object"
+      },
+      "RoleModelBrief": {
+        "additionalProperties": false,
+        "description": "One step of the loop: what it runs on, and why it is set that way.",
+        "properties": {
+          "effort": {
+            "title": "Effort",
+            "type": "string"
+          },
+          "grounded": {
+            "title": "Grounded",
+            "type": "boolean"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "model_class": {
+            "title": "Model Class",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "effort",
+          "grounded",
+          "model",
+          "model_class",
+          "note",
+          "role"
+        ],
+        "title": "RoleModelBrief",
+        "type": "object"
+      },
+      "RoundSummary": {
+        "properties": {
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "graft_fired": {
+            "default": false,
+            "title": "Graft Fired",
+            "type": "boolean"
+          },
+          "hypotheses_added": {
+            "default": 0,
+            "title": "Hypotheses Added",
+            "type": "integer"
+          },
+          "matches_completed": {
+            "default": 0,
+            "title": "Matches Completed",
+            "type": "integer"
+          },
+          "matches_planned": {
+            "default": 0,
+            "title": "Matches Planned",
+            "type": "integer"
+          },
+          "reviews": {
+            "default": 0,
+            "title": "Reviews",
+            "type": "integer"
+          },
+          "round": {
+            "title": "Round",
+            "type": "integer"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "completed_at",
+          "graft_fired",
+          "hypotheses_added",
+          "matches_completed",
+          "matches_planned",
+          "reviews",
+          "round",
+          "started_at",
+          "status"
+        ],
+        "title": "RoundSummary",
+        "type": "object"
+      },
+      "RunBudget": {
+        "properties": {
+          "budget_calls": {
+            "title": "Budget Calls",
+            "type": "integer"
+          },
+          "budget_usd": {
+            "title": "Budget Usd",
+            "type": "number"
+          },
+          "by_role": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/BudgetByRole"
+            },
+            "title": "By Role",
+            "type": "array"
+          },
+          "calls_used": {
+            "title": "Calls Used",
+            "type": "integer"
+          },
+          "spend_usd": {
+            "title": "Spend Usd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "budget_calls",
+          "budget_usd",
+          "by_role",
+          "calls_used",
+          "spend_usd"
+        ],
+        "title": "RunBudget",
+        "type": "object"
+      },
+      "RunConfigIn": {
+        "description": "Plan C5's config block. `model_table` is not accepted: the launcher resolves it.",
+        "properties": {
+          "budget_calls": {
+            "default": 150,
+            "exclusiveMinimum": 0.0,
+            "maximum": 10000.0,
+            "title": "Budget Calls",
+            "type": "integer"
+          },
+          "budget_usd": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1000.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Usd"
+          },
+          "evolve_top_k": {
+            "default": 3,
+            "maximum": 25.0,
+            "minimum": 0.0,
+            "title": "Evolve Top K",
+            "type": "integer"
+          },
+          "generation_batch": {
+            "default": 8,
+            "maximum": 40.0,
+            "minimum": 1.0,
+            "title": "Generation Batch",
+            "type": "integer"
+          },
+          "graft": {
+            "$ref": "#/components/schemas/GraftConfigIn"
+          },
+          "grounding_depth": {
+            "$ref": "#/components/schemas/GroundingDepth",
+            "default": "standard"
+          },
+          "matches_per_round": {
+            "default": 6,
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Matches Per Round",
+            "type": "integer"
+          },
+          "model_overrides": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/ModelOverrideIn"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "generation",
+                    "reflection",
+                    "proximity",
+                    "ranking",
+                    "evolution",
+                    "meta_review",
+                    "cartographer",
+                    "overview",
+                    "workshop",
+                    "framing",
+                    "verification",
+                    "synthesis",
+                    "challenge"
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Overrides"
+          },
+          "model_tier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelTier"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Provider"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rounds": {
+            "default": 5,
+            "maximum": 25.0,
+            "minimum": 1.0,
+            "title": "Rounds",
+            "type": "integer"
+          },
+          "runner": {
+            "$ref": "#/components/schemas/RunnerKind",
+            "default": "claude"
+          },
+          "wall_clock_minutes": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1440.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wall Clock Minutes"
+          },
+          "workflow": {
+            "default": "adaptive",
+            "enum": [
+              "adaptive",
+              "tournament"
+            ],
+            "title": "Workflow",
+            "type": "string"
+          }
+        },
+        "title": "RunConfigIn",
+        "type": "object"
+      },
+      "RunControlRequest": {
+        "additionalProperties": false,
+        "description": "`POST /runs/{id}/controls`. One action, plus the three fields `continue` needs.",
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/ControlAction"
+          },
+          "add_rounds": {
+            "anyOf": [
+              {
+                "maximum": 25.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Add Rounds"
+          },
+          "budget_calls": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Calls"
+          },
+          "budget_usd": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 1000.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Usd"
+          }
+        },
+        "required": [
+          "action"
+        ],
+        "title": "RunControlRequest",
+        "type": "object"
+      },
+      "RunControlResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "accepted": {
+            "title": "Accepted",
+            "type": "boolean"
+          },
+          "lifecycle": {
+            "$ref": "#/components/schemas/Lifecycle"
+          }
+        },
+        "required": [
+          "accepted",
+          "lifecycle"
+        ],
+        "title": "RunControlResponse",
+        "type": "object"
+      },
+      "RunCounts": {
+        "properties": {
+          "active": {
+            "default": 0,
+            "title": "Active",
+            "type": "integer"
+          },
+          "archived": {
+            "default": 0,
+            "title": "Archived",
+            "type": "integer"
+          },
+          "matches": {
+            "default": 0,
+            "title": "Matches",
+            "type": "integer"
+          },
+          "rejected": {
+            "default": 0,
+            "title": "Rejected",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "active",
+          "archived",
+          "matches",
+          "rejected"
+        ],
+        "title": "RunCounts",
+        "type": "object"
+      },
+      "RunDetail": {
+        "properties": {
+          "budget": {
+            "$ref": "#/components/schemas/RunBudget"
+          },
+          "config": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Config",
+            "type": "object"
+          },
+          "context_docs": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ContextDocRef"
+            },
+            "title": "Context Docs",
+            "type": "array"
+          },
+          "degraded_count": {
+            "default": 0,
+            "title": "Degraded Count",
+            "type": "integer"
+          },
+          "failed_calls": {
+            "default": 0,
+            "title": "Failed Calls",
+            "type": "integer"
+          },
+          "feedback_history": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/FeedbackEntry"
+            },
+            "title": "Feedback History",
+            "type": "array"
+          },
+          "graft_events": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GraftEvent"
+            },
+            "title": "Graft Events",
+            "type": "array"
+          },
+          "leaderboard": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HypothesisRow"
+            },
+            "title": "Leaderboard",
+            "type": "array"
+          },
+          "lost_steps": {
+            "default": 0,
+            "title": "Lost Steps",
+            "type": "integer"
+          },
+          "model_table": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ModelTableEntry"
+            },
+            "title": "Model Table",
+            "type": "array"
+          },
+          "problems": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "title": "Problems",
+            "type": "array"
+          },
+          "recent_events": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "title": "Recent Events",
+            "type": "array"
+          },
+          "research": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "retried_calls": {
+            "default": 0,
+            "title": "Retried Calls",
+            "type": "integer"
+          },
+          "rounds": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/RoundSummary"
+            },
+            "title": "Rounds",
+            "type": "array"
+          },
+          "run": {
+            "$ref": "#/components/schemas/RunSummary"
+          }
+        },
+        "required": [
+          "budget",
+          "config",
+          "context_docs",
+          "degraded_count",
+          "failed_calls",
+          "feedback_history",
+          "graft_events",
+          "leaderboard",
+          "lost_steps",
+          "model_table",
+          "problems",
+          "recent_events",
+          "research",
+          "retried_calls",
+          "rounds",
+          "run"
+        ],
+        "title": "RunDetail",
+        "type": "object"
+      },
+      "RunGraft": {
+        "properties": {
+          "enabled": {
+            "default": false,
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "fired_count": {
+            "default": 0,
+            "title": "Fired Count",
+            "type": "integer"
+          },
+          "pending": {
+            "default": false,
+            "title": "Pending",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled",
+          "fired_count",
+          "pending"
+        ],
+        "title": "RunGraft",
+        "type": "object"
+      },
+      "RunGraph": {
+        "properties": {
+          "edges": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GraphEdge"
+            },
+            "title": "Edges",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/GraphMeta"
+          },
+          "nodes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/GraphNode"
+            },
+            "title": "Nodes",
+            "type": "array"
+          },
+          "run_id": {
+            "format": "uuid",
+            "title": "Run Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "edges",
+          "meta",
+          "nodes",
+          "run_id"
+        ],
+        "title": "RunGraph",
+        "type": "object"
+      },
+      "RunList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RunSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "RunList",
+        "type": "object"
+      },
+      "RunSource": {
+        "enum": [
+          "app",
+          "imported"
+        ],
+        "title": "RunSource",
+        "type": "string"
+      },
+      "RunSummary": {
+        "properties": {
+          "archived": {
+            "title": "Archived",
+            "type": "boolean"
+          },
+          "budget_calls": {
+            "title": "Budget Calls",
+            "type": "integer"
+          },
+          "calls_used": {
+            "title": "Calls Used",
+            "type": "integer"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/RunCounts"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "elapsed_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elapsed Seconds"
+          },
+          "ended_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended Reason"
+          },
+          "engine_run_id": {
+            "title": "Engine Run Id",
+            "type": "string"
+          },
+          "failed_calls": {
+            "default": 0,
+            "title": "Failed Calls",
+            "type": "integer"
+          },
+          "graft": {
+            "$ref": "#/components/schemas/RunGraft"
+          },
+          "harness": {
+            "$ref": "#/components/schemas/Harness"
+          },
+          "has_overview": {
+            "title": "Has Overview",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "lifecycle": {
+            "$ref": "#/components/schemas/Lifecycle"
+          },
+          "lost_steps": {
+            "default": 0,
+            "title": "Lost Steps",
+            "type": "integer"
+          },
+          "model_level": {
+            "anyOf": [
+              {
+                "enum": [
+                  "low",
+                  "med",
+                  "high",
+                  "max"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Level"
+          },
+          "model_level_custom": {
+            "default": false,
+            "title": "Model Level Custom",
+            "type": "boolean"
+          },
+          "overview_skipped_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Overview Skipped Reason"
+          },
+          "owner_display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Display Name"
+          },
+          "question": {
+            "title": "Question",
+            "type": "string"
+          },
+          "round": {
+            "title": "Round",
+            "type": "integer"
+          },
+          "rounds_target": {
+            "title": "Rounds Target",
+            "type": "integer"
+          },
+          "source": {
+            "$ref": "#/components/schemas/RunSource"
+          },
+          "source_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Version"
+          },
+          "spend_usd": {
+            "title": "Spend Usd",
+            "type": "number"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "tokens_total": {
+            "title": "Tokens Total",
+            "type": "integer"
+          },
+          "top": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/RunTop"
+            },
+            "title": "Top",
+            "type": "array"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "archived",
+          "budget_calls",
+          "calls_used",
+          "counts",
+          "created_at",
+          "elapsed_seconds",
+          "ended_reason",
+          "engine_run_id",
+          "failed_calls",
+          "graft",
+          "harness",
+          "has_overview",
+          "id",
+          "lifecycle",
+          "lost_steps",
+          "model_level",
+          "model_level_custom",
+          "overview_skipped_reason",
+          "owner_display_name",
+          "question",
+          "round",
+          "rounds_target",
+          "source",
+          "source_version",
+          "spend_usd",
+          "title",
+          "tokens_total",
+          "top",
+          "updated_at"
+        ],
+        "title": "RunSummary",
+        "type": "object"
+      },
+      "RunTop": {
+        "properties": {
+          "elo": {
+            "title": "Elo",
+            "type": "number"
+          },
+          "hid": {
+            "title": "Hid",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/HypothesisStatus"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "elo",
+          "hid",
+          "status",
+          "title"
+        ],
+        "title": "RunTop",
+        "type": "object"
+      },
+      "RunnerKind": {
+        "description": "Which runner executes a run's calls. `demo` is the fake; the other two are real.\n\n`claude`/`codex` name the *default* lane rather than a restriction — a real run\ndispatches each call to the runner its row's model belongs to, so a table mixing\nproviders works whichever of the two this says.",
+        "enum": [
+          "claude",
+          "codex",
+          "demo"
+        ],
+        "title": "RunnerKind",
+        "type": "string"
+      },
+      "TierBrief": {
+        "additionalProperties": false,
+        "description": "One tier the top bar can select, and what selecting it does.\n\nServed rather than restated for the same reason the role table is: a control that\ndescribed a tier in its own words would describe it wrongly the first time a tier changed.\n\nTwo fields exist to keep the `low` tier's model pin **visible**, which is the condition\non which a tier was allowed to name a model at all:\n\n* `pinned_models` — model class → the model this tier forces on it, empty for the tiers\n  that force none (`max`, `high`, `med` all leave the model to the provider). A client can\n  therefore say \"this tier runs Luna\" without diffing two resolved tables to notice.\n* `requires_harness` — the CLIs a run in this tier drives *because of the pin*, whatever\n  its provider says. `low` requires `codex`, and `available` is that requirement checked\n  against the probe, so the UI can warn on an install without Codex rather than let the\n  first call of a run discover it.\n\n`available` is false only when a required CLI is missing. A tier that pins nothing is\nalways available: which CLI it needs is then decided by the run's provider, which the\n`harnesses` block already reports on.",
+        "properties": {
+          "available": {
+            "default": true,
+            "title": "Available",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "pinned_models": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "default": {},
+            "title": "Pinned Models",
+            "type": "object"
+          },
+          "requires_harness": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Requires Harness",
+            "type": "array"
+          },
+          "unavailable_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unavailable Reason"
+          }
+        },
+        "required": [
+          "available",
+          "id",
+          "label",
+          "note",
+          "pinned_models",
+          "requires_harness",
+          "unavailable_reason"
+        ],
+        "title": "TierBrief",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ctx",
+          "input",
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Workshop": {
+        "properties": {
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WorkshopError"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "harness": {
+            "$ref": "#/components/schemas/Harness"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "options": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/WorkshopOption"
+            },
+            "title": "Options",
+            "type": "array"
+          },
+          "question": {
+            "title": "Question",
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/WorkshopState"
+          }
+        },
+        "required": [
+          "created_at",
+          "error",
+          "harness",
+          "id",
+          "options",
+          "question",
+          "state"
+        ],
+        "title": "Workshop",
+        "type": "object"
+      },
+      "WorkshopContextDoc": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "text"
+        ],
+        "title": "WorkshopContextDoc",
+        "type": "object"
+      },
+      "WorkshopError": {
+        "description": "Why a workshop stopped. `code` is for the app, `message` is for the scientist.",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "detail",
+          "message"
+        ],
+        "title": "WorkshopError",
+        "type": "object"
+      },
+      "WorkshopOption": {
+        "properties": {
+          "chosen": {
+            "default": false,
+            "title": "Chosen",
+            "type": "boolean"
+          },
+          "excludes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excludes"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "optimizes_for": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Optimizes For"
+          },
+          "ordinal": {
+            "title": "Ordinal",
+            "type": "integer"
+          },
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          },
+          "rationale": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rationale"
+          },
+          "recommended_settings": {
+            "$ref": "#/components/schemas/WorkshopRecommendedSettings"
+          },
+          "rejected": {
+            "default": false,
+            "title": "Rejected",
+            "type": "boolean"
+          },
+          "strategy": {
+            "title": "Strategy",
+            "type": "string"
+          }
+        },
+        "required": [
+          "chosen",
+          "excludes",
+          "id",
+          "note",
+          "optimizes_for",
+          "ordinal",
+          "prompt",
+          "rationale",
+          "recommended_settings",
+          "rejected",
+          "strategy"
+        ],
+        "title": "WorkshopOption",
+        "type": "object"
+      },
+      "WorkshopRecommendedSettings": {
+        "description": "What this option wants the run configured as. Defaults match the Standard preset.",
+        "properties": {
+          "budget_calls": {
+            "default": 60,
+            "title": "Budget Calls",
+            "type": "integer"
+          },
+          "grounding_depth": {
+            "$ref": "#/components/schemas/GroundingDepth",
+            "default": "standard"
+          },
+          "matches_per_round": {
+            "default": 6,
+            "title": "Matches Per Round",
+            "type": "integer"
+          },
+          "rounds": {
+            "default": 3,
+            "title": "Rounds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "budget_calls",
+          "grounding_depth",
+          "matches_per_round",
+          "rounds"
+        ],
+        "title": "WorkshopRecommendedSettings",
+        "type": "object"
+      },
+      "WorkshopState": {
+        "enum": [
+          "refining",
+          "options_ready",
+          "chosen",
+          "failed"
+        ],
+        "title": "WorkshopState",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "description": "Local-first API for Oracle run orchestration and artifact discovery.",
+    "title": "Oracle GUI API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/admin/halt-all": {
+      "post": {
+        "description": "Stop every live run and kill every supervisor this app started.\n\nThe panic button behind the app shell's red \"Stop all\". It sets the stop flag on each\nactive run *and* kills its recorded pid, because the situations that call for this are\nthe ones where a supervisor might not be reading its flag any more. Runs whose pid now\nbelongs to something else are left for the cooperative path rather than guessed at.",
+        "operationId": "halt_everything_api_admin_halt_all_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HaltAllResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Halt Everything",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/api/admin/reimport": {
+      "post": {
+        "description": "Re-read the archive into the database.\n\nIdempotent, so this is also the repair when a run was edited by hand or a startup\nimport was interrupted: runs match on `engine_run_id` and hypotheses on `hid`, so\nnothing is duplicated and the ids already in the frontend's URLs keep working.",
+        "operationId": "reimport_api_admin_reimport_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportReportResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Reimport",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/api/artifacts/{run_id}/{artifact_path}": {
+      "get": {
+        "operationId": "read_artifact_api_artifacts__run_id___artifact_path__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_path",
+            "required": true,
+            "schema": {
+              "title": "Artifact Path",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Read Artifact",
+        "tags": [
+          "artifacts"
+        ]
+      }
+    },
+    "/api/capabilities": {
+      "get": {
+        "description": "Plan C5's single combined view: what the wizard needs to decide, nothing it doesn't.\n\nUnlike `/harnesses` below, this never spawns a fresh probe on every request — every\nopen tab polls it, and a minute-old install/version answer is as good as a live one\n(`cached_probe_cli`, 60s).",
+        "operationId": "capabilities_summary_api_capabilities_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilitiesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Capabilities Summary",
+        "tags": [
+          "capabilities"
+        ]
+      }
+    },
+    "/api/capabilities/grounding": {
+      "get": {
+        "operationId": "grounding_capabilities_api_capabilities_grounding_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroundingCapabilitiesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Grounding Capabilities",
+        "tags": [
+          "capabilities"
+        ]
+      }
+    },
+    "/api/capabilities/harnesses": {
+      "get": {
+        "operationId": "harness_capabilities_api_capabilities_harnesses_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HarnessCapabilitiesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Harness Capabilities",
+        "tags": [
+          "capabilities"
+        ]
+      }
+    },
+    "/api/compare": {
+      "get": {
+        "operationId": "compare_runs_api_compare_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "baseline",
+            "required": true,
+            "schema": {
+              "title": "Baseline",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "challenger",
+            "required": true,
+            "schema": {
+              "title": "Challenger",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareAnalytics"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compare Runs",
+        "tags": [
+          "compare"
+        ]
+      }
+    },
+    "/api/health": {
+      "get": {
+        "description": "Plan C5's health shape. Harness probes are cached (60s); this never spawns a\nmodel call — `--version` only.",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health"
+      }
+    },
+    "/api/hypotheses/{hypothesis_id}": {
+      "get": {
+        "description": "Body, reviews, every match it played, and its place in the lineage.",
+        "operationId": "get_hypothesis_api_hypotheses__hypothesis_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hypothesis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Hypothesis Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HypothesisDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Hypothesis",
+        "tags": [
+          "hypotheses"
+        ]
+      }
+    },
+    "/api/me": {
+      "get": {
+        "operationId": "current_identity_api_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdentityResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Current Identity",
+        "tags": [
+          "identity"
+        ]
+      }
+    },
+    "/api/runs": {
+      "get": {
+        "description": "A page of runs, newest first.\n\nDemo runs are hidden unless asked for, by `include_demo` or by naming the harness:\nthey are practice runs and would otherwise crowd out the scientist's real work.",
+        "operationId": "list_runs_api_runs_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "harness",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Harness"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "in": "query",
+            "name": "show_archived",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Show Archived",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include_demo",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Include Demo",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "recent",
+              "enum": [
+                "recent",
+                "oldest",
+                "title",
+                "calls"
+              ],
+              "title": "Sort",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mine",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Mine",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Runs",
+        "tags": [
+          "runs"
+        ]
+      },
+      "post": {
+        "description": "Create a run and start its supervisor. Returns as soon as the process is alive.\n\nAlways a **new** run, `from_run` included: that field copies an earlier run's question,\nprompt, config and context documents, and the run it creates starts from no hypotheses,\nno ratings and no guidance. Extending a run that already exists is\n`POST /runs/{id}/controls {action: \"continue\"}`, which keeps the whole idea pool.\n\nThe 409 is the harness lane: one active run per harness, enforced by a partial unique\nindex rather than a check the API could race against. Its details name the run holding\nthe lane only when that run is visible to this user; otherwise they report capacity\nwithout exposing another workspace.",
+        "operationId": "create_run_api_runs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Run",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}": {
+      "delete": {
+        "description": "Soft delete: the run disappears from every list and 404s directly; the row stays.",
+        "operationId": "delete_run_api_runs__run_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Run",
+        "tags": [
+          "runs"
+        ]
+      },
+      "get": {
+        "operationId": "get_run_api_runs__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Run",
+        "tags": [
+          "runs"
+        ]
+      },
+      "patch": {
+        "description": "Rename or archive a run. Neither field touches its lifecycle, budget or content.",
+        "operationId": "patch_run_api_runs__run_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchRunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Patch Run",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/context": {
+      "get": {
+        "operationId": "get_run_context_api_runs__run_id__context_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ContextDocRef"
+                  },
+                  "title": "Response Get Run Context Api Runs  Run Id  Context Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Run Context",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/controls": {
+      "post": {
+        "description": "Pause, resume, continue, stop, finish or force-stop a run (plan C4's action table).\n\nCooperative actions are acknowledged, not completed: the lifecycle in the response is\nthe one the run is in *now*, and it moves when the supervisor acts on the flag at its\nnext step boundary.\n\nTwo of them start a process instead of setting a flag, and both answer with the run's\nnew lifecycle rather than its old one. `resume` picks a paused run back up; `continue`\ngives a run that already ended `add_rounds` more rounds, in place and keeping everything\nit learned — optionally raising its call ceiling, and optionally raising or removing the\ncost ceiling that may have been what stopped it. Both take the harness lane again, so\nboth can 409 exactly as a launch does.",
+        "operationId": "control_run_api_runs__run_id__controls_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunControlRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunControlResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Control Run",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/detail": {
+      "get": {
+        "description": "Everything a run workspace needs in one round trip.",
+        "operationId": "get_run_detail_api_runs__run_id__detail_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Run Detail",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/events": {
+      "get": {
+        "description": "Every event of this run from `after_seq` on, as it happens.",
+        "operationId": "stream_run_events_api_runs__run_id__events_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "after_seq",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "After Seq",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Stream Run Events",
+        "tags": [
+          "events"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/events/ticket": {
+      "post": {
+        "description": "A credential good for one stream of this run, for the next minute.\n\nThe ticket is bound to the id exactly as spelled in this URL, since the middleware\nthat redeems it compares path segments and never resolves a run.",
+        "operationId": "issue_event_ticket_api_runs__run_id__events_ticket_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventTicket"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Issue Event Ticket",
+        "tags": [
+          "events"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/export.md": {
+      "get": {
+        "description": "The run as a downloadable markdown report — the Report tab's Download button.",
+        "operationId": "export_run_api_runs__run_id__export_md_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Top"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Export Run",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/graph": {
+      "get": {
+        "description": "The run's idea genealogy — nodes, descent edges and the legend's facts, in one trip.\n\nRead-only and assembled from rows the run already has: what the Ideas tab draws is the\nattrition story, and fetching it as four calls would be four chances to render half a\nrun.",
+        "operationId": "get_run_graph_api_runs__run_id__graph_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunGraph"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Run Graph",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/hypotheses": {
+      "get": {
+        "operationId": "list_hypotheses_api_runs__run_id__hypotheses_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "elo",
+              "enum": [
+                "elo",
+                "hid",
+                "recent"
+              ],
+              "title": "Sort",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/HypothesisRow"
+                  },
+                  "title": "Response List Hypotheses Api Runs  Run Id  Hypotheses Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Hypotheses",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/hypotheses/{hid}/archive": {
+      "post": {
+        "description": "Archive one hypothesis on the scientist's instruction — a live run or a finished one.",
+        "operationId": "archive_hypothesis_api_runs__run_id__hypotheses__hid__archive_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "hid",
+            "required": true,
+            "schema": {
+              "title": "Hid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Archive Hypothesis",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/matches": {
+      "get": {
+        "operationId": "list_matches_api_runs__run_id__matches_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "round",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Round"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MatchRow"
+                  },
+                  "title": "Response List Matches Api Runs  Run Id  Matches Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Matches",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/note": {
+      "post": {
+        "description": "Queue a scientist's note; the orchestrator drains it at the next round boundary.",
+        "operationId": "add_run_note_api_runs__run_id__note_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Run Note",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/runs/{run_id}/overview": {
+      "get": {
+        "description": "The run's research overview, as markdown.\n\nServed from the database rather than the file it came from: for the twelve archived\nruns this is the whole product — the document their operator actually read.",
+        "operationId": "get_overview_api_runs__run_id__overview_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Overview",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/api/settings/models": {
+      "get": {
+        "description": "The default every new run and workshop inherits when it does not state its own.",
+        "operationId": "get_model_settings_api_settings_models_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelSettingsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Model Settings",
+        "tags": [
+          "settings"
+        ]
+      },
+      "put": {
+        "description": "Replace the default. Refuses anything that could not become a run.\n\nA whole-value replace rather than a patch: the editor always holds the complete table,\nand a partial update would make \"what is the default\" depend on the order two tabs saved\nin. `tiers` is part of that value — a save is every preset the editor is holding, not the\nselected one alone.\n\nEvery refusal is `400 model_policy` carrying the engine's own sentence — the model trap,\nthe allowlist, the effort rungs, the role names, the providers this build can run. The\n`except` below is the endpoint's contract, not a safety net, which is why the body's\nfields are strings: an enum in front of it would make this branch unreachable and hand\nthe client a 422 that names alternatives without naming the problem.",
+        "operationId": "put_model_settings_api_settings_models_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelSettingsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelSettingsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Put Model Settings",
+        "tags": [
+          "settings"
+        ]
+      }
+    },
+    "/api/workshops": {
+      "post": {
+        "description": "Open a workshop. Returns in state `refining`; poll `GET` for the options.",
+        "operationId": "create_workshop_api_workshops_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkshopRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workshop"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Workshop",
+        "tags": [
+          "workshops"
+        ]
+      }
+    },
+    "/api/workshops/{workshop_id}": {
+      "get": {
+        "description": "The workshop as it stands. Idempotent — this endpoint never writes.",
+        "operationId": "get_workshop_api_workshops__workshop_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workshop_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Workshop Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workshop"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Workshop",
+        "tags": [
+          "workshops"
+        ]
+      }
+    },
+    "/api/workshops/{workshop_id}/choose": {
+      "post": {
+        "description": "Settle on an option. The scientist's edited prompt wins, stored exactly as typed.",
+        "operationId": "choose_workshop_option_api_workshops__workshop_id__choose_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workshop_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Workshop Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChooseWorkshopRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChosenPrompt"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Choose Workshop Option",
+        "tags": [
+          "workshops"
+        ]
+      }
+    },
+    "/api/workshops/{workshop_id}/refine": {
+      "post": {
+        "description": "Reject the current pair and ask again, building on one option or merging both.",
+        "operationId": "refine_workshop_api_workshops__workshop_id__refine_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workshop_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Workshop Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefineWorkshopRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workshop"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Refine Workshop",
+        "tags": [
+          "workshops"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "Plan C5's health shape. Harness probes are cached (60s); this never spawns a\nmodel call — `--version` only.",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health"
+      }
+    }
+  }
+}

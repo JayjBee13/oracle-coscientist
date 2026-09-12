@@ -1,0 +1,77 @@
+{
+  "run_id": "run-fixture-v1",
+  "goal": "Find agentic software niches in insurance and B2B disputes.",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 120,
+    "matches_per_round": 6,
+    "evolve_top_k": 3
+  },
+  "calls_used": 45,
+  "iteration": 4,
+  "next_id": 5,
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "DenialZero — agentic claims-defender for small-business insurance",
+      "file": "runs\\run-fixture-v1\\hypotheses\\h001.md",
+      "elo": 1200,
+      "matches": 0,
+      "wins": 0,
+      "status": "rejected",
+      "review": {"verdict": "reject", "note": "Chargebacks saturated; no defensible wedge."},
+      "cluster": null,
+      "created_iter": 1,
+      "parent": null
+    },
+    "h002": {
+      "id": "h002",
+      "title": "LienLoop — mechanics-lien deadline automation",
+      "file": "runs\\run-fixture-v1\\hypotheses\\h002.md",
+      "elo": 1264.0,
+      "matches": 4,
+      "wins": 3,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Deadline math is the moat."},
+      "cluster": "c-liens",
+      "created_iter": 1,
+      "parent": null
+    },
+    "h003": {
+      "id": "h003",
+      "title": "SubroSort — subrogation triage for regional carriers",
+      "file": "runs\\run-fixture-v1\\hypotheses\\h003.md",
+      "elo": 1216.0,
+      "matches": 4,
+      "wins": 2,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Buyer exists and is reachable."},
+      "cluster": "c-liens",
+      "created_iter": 2,
+      "parent": "h002"
+    },
+    "h004": {
+      "id": "h004",
+      "title": "VendorVerdict — B2B dispute evidence packets",
+      "file": "runs\\run-fixture-v1\\hypotheses\\h004.md",
+      "elo": 1120.0,
+      "matches": 4,
+      "wins": 1,
+      "status": "active",
+      "review": {"verdict": "pass", "note": "Thin differentiation but testable."},
+      "cluster": "c-disputes",
+      "created_iter": 3,
+      "parent": null
+    }
+  },
+  "matches": [
+    {"a": "h002", "b": "h003", "winner": "a", "iter": 2, "note": ""},
+    {"a": "h003", "b": "h004", "winner": "a", "iter": 3, "note": ""}
+  ],
+  "feedback": [
+    {"iter": 1, "text": "Reject only for fundamental flaws."}
+  ],
+  "created": "2026-06-02T06:49:35Z",
+  "updated": "2026-06-02T11:20:41Z"
+}

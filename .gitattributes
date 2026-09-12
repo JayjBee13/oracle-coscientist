@@ -1,0 +1,4 @@
+# The repository holds a mix of LF and CRLF files, and archive/ must round-trip
+# byte-for-byte: MANIFEST.sha256 is re-verified by the safety doctor, so a checkout that
+# rewrote line endings would break every hash. `-text` disables all EOL conversion.
+* -text

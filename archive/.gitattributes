@@ -1,0 +1,6 @@
+# This archive must round-trip byte-for-byte: MANIFEST.sha256 is re-verified by the
+# safety doctor and gates the deletion of the original engine roots. The repo runs with
+# core.autocrlf=true and the archive holds a mix of LF (303) and CRLF (316) files, so
+# without this every LF file would check out as CRLF and its sha256 would no longer
+# match. `-text` disables all end-of-line conversion while keeping diffs readable.
+* -text

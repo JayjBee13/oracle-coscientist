@@ -1,0 +1,85 @@
+{
+  "run_id": "run-fixture-rejected",
+  "goal": "Identify net-new AI-first mobile/web app ideas for COLLEGE/UNIVERSITY students (student pays, B2C) that win a specific, recurring 'student moment' (e.g. the 11pm stuck-on-homework moment, exam-cram week, the dense-reading grind, the lecture-to-notes gap, group-project coordination, office-hours-unavailable). AI must be the CORE enabler - not a bolt-on. PRIMARY RANKING SIGNAL = NOVELTY / WHITE SPACE (uncontested space, no strong well-executed incumbent; exhaustive named-competitor check required incl. ChatGPT/Gemini/Claude free tiers, Quizlet, Chegg, Photomath/Gauth, Khanmigo, Question.AI, Studocu, Anki ecosystem, Grammarly, Notion AI, Turbolearn, Mindgrasp, plus funded startups and a live app-store scan). Userbase is NOT a differentiator (all ideas target the same large college market). HARD SCREENS (reject on failure): (1) CHATGPT-WRAPPER DEATH - if free ChatGPT/Gemini does it 80% as well in-chat, the idea dies; the wedge must be structurally outside chat. (2) ACADEMIC-INTEGRITY TRUST - no cheating-tool branding (school bans, app-store risk, platform ToS); the trust wedge must be 'makes you actually learn'. (3) BOUNDED COGS for long daily study sessions (students use tools for hours; unbounded LLM calls at 0/mo price points are fatal). (4) LEARNING WITHOUT DEPENDENCE - must improve recall/outcomes, not create answer-dependence; the cognitive-offloading literature is a kill-screen. Secondary: fast adoption, campus word-of-mouth virality, app-store discoverability, short path to first revenue, B2C subscription (-15/mo student price points) toward -5M+/yr.",
+  "created": "2026-06-04T02:56:08.632899+00:00",
+  "updated": "2026-06-04T03:37:41.594025+00:00",
+  "iteration": 2,
+  "calls_used": 9,
+  "next_id": 4,
+  "feedback": "Every hypothesis was rejected; the niche as specified is dead.",
+  "config": {
+    "initial_elo": 1200,
+    "k_factor": 32,
+    "max_llm_calls": 120,
+    "matches_per_round": 6,
+    "evolve_top_k": 3,
+    "graft": {
+      "enabled": true,
+      "quorum_k": 2,
+      "window": 3,
+      "thresholds": {
+        "hhi": 0.5,
+        "birth_rate": 0,
+        "plateau_slack": 0
+      },
+      "cooldown": 2
+    }
+  },
+  "hypotheses": {
+    "h001": {
+      "id": "h001",
+      "title": "Rejected idea 1",
+      "file": "runs\\run-fixture-rejected\\hypotheses\\h001.md",
+      "elo": 1200.0,
+      "matches": 0,
+      "wins": 0,
+      "status": "rejected",
+      "review": {
+        "verdict": "reject",
+        "note": "Shipped by an incumbent already."
+      },
+      "cluster": null,
+      "created_iter": 1,
+      "parent": null
+    },
+    "h002": {
+      "id": "h002",
+      "title": "Rejected idea 2",
+      "file": "runs\\run-fixture-rejected\\hypotheses\\h002.md",
+      "elo": 1200.0,
+      "matches": 0,
+      "wins": 0,
+      "status": "rejected",
+      "review": {
+        "verdict": "reject",
+        "note": "Shipped by an incumbent already."
+      },
+      "cluster": null,
+      "created_iter": 1,
+      "parent": null
+    },
+    "h003": {
+      "id": "h003",
+      "title": "Rejected idea 3",
+      "file": "runs\\run-fixture-rejected\\hypotheses\\h003.md",
+      "elo": 1200.0,
+      "matches": 0,
+      "wins": 0,
+      "status": "rejected",
+      "review": {
+        "verdict": "reject",
+        "note": "Shipped by an incumbent already."
+      },
+      "cluster": null,
+      "created_iter": 2,
+      "parent": null
+    }
+  },
+  "matches": [],
+  "collapse": {
+    "history": [],
+    "fired_count": 0,
+    "last_fired_iter": null
+  },
+  "pending_injection": ""
+}
